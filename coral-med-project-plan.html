@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Digital Growth Project Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Nunito+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:        #4A9B8E;
+    --teal-dark:   #357A6F;
+    --teal-deep:   #245C53;
+    --teal-light:  #E8F5F3;
+    --teal-mid:    #B8DED9;
+    --cream:       #FAF8F2;
+    --sand:        #F2EDE3;
+    --sand-dark:   #E6DDD0;
+    --white:       #FFFFFF;
+    --charcoal:    #2C3330;
+    --charcoal-mid:#4A5450;
+    --charcoal-lt: #7A8A85;
+    --border:      #DDD8CE;
+    --border-lt:   #EDE9E0;
+
+    --a1: #4A9B8E;  --a1l: #E8F5F3;
+    --a2: #5B8FA8;  --a2l: #E8F2F7;
+    --a3: #7A7EB8;  --a3l: #EEEEF8;
+    --a4: #A07840;  --a4l: #F5EDD8;
+    --a5: #4A9B8E;  --a5l: #E8F5F3;
+    --a6: #3A8A6A;  --a6l: #E4F2EA;
+    --a8: #B05A70;  --a8l: #F5E8ED;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .header {
+    background: var(--teal-deep);
+    color: white;
+    padding: 56px 64px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -60px;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: var(--teal);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 38%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: var(--teal-dark);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal-mid);
+    font-weight: 600;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 46px;
+    line-height: 1.12;
+    font-weight: 400;
+    color: #FFFFFF;
+    max-width: 520px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--teal-mid);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    max-width: 460px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--teal-mid);
+    margin: 28px 0;
+    position: relative;
+    z-index: 1;
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+
+  .meta-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    font-weight: 600;
+  }
+
+  .meta-value {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+
+  .nav-strip {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 64px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-strip::-webkit-scrollbar { display: none; }
+
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--charcoal-mid);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .nav-pill:hover {
+    color: var(--teal-dark);
+    border-bottom-color: var(--teal-mid);
+  }
+
+  .pill-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    flex-shrink: 0;
+  }
+
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  .section-head {
+    margin-bottom: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .section-head h2 {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--charcoal);
+  }
+
+  .section-head p {
+    font-size: 13px;
+    color: var(--charcoal-lt);
+    font-weight: 300;
+  }
+
+  .phase {
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--white);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .phase:hover {
+    box-shadow: 0 6px 28px rgba(44,51,48,0.08);
+    border-color: var(--sand-dark);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase:nth-child(1) { animation-delay: 0.04s; }
+  .phase:nth-child(2) { animation-delay: 0.08s; }
+  .phase:nth-child(3) { animation-delay: 0.12s; }
+  .phase:nth-child(4) { animation-delay: 0.16s; }
+  .phase:nth-child(5) { animation-delay: 0.20s; }
+  .phase:nth-child(6) { animation-delay: 0.24s; }
+  .phase:nth-child(7) { animation-delay: 0.28s; }
+  .phase:nth-child(8) { animation-delay: 0.32s; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    border-left: 4px solid transparent;
+    transition: background 0.15s;
+  }
+
+  .phase-header:hover { background: var(--cream); }
+
+  .phase-badge {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .phase-info { flex: 1; min-width: 0; }
+
+  .phase-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 3px;
+  }
+
+  .phase-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .chevron {
+    font-size: 10px;
+    color: var(--charcoal-lt);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .chevron.open { transform: rotate(180deg); }
+
+  .phase-body {
+    display: none;
+    padding: 0 22px 22px;
+    border-top: 1px solid var(--border-lt);
+  }
+
+  .phase-body.open { display: block; }
+
+  .task-section { margin-top: 18px; }
+
+  .task-section-title {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal-lt);
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--border-lt);
+  }
+
+  .task-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .task {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--cream);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--charcoal);
+    border: 1px solid var(--border-lt);
+  }
+
+  .task-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .p1 .phase-header { border-left-color: var(--a1); }
+  .p1 .phase-badge  { background: var(--a1l); color: var(--a1); }
+  .p1 .tag          { background: var(--a1l); color: var(--teal-dark); }
+  .p1 .task-dot     { background: var(--a1); }
+
+  .p2 .phase-header { border-left-color: var(--a2); }
+  .p2 .phase-badge  { background: var(--a2l); color: var(--a2); }
+  .p2 .tag          { background: var(--a2l); color: var(--a2); }
+  .p2 .task-dot     { background: var(--a2); }
+
+  .p3 .phase-header { border-left-color: var(--a3); }
+  .p3 .phase-badge  { background: var(--a3l); color: var(--a3); }
+  .p3 .tag          { background: var(--a3l); color: var(--a3); }
+  .p3 .task-dot     { background: var(--a3); }
+
+  .p4 .phase-header { border-left-color: var(--a4); }
+  .p4 .phase-badge  { background: var(--a4l); color: var(--a4); }
+  .p4 .tag          { background: var(--a4l); color: var(--a4); }
+  .p4 .task-dot     { background: var(--a4); }
+
+  .p5 .phase-header { border-left-color: var(--a5); }
+  .p5 .phase-badge  { background: var(--a5l); color: var(--a5); }
+  .p5 .tag          { background: var(--a5l); color: var(--teal-dark); }
+  .p5 .task-dot     { background: var(--a5); }
+
+  .p6 .phase-header { border-left-color: var(--a6); }
+  .p6 .phase-badge  { background: var(--a6l); color: var(--a6); }
+  .p6 .tag          { background: var(--a6l); color: var(--a6); }
+  .p6 .task-dot     { background: var(--a6); }
+
+  .p7 .phase-header { border-left-color: var(--a3); }
+  .p7 .phase-badge  { background: var(--a3l); color: var(--a3); }
+  .p7 .tag          { background: var(--a3l); color: var(--a3); }
+  .p7 .task-dot     { background: var(--a3); }
+
+  .p8 .phase-header { border-left-color: var(--a8); }
+  .p8 .phase-badge  { background: var(--a8l); color: var(--a8); }
+  .p8 .tag          { background: var(--a8l); color: var(--a8); }
+  .p8 .task-dot     { background: var(--a8); }
+
+  .resp-section {
+    margin-top: 48px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .resp-head {
+    padding: 20px 26px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--sand);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .resp-head h3 {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--charcoal);
+  }
+
+  .resp-head p {
+    font-size: 13px;
+    color: var(--charcoal-lt);
+    font-weight: 300;
+  }
+
+  table.resp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  table.resp thead th {
+    padding: 10px 26px;
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal-lt);
+    background: var(--cream);
+    border-bottom: 1px solid var(--border-lt);
+  }
+
+  table.resp tbody tr {
+    border-bottom: 1px solid var(--border-lt);
+    transition: background 0.12s;
+  }
+
+  table.resp tbody tr:last-child { border-bottom: none; }
+  table.resp tbody tr:hover { background: var(--cream); }
+
+  table.resp td {
+    padding: 13px 26px;
+    vertical-align: middle;
+  }
+
+  table.resp td:first-child {
+    color: var(--charcoal);
+    font-weight: 400;
+    width: 52%;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .footer {
+    background: var(--teal-deep);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 28px 64px;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .footer strong { color: rgba(255,255,255,0.7); font-weight: 600; }
+
+  @media (max-width: 680px) {
+    .header  { padding: 36px 24px 32px; }
+    .header h1 { font-size: 34px; }
+    .nav-strip { padding: 0 20px; }
+    .main    { padding: 32px 20px 60px; }
+    .task-grid { grid-template-columns: 1fr; }
+    table.resp td  { padding: 12px 16px; }
+    table.resp thead th { padding: 10px 16px; }
+    .resp-head { padding: 16px; }
+    .footer  { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Project Plan</div>
+  <h1>Digital Growth Plan<br>for <em>Coral Med</em></h1>
+  <p class="header-sub">An 8-phase system to capture more patients, automate follow-ups, and seamlessly connect your tools.</p>
+  <div class="header-divider"></div>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Phases</span>
+      <span class="meta-value">8 Deliverables</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Platforms</span>
+      <span class="meta-value">ViralityX · Office Ally · RingCentral</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Prepared for</span>
+      <span class="meta-value">Coral Med — Huntington Beach</span>
+    </div>
+  </div>
+</div>
+
+<div class="nav-strip">
+  <div class="nav-pill" onclick="go(0)"><span class="pill-num">1</span>Website Tracking</div>
+  <div class="nav-pill" onclick="go(1)"><span class="pill-num">2</span>CRM Pipeline</div>
+  <div class="nav-pill" onclick="go(2)"><span class="pill-num">3</span>Phone Integration</div>
+  <div class="nav-pill" onclick="go(3)"><span class="pill-num">4</span>AI Voice Agent</div>
+  <div class="nav-pill" onclick="go(4)"><span class="pill-num">5</span>Online Booking</div>
+  <div class="nav-pill" onclick="go(5)"><span class="pill-num">6</span>Data Bridge</div>
+  <div class="nav-pill" onclick="go(6)"><span class="pill-num">7</span>Intake Forms</div>
+  <div class="nav-pill" onclick="go(7)"><span class="pill-num">8</span>Reactivation</div>
+</div>
+
+<div class="main">
+
+  <div class="section-head">
+    <h2>Project Phases</h2>
+    <p>Click any phase to expand the full scope of work.</p>
+  </div>
+
+  <div class="phase p1" id="ph0">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">1</div>
+      <div class="phase-info">
+        <div class="phase-name">Website Conversion Tracking</div>
+        <div class="phase-tags"><span class="tag">Custom Website</span><span class="tag">Google Analytics</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Google Analytics event tracking</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Track "Call Us" button clicks as GA4 event (click_to_call)</div>
+          <div class="task"><div class="task-dot"></div>Track contact form submissions as GA4 event (form_submission)</div>
+          <div class="task"><div class="task-dot"></div>Track booking button clicks as GA4 event (booking_click)</div>
+          <div class="task"><div class="task-dot"></div>Track which page each conversion happened on</div>
+        </div>
+      </div>
+      <div class="task-section">
+        <div class="task-section-title">Connect website forms to ViralityX CRM</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Submit leads directly into ViralityX CRM via webhook</div>
+          <div class="task"><div class="task-dot"></div>Map form fields (name, phone, email, message) to CRM contact fields</div>
+          <div class="task"><div class="task-dot"></div>Auto-tag all website leads as "Website Lead"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p2" id="ph1">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">2</div>
+      <div class="phase-info">
+        <div class="phase-name">CRM + Patient Pipeline</div>
+        <div class="phase-tags"><span class="tag">ViralityX CRM</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Pipeline stages to build</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>New Lead (website visit / form fill)</div>
+          <div class="task"><div class="task-dot"></div>Contacted (first outreach made)</div>
+          <div class="task"><div class="task-dot"></div>Appointment Scheduled</div>
+          <div class="task"><div class="task-dot"></div>Appointment Confirmed (reminder sent)</div>
+          <div class="task"><div class="task-dot"></div>Appointment Completed</div>
+          <div class="task"><div class="task-dot"></div>No Show → triggers follow-up sequence</div>
+          <div class="task"><div class="task-dot"></div>Active Patient</div>
+        </div>
+      </div>
+      <div class="task-section">
+        <div class="task-section-title">Automations to build</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>New lead → instant SMS + email welcome sequence</div>
+          <div class="task"><div class="task-dot"></div>Appointment booked → confirmation text + 24hr reminder</div>
+          <div class="task"><div class="task-dot"></div>No show → follow-up text within 1 hour</div>
+          <div class="task"><div class="task-dot"></div>Lead 48hrs without response → staff escalation notification</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p3" id="ph2">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">3</div>
+      <div class="phase-info">
+        <div class="phase-name">RingCentral + CRM Phone Integration</div>
+        <div class="phase-tags"><span class="tag">RingCentral</span><span class="tag">ViralityX CRM</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Setup steps</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Install RingCentral App Connect Chrome extension</div>
+          <div class="task"><div class="task-dot"></div>Connect to ViralityX CRM account</div>
+          <div class="task"><div class="task-dot"></div>Whitelist ViralityX CRM Location ID</div>
+          <div class="task"><div class="task-dot"></div>Configure call logging — all calls auto-sync to contacts</div>
+          <div class="task"><div class="task-dot"></div>Set up screen pops so staff see patient info on incoming calls</div>
+          <div class="task"><div class="task-dot"></div>Enable click-to-call from inside ViralityX CRM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p4" id="ph3">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">4</div>
+      <div class="phase-info">
+        <div class="phase-name">AI Voice Agent + Missed Call Recovery</div>
+        <div class="phase-tags"><span class="tag">ViralityX CRM</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">AI voice agent setup</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Configure AI Conversation Agent for inbound calls</div>
+          <div class="task"><div class="task-dot"></div>Train on FAQs: hours (Mon–Fri 8:30–5:30), location, insurance, services</div>
+          <div class="task"><div class="task-dot"></div>Enable appointment booking capability through the agent</div>
+          <div class="task"><div class="task-dot"></div>Set fallback to voicemail if AI cannot handle the request</div>
+        </div>
+      </div>
+      <div class="task-section">
+        <div class="task-section-title">Missed call text-back</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Missed call → automatic text within 60 seconds</div>
+          <div class="task"><div class="task-dot"></div>Patient replies → auto-create contact + notify staff</div>
+          <div class="task"><div class="task-dot"></div>No reply in 2 hours → send follow-up text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p5" id="ph4">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">5</div>
+      <div class="phase-info">
+        <div class="phase-name">Online Booking Integration</div>
+        <div class="phase-tags"><span class="tag">ViralityX CRM</span><span class="tag">Website</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Calendar setup in ViralityX CRM</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Create appointment types: New Patient Visit, Follow-Up, Sick Visit</div>
+          <div class="task"><div class="task-dot"></div>Set availability: Mon–Fri, 8:30 AM – 5:30 PM</div>
+          <div class="task"><div class="task-dot"></div>Set appointment durations and buffer times</div>
+          <div class="task"><div class="task-dot"></div>Enable patient self-scheduling</div>
+        </div>
+      </div>
+      <div class="task-section">
+        <div class="task-section-title">Website integration</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Embed ViralityX CRM booking widget on website</div>
+          <div class="task"><div class="task-dot"></div>Add booking buttons to Home, Contact, and New Patients pages</div>
+          <div class="task"><div class="task-dot"></div>Track booking completions as GA4 events</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p6" id="ph5">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">6</div>
+      <div class="phase-info">
+        <div class="phase-name">Office Ally ↔ ViralityX CRM Data Bridge</div>
+        <div class="phase-tags"><span class="tag">Custom Solution</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Sync workflows to build</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>New patient in Office Ally → create contact in ViralityX CRM</div>
+          <div class="task"><div class="task-dot"></div>Confirmed lead in ViralityX CRM → create patient record in Office Ally</div>
+          <div class="task"><div class="task-dot"></div>Appointment status change in Office Ally → update CRM pipeline stage</div>
+          <div class="task"><div class="task-dot"></div>Appointment completed → move to "Active Patient" in CRM</div>
+          <div class="task"><div class="task-dot"></div>No-show in Office Ally → trigger CRM no-show follow-up workflow</div>
+          <div class="task"><div class="task-dot"></div>Patient inactive 90+ days → tag as "Reactivation" in CRM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p7" id="ph6">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">7</div>
+      <div class="phase-info">
+        <div class="phase-name">Digital Intake Forms</div>
+        <div class="phase-tags"><span class="tag">ViralityX CRM</span><span class="tag">Office Ally</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Build in ViralityX CRM</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Digital intake form: demographics, insurance info, medical history, consent</div>
+          <div class="task"><div class="task-dot"></div>Auto-send form link via text/email when appointment is booked</div>
+          <div class="task"><div class="task-dot"></div>Reminder to complete forms 24hrs before appointment</div>
+          <div class="task"><div class="task-dot"></div>Form data auto-populates contact record</div>
+        </div>
+      </div>
+      <div class="task-section">
+        <div class="task-section-title">Sync to Office Ally</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Completed intake data flows to Office Ally patient record via custom solution</div>
+          <div class="task"><div class="task-dot"></div>Staff reviews in Office Ally before appointment — no manual data entry</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p8" id="ph7">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-badge">8</div>
+      <div class="phase-info">
+        <div class="phase-name">Patient Reactivation Campaign</div>
+        <div class="phase-tags"><span class="tag">ViralityX CRM</span></div>
+      </div>
+      <div class="chevron">&#9660;</div>
+    </div>
+    <div class="phase-body">
+      <div class="task-section">
+        <div class="task-section-title">Automated sequence</div>
+        <div class="task-grid">
+          <div class="task"><div class="task-dot"></div>Trigger: patient tagged "Inactive – Reactivation" (90+ days since last visit)</div>
+          <div class="task"><div class="task-dot"></div>Day 1: personalized SMS nudge to re-engage</div>
+          <div class="task"><div class="task-dot"></div>Day 3: email with health tips + gentle reminder to schedule</div>
+          <div class="task"><div class="task-dot"></div>Day 7: follow-up SMS — "Your health matters to us"</div>
+          <div class="task"><div class="task-dot"></div>Day 14: final SMS with appointment availability this week</div>
+          <div class="task"><div class="task-dot"></div>Patient books → removed from campaign, moved to "Appointment Scheduled"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resp-section">
+    <div class="resp-head">
+      <h3>Platform Responsibilities</h3>
+      <p>&nbsp;— who owns what across your tech stack</p>
+    </div>
+    <table class="resp">
+      <thead>
+        <tr><th>Task</th><th>Platform</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Conversion tracking + form webhook</td>
+          <td><span class="chip" style="background:var(--teal-light);color:var(--teal-dark);"><span class="chip-dot" style="background:var(--teal);"></span>Custom Website</span></td>
+        </tr>
+        <tr>
+          <td>Booking widget on website</td>
+          <td><span class="chip" style="background:var(--teal-light);color:var(--teal-dark);"><span class="chip-dot" style="background:var(--teal);"></span>Custom Website</span></td>
+        </tr>
+        <tr>
+          <td>CRM pipeline + automations</td>
+          <td><span class="chip" style="background:#E8F2F7;color:#2D5F7A;"><span class="chip-dot" style="background:#5B8FA8;"></span>ViralityX CRM</span></td>
+        </tr>
+        <tr>
+          <td>Phone integration</td>
+          <td><span class="chip" style="background:#EEEEF8;color:#5A5E98;"><span class="chip-dot" style="background:#7A7EB8;"></span>RingCentral App Connect</span></td>
+        </tr>
+        <tr>
+          <td>AI voice agent + missed call texts</td>
+          <td><span class="chip" style="background:#E8F2F7;color:#2D5F7A;"><span class="chip-dot" style="background:#5B8FA8;"></span>ViralityX CRM</span></td>
+        </tr>
+        <tr>
+          <td>Office Ally ↔ CRM sync</td>
+          <td><span class="chip" style="background:#E4F2EA;color:#2A6B3A;"><span class="chip-dot" style="background:#3A8A6A;"></span>Custom Solution</span></td>
+        </tr>
+        <tr>
+          <td>Digital intake forms</td>
+          <td><span class="chip" style="background:#E8F2F7;color:#2D5F7A;"><span class="chip-dot" style="background:#5B8FA8;"></span>ViralityX CRM</span></td>
+        </tr>
+        <tr>
+          <td>Patient reactivation campaign</td>
+          <td><span class="chip" style="background:#E8F2F7;color:#2D5F7A;"><span class="chip-dot" style="background:#5B8FA8;"></span>ViralityX CRM</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  Prepared for <strong>Coral Med</strong> &nbsp;·&nbsp; Huntington Beach &nbsp;·&nbsp; Confidential
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const chev = header.querySelector('.chevron');
+    const open = body.classList.toggle('open');
+    chev.classList.toggle('open', open);
+  }
+
+  function go(i) {
+    const el = document.getElementById('ph' + i);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const body = el.querySelector('.phase-body');
+    const chev = el.querySelector('.chevron');
+    if (!body.classList.contains('open')) {
+      body.classList.add('open');
+      chev.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
