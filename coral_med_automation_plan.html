@@ -626,19 +626,19 @@
         <span class="workflow-num">WF 02</span>
         <span class="workflow-name">Post-visit sync</span>
       </div>
-      <div class="workflow-meta">
-        <div class="workflow-meta-item">
-          <div class="workflow-meta-label">Trigger</div>
-          <div class="workflow-meta-value">viralityX stage moved to "Completed"</div>
-        </div>
-        <div class="workflow-meta-item">
-          <div class="workflow-meta-label">Keragon does</div>
-          <div class="workflow-meta-value">Updates OA patient + creates invoice shell + moves viralityX pipeline stage</div>
-        </div>
-        <div class="workflow-meta-item">
-          <div class="workflow-meta-label">Native tool handles</div>
-          <div class="workflow-meta-value">Office Ally handles billing natively</div>
-        </div>
+      <div class="table-wrap" style="margin-top:4px;">
+        <table>
+          <thead><tr><th>Step</th><th>Who</th><th>How</th></tr></thead>
+          <tbody>
+            <tr><td>VA marks visit complete in viralityX</td><td><span class="badge badge-gray">👤 VA</span></td><td>viralityX UI</td></tr>
+            <tr><td>Keragon delay buffer (10–15 min)</td><td><span class="badge badge-green">⚡ Keragon</span></td><td>Safety window before invoice fires</td></tr>
+            <tr><td>Keragon updates patient record in Office Ally</td><td><span class="badge badge-green">⚡ Keragon</span></td><td>Auto</td></tr>
+            <tr><td>Keragon creates invoice shell in Office Ally</td><td><span class="badge badge-green">⚡ Keragon</span></td><td>Auto</td></tr>
+            <tr><td>Keragon moves viralityX pipeline to "Completed"</td><td><span class="badge badge-green">⚡ Keragon</span></td><td>Auto</td></tr>
+            <tr><td>VA checks eligibility manually</td><td><span class="badge badge-gray">👤 VA</span></td><td>Medi-Cal portal / Medicare Advantage plan portal</td></tr>
+            <tr><td>VA adds CPT/ICD codes and submits claim</td><td><span class="badge badge-gray">👤 VA</span></td><td>Office Ally UI</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -699,7 +699,7 @@
 
         <!-- OA result -->
         <rect x="278" y="132" width="210" height="58" rx="8" fill="#c96040"/>
-        <text class="dt dn" x="383" y="156" text-anchor="middle">Office Ally / Practice Mate</text>
+        <text class="dt dn" x="383" y="156" text-anchor="middle">Office Ally / Practice Mate</text>https://github.com/viralityx/clients/blob/main/coral_med_automation_plan.html#L9C9
         <text class="ds dn" x="383" y="174" text-anchor="middle">Patient record created</text>
 
         <!-- Dashed line from viralityX trigger to native block -->
@@ -852,9 +852,9 @@
         <span class="badge badge-gray">Pending</span>
       </div>
       <div class="next-step-row">
-        <span class="next-step-action">Decide on invoice guardrail (Option B delay buffer recommended)</span>
+        <span class="next-step-action">Decide on invoice guardrail: delay buffer vs. confirmation step</span>
         <span class="next-step-owner">Dr. Moussa</span>
-        <span class="badge badge-amber">Confirm to close</span>
+        <span class="badge badge-amber">Decision needed</span>
       </div>
       <div class="next-step-row">
         <span class="next-step-action">VA completes workflow training before go-live</span>
@@ -865,6 +865,11 @@
         <span class="next-step-action">Run test patient through both workflows before first real appointment</span>
         <span class="next-step-owner">Dr. Moussa + VA</span>
         <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row" style="opacity:0.45;">
+        <span class="next-step-action" style="text-decoration:line-through;">Eligibility verification via Keragon/OA</span>
+        <span class="next-step-owner">—</span>
+        <span class="badge badge-gray">Removed</span>
       </div>
     </div>
   </div>
