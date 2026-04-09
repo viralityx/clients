@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Automation Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --surface-alt: #f0ede6;
+    --border: #d8d4cb;
+    --border-strong: #b8b3a8;
+    --text: #1a1916;
+    --text-muted: #6b6760;
+    --text-faint: #9c9890;
+    --accent: #1a4d3a;
+    --accent-light: #e8f0ec;
+    --amber: #7a4f00;
+    --amber-bg: #fdf3dc;
+    --amber-border: #e8c97a;
+    --red: #7a1a1a;
+    --red-bg: #fdf0f0;
+    --red-border: #e8a0a0;
+    --green: #1a4d2a;
+    --green-bg: #eef5f0;
+    --green-border: #8ec4a0;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 48px 24px 80px;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .doc-header {
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+
+  .doc-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .doc-title {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .doc-title strong { font-weight: 500; }
+
+  .doc-meta {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 24px;
+  }
+
+  .section { margin-bottom: 48px; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--surface-alt); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-gray { background: var(--surface-alt); color: var(--text-muted); border: 1px solid var(--border); }
+
+  .callout {
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    border-left: 3px solid;
+  }
+
+  .callout-red { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .callout-amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .callout-green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 6px;
+    opacity: 0.75;
+  }
+
+  .callout p, .callout li { font-size: 13px; line-height: 1.6; color: inherit; }
+  .callout ul { margin: 6px 0 0 16px; }
+  .callout ul li { margin-bottom: 2px; }
+
+  blockquote {
+    border-left: 3px solid var(--border-strong);
+    padding: 12px 18px;
+    margin: 14px 0;
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+  }
+
+  blockquote p {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .prose {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .prose strong { color: var(--text); font-weight: 500; }
+
+  .bottom-line {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+
+  .bottom-line-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+
+  .option-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+
+  .option-card.recommended {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .option-card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+
+  .option-card.recommended .option-card-label { color: var(--accent); }
+
+  .option-card-title {
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .option-card p { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+  .workflow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+
+  .workflow-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .workflow-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .workflow-name { font-weight: 500; font-size: 14px; }
+
+  .workflow-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .workflow-meta-item {
+    background: var(--surface-alt);
+    border-radius: 5px;
+    padding: 10px 12px;
+  }
+
+  .workflow-meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 3px;
+  }
+
+  .workflow-meta-value { font-size: 12.5px; color: var(--text); line-height: 1.4; }
+
+  .next-steps-grid { display: grid; gap: 8px; }
+
+  .next-step-row {
+    display: grid;
+    grid-template-columns: 1fr 160px 120px;
+    gap: 12px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .next-step-action { color: var(--text); }
+  .next-step-owner { color: var(--text-muted); font-size: 12px; }
+
+  /* Diagram section */
+  .diagram-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  /* SVG diagram styles */
+  .d-node { cursor: pointer; }
+  .d-node rect { transition: opacity 0.15s; }
+  .d-node:hover rect { opacity: 0.85; }
+
+  /* Legend pills */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .option-grid { grid-template-columns: 1fr; }
+    .workflow-meta { grid-template-columns: 1fr 1fr; }
+    .next-step-row { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="doc-header">
+    <div class="doc-label">Automation Plan — Final Confirmed Version</div>
+    <h1 class="doc-title">Coral Med<br><strong>Office Ally + GHL + Keragon</strong></h1>
+    <div class="doc-meta">
+      <span>2 Keragon workflows</span>
+      <span>PHI constraints documented</span>
+      <span>SOP ownership assigned</span>
+    </div>
+  </div>
+
+  <!-- Section 1: Native features -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <span class="section-title">Native automations already built into your tools</span>
+    </div>
+
+    <p class="prose"><strong>Office Ally / Practice Mate</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Built in?</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Appointment reminders (email)</td><td><span class="badge badge-green">✓ Yes</span></td><td>Practice Mate sends automated email reminders natively</td></tr>
+          <tr><td>Appointment reminders (SMS)</td><td><span class="badge badge-green">✓ Yes</span></td><td>Built into Practice Mate — no extra tool needed</td></tr>
+          <tr><td>Patient Ally portal invite</td><td><span class="badge badge-green">✓ Yes</span></td><td>Sent directly from Practice Mate UI</td></tr>
+          <tr><td>Intake Pro form assignment</td><td><span class="badge badge-green">✓ Yes</span></td><td>Assigned inside Practice Mate</td></tr>
+          <tr><td>SMS self check-in link</td><td><span class="badge badge-green">✓ Yes</span></td><td>Sent automatically 15–60 min before appt</td></tr>
+          <tr><td>Eligibility verification</td><td><span class="badge badge-green">✓ Yes</span></td><td>Built into Office Ally Service Center</td></tr>
+          <tr><td>ERA / payment posting</td><td><span class="badge badge-green">✓ Yes</span></td><td>Native billing automation</td></tr>
+          <tr><td>Superbill generation</td><td><span class="badge badge-green">✓ Yes</span></td><td>Native</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bottom-line">
+      <div class="bottom-line-label">Bottom line</div>
+      Office Ally handles most patient communication natively. You don't need Keragon to send appointment reminders or check-in SMS — Practice Mate does this out of the box.
+    </div>
+
+    <p class="prose" style="margin-top: 24px;"><strong>GoHighLevel</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Built in?</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Appointment reminders (SMS + email)</td><td><span class="badge badge-green">✓ Yes</span></td><td>GHL workflows handle this natively</td></tr>
+          <tr><td>New contact welcome sequence</td><td><span class="badge badge-green">✓ Yes</span></td><td>GHL automation triggers on contact creation</td></tr>
+          <tr><td>Pipeline stage automation</td><td><span class="badge badge-green">✓ Yes</span></td><td>Moves contacts through stages automatically</td></tr>
+          <tr><td>2-way SMS conversations</td><td><span class="badge badge-green">✓ Yes</span></td><td>Built-in conversations inbox</td></tr>
+          <tr><td>Email campaigns</td><td><span class="badge badge-green">✓ Yes</span></td><td>Native GHL campaigns</td></tr>
+          <tr><td>Appointment booking</td><td><span class="badge badge-green">✓ Yes</span></td><td>GHL calendar with self-booking links</td></tr>
+          <tr><td>Form builder</td><td><span class="badge badge-green">✓ Yes</span></td><td>GHL has its own forms — not HIPAA-safe for PHI</td></tr>
+          <tr><td>Workflow automation builder</td><td><span class="badge badge-green">✓ Yes</span></td><td>GHL has its own if/then automation engine</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bottom-line">
+      <div class="bottom-line-label">Bottom line</div>
+      GHL handles generic non-PHI patient communication natively. Reminders, follow-ups, and pipeline movement run on their own without Keragon.
+    </div>
+  </div>
+
+  <!-- Section 2: Where Keragon adds value -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <span class="section-title">Where Keragon actually adds value</span>
+    </div>
+    <p class="prose">Keragon's real job is the bridge between GHL and Office Ally — doing what neither tool can do alone.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Keragon's unique role</th><th>Why neither tool can do it alone</th></tr></thead>
+        <tbody>
+          <tr><td>GHL new contact → Create patient in Office Ally</td><td>GHL can't write to Office Ally</td></tr>
+          <tr><td>Office Ally patient created → Sync back to GHL</td><td>Office Ally can't write to GHL</td></tr>
+          <tr><td>Post-visit: Update OA patient + create invoice shell</td><td>GHL can't touch Office Ally billing</td></tr>
+          <tr><td>Post-visit: Move GHL pipeline stage</td><td>Office Ally can't touch GHL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 3: PHI -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <span class="section-title">🚨 GHL forms & PHI — non-negotiable</span>
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">Hard rule</div>
+      <p>No BAA exists with GHL. GHL forms cannot be used for any patient-facing intake, registration, or anything that collects PHI.</p>
+      <ul>
+        <li>New patient registration forms in GHL</li>
+        <li>Any GHL form asking for DOB, insurance, address, or medical history</li>
+        <li>Any GHL survey or intake questionnaire</li>
+      </ul>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Form type</th><th>Where it lives</th><th>Safe?</th></tr></thead>
+        <tbody>
+          <tr><td>New patient intake, demographics, medical history</td><td>Patient Ally / Intake Pro only</td><td><span class="badge badge-green">✓ Safe</span></td></tr>
+          <tr><td>HIPAA acknowledgment, consent to treat</td><td>Patient Ally / Intake Pro only</td><td><span class="badge badge-green">✓ Safe</span></td></tr>
+          <tr><td>Insurance info, financial responsibility</td><td>Patient Ally / Intake Pro only</td><td><span class="badge badge-green">✓ Safe</span></td></tr>
+          <tr><td>Generic "request an appointment" (name + phone only)</td><td>GHL</td><td><span class="badge badge-green">✓ Safe</span></td></tr>
+          <tr><td>Any form with DOB, insurance, or clinical info</td><td>Never in GHL without BAA</td><td><span class="badge badge-red">🚨 Prohibited</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">Implementation note</div>
+      <p>The VA must be explicitly told: GHL forms are for lead capture only — name and phone number. Everything clinical goes through Patient Ally. This rule must live in the VA's written SOP and onboarding checklist — not just communicated verbally. A verbal instruction will not hold.</p>
+    </div>
+  </div>
+
+  <!-- Section 4: Walk-in fallback -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <span class="section-title">⚠️ Walk-in / phone patient fallback</span>
+    </div>
+
+    <p class="prose">If a walk-in or phone patient is created directly in Practice Mate, the GHL trigger never fires and the sync is missed.</p>
+
+    <div class="option-grid">
+      <div class="option-card recommended">
+        <div class="option-card-label">Recommended — start here</div>
+        <div class="option-card-title">Option A — SOP rule</div>
+        <p>VA always creates in GHL first, even for walk-ins. Simple, no extra build required. Relies on VA discipline.</p>
+      </div>
+      <div class="option-card">
+        <div class="option-card-label">Safety net — add if needed</div>
+        <div class="option-card-title">Option B — Dual trigger</div>
+        <p>Second Keragon workflow triggered by Practice Mate webhook or manual VA form for walk-ins. More resilient, slightly more steps.</p>
+      </div>
+    </div>
+
+    <blockquote>
+      <p>VA SOP rule: "Every new patient — walk-in, phone, or scheduled — must be created in GHL first before entering Practice Mate. No exceptions."</p>
+    </blockquote>
+  </div>
+
+  <!-- Section 5: SOP ownership -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <span class="section-title">SOP ownership & review cadence</span>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">Principle</div>
+      <p>A rule without an owner and a review cadence is just a suggestion.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Action</th><th>Owner</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>Add "GHL first" rule to VA onboarding checklist</td><td>Dr. Moussa</td><td>Before VA's first day</td></tr>
+          <tr><td>Post SOP in VA's shared workspace (Notion, Google Doc, etc.)</td><td>Dr. Moussa or Office Manager</td><td>Week 1</td></tr>
+          <tr><td>Include in VA's 30-day check-in review</td><td>Dr. Moussa</td><td>Day 30</td></tr>
+          <tr><td>Spot-check Practice Mate for patients missing GHL contact</td><td>VA Supervisor or Dr. Moussa</td><td>Monthly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 6: Invoice -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <span class="section-title">Invoice creation — verified with caveats</span>
+    </div>
+
+    <p class="prose">The Keragon Office Ally connector supports <code style="font-family: var(--mono); font-size: 12px; background: var(--surface-alt); padding: 1px 5px; border-radius: 3px;">Create Invoice</code> and <code style="font-family: var(--mono); font-size: 12px; background: var(--surface-alt); padding: 1px 5px; border-radius: 3px;">Update Invoice</code> — confirmed.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>What it does</th><th>What it doesn't do</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green">✓</span> Creates an invoice record in Office Ally</td><td><span class="badge badge-red">✗</span> Does not auto-populate CPT codes</td></tr>
+          <tr><td><span class="badge badge-green">✓</span> Accepts invoice content as a text string</td><td><span class="badge badge-red">✗</span> Does not pull diagnosis codes from the chart</td></tr>
+          <tr><td><span class="badge badge-green">✓</span> Returns an invoice ID for tracking</td><td><span class="badge badge-red">✗</span> Does not submit the claim to the payer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <blockquote>
+      <p>Expectation to set with Coral Med: "Keragon creates the invoice record automatically. Your VA still adds the billing codes and submits the claim inside Office Ally. If a visit is marked complete in error, the VA voids the invoice directly in Office Ally."</p>
+    </blockquote>
+
+    <p class="prose" style="margin-top: 20px;"><strong>Invoice error guardrail</strong></p>
+    <p class="prose">Because Keragon fires immediately on every "visit complete" trigger, a guardrail is needed.</p>
+
+    <div class="option-grid">
+      <div class="option-card recommended">
+        <div class="option-card-label">Recommended — start here</div>
+        <div class="option-card-title">Option B — Delay buffer</div>
+        <p>10–15 minute sleep step in Keragon before invoice is created. Passive, no extra VA action required. Catches most errors. Upgrade to Option A if errors become a pattern.</p>
+      </div>
+      <div class="option-card">
+        <div class="option-card-label">Upgrade if errors recur</div>
+        <div class="option-card-title">Option A — Confirmation step</div>
+        <p>Keragon sends VA a confirmation SMS/email before creating the invoice. VA replies "YES" to confirm. Best for new VAs or practices with occasional errors.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7: 2-workflow plan -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <span class="section-title">Confirmed 2-workflow build plan</span>
+    </div>
+
+    <div class="workflow-card">
+      <div class="workflow-card-header">
+        <span class="workflow-num">WF 01</span>
+        <span class="workflow-name">New patient sync</span>
+      </div>
+      <div class="workflow-meta">
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Trigger</div>
+          <div class="workflow-meta-value">GHL new contact created</div>
+        </div>
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Keragon does</div>
+          <div class="workflow-meta-value">Creates patient in Office Ally</div>
+        </div>
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Native tool handles</div>
+          <div class="workflow-meta-value">GHL sends welcome SMS/email natively</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow-card">
+      <div class="workflow-card-header">
+        <span class="workflow-num">WF 02</span>
+        <span class="workflow-name">Post-visit sync</span>
+      </div>
+      <div class="workflow-meta">
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Trigger</div>
+          <div class="workflow-meta-value">GHL stage moved to "Completed"</div>
+        </div>
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Keragon does</div>
+          <div class="workflow-meta-value">Updates OA patient + creates invoice shell + moves GHL pipeline stage</div>
+        </div>
+        <div class="workflow-meta-item">
+          <div class="workflow-meta-label">Native tool handles</div>
+          <div class="workflow-meta-value">Office Ally handles billing natively</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8: Workflow Map Diagram -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <span class="section-title">Workflow map</span>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7c6fc4;"></div>GHL</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2a9e7a;"></div>Keragon (bridge)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c96040;"></div>Office Ally / Practice Mate</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#888780;"></div>Native (no Keragon needed)</div>
+    </div>
+
+    <div class="diagram-wrap">
+      <svg width="100%" viewBox="0 0 800 920" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title>Coral Med Automation Workflow Map</title>
+        <desc>Diagram showing GHL, Keragon, and Office Ally connections across new patient sync and post-visit sync workflows</desc>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <style>
+            .dn { font-family: 'IBM Plex Sans', sans-serif; }
+            .dt { font-size: 13px; font-weight: 500; fill: #fff; }
+            .ds { font-size: 11px; font-weight: 400; fill: rgba(255,255,255,0.82); }
+            .dh { font-size: 14px; font-weight: 500; fill: #1a1916; }
+            .dl { font-size: 11px; fill: #6b6760; font-family: 'IBM Plex Mono', monospace; }
+            .warn-text { font-size: 11px; font-family: 'IBM Plex Sans', sans-serif; }
+            .arr-line { fill: none; stroke: #b8b3a8; stroke-width: 1; marker-end: url(#arr); }
+            .arr-dash { fill: none; stroke: #d8d4cb; stroke-width: 0.8; stroke-dasharray: 4 3; marker-end: url(#arr); }
+          </style>
+        </defs>
+
+        <!-- ── WF1 HEADER ── -->
+        <text class="dh dn" x="20" y="30">Workflow 1 — new patient sync</text>
+        <line x1="20" y1="38" x2="780" y2="38" stroke="#d8d4cb" stroke-width="0.5"/>
+
+        <!-- GHL Trigger -->
+        <rect x="20" y="50" width="210" height="58" rx="8" fill="#7c6fc4"/>
+        <text class="dt dn" x="125" y="74" text-anchor="middle">GHL new contact created</text>
+        <text class="ds dn" x="125" y="92" text-anchor="middle">VA creates contact in GHL first</text>
+
+        <!-- Arrow down to Keragon -->
+        <line x1="125" y1="108" x2="125" y2="132" class="arr-line" stroke="#b8b3a8"/>
+
+        <!-- Keragon WF1 -->
+        <rect x="20" y="132" width="210" height="58" rx="8" fill="#2a9e7a"/>
+        <text class="dt dn" x="125" y="156" text-anchor="middle">Keragon</text>
+        <text class="ds dn" x="125" y="174" text-anchor="middle">Creates patient in Office Ally</text>
+
+        <!-- Arrow right to OA -->
+        <line x1="230" y1="161" x2="278" y2="161" class="arr-line" stroke="#b8b3a8"/>
+
+        <!-- OA result -->
+        <rect x="278" y="132" width="210" height="58" rx="8" fill="#c96040"/>
+        <text class="dt dn" x="383" y="156" text-anchor="middle">Office Ally / Practice Mate</text>
+        <text class="ds dn" x="383" y="174" text-anchor="middle">Patient record created</text>
+
+        <!-- Dashed line from GHL trigger to native block -->
+        <line x1="125" y1="79" x2="560" y2="79" class="arr-dash"/>
+        <line x1="560" y1="79" x2="560" y2="132" class="arr-dash"/>
+
+        <!-- Native GHL -->
+        <rect x="505" y="132" width="210" height="58" rx="8" fill="#888780"/>
+        <text class="dt dn" x="610" y="156" text-anchor="middle">GHL (native)</text>
+        <text class="ds dn" x="610" y="174" text-anchor="middle">Sends welcome SMS/email</text>
+
+        <!-- SOP warning -->
+        <rect x="20" y="208" width="340" height="44" rx="6" fill="#fdf3dc" stroke="#e8c97a" stroke-width="0.8"/>
+        <text class="warn-text dn" x="32" y="226" fill="#7a4f00">SOP rule: VA must create in GHL first — always.</text>
+        <text class="warn-text dn" x="32" y="242" fill="#7a4f00">Walk-ins included. Documented, trained, spot-checked monthly.</text>
+
+        <!-- PHI warning -->
+        <rect x="370" y="208" width="345" height="44" rx="6" fill="#fdf0f0" stroke="#e8a0a0" stroke-width="0.8"/>
+        <text class="warn-text dn" x="382" y="226" fill="#7a1a1a">No BAA with GHL. GHL forms = name + phone only.</text>
+        <text class="warn-text dn" x="382" y="242" fill="#7a1a1a">PHI → Patient Ally only.</text>
+
+        <!-- ── DIVIDER ── -->
+        <line x1="20" y1="276" x2="780" y2="276" stroke="#d8d4cb" stroke-width="0.8"/>
+
+        <!-- ── WF2 HEADER ── -->
+        <text class="dh dn" x="20" y="300">Workflow 2 — post-visit sync</text>
+        <line x1="20" y1="308" x2="780" y2="308" stroke="#d8d4cb" stroke-width="0.5"/>
+
+        <!-- GHL Trigger WF2 -->
+        <rect x="20" y="320" width="210" height="58" rx="8" fill="#7c6fc4"/>
+        <text class="dt dn" x="125" y="344" text-anchor="middle">GHL stage → "Completed"</text>
+        <text class="ds dn" x="125" y="362" text-anchor="middle">VA marks visit complete</text>
+
+        <!-- Arrow to delay buffer -->
+        <line x1="125" y1="378" x2="125" y2="402" class="arr-line" stroke="#b8b3a8"/>
+
+        <!-- Delay buffer -->
+        <rect x="20" y="402" width="210" height="58" rx="8" fill="#888780"/>
+        <text class="dt dn" x="125" y="426" text-anchor="middle">10–15 min delay buffer</text>
+        <text class="ds dn" x="125" y="444" text-anchor="middle">Guardrail: catch errors in GHL</text>
+
+        <!-- Arrow to Keragon -->
+        <line x1="125" y1="460" x2="125" y2="484" class="arr-line" stroke="#b8b3a8"/>
+
+        <!-- Keragon WF2 -->
+        <rect x="20" y="484" width="210" height="58" rx="8" fill="#2a9e7a"/>
+        <text class="dt dn" x="125" y="508" text-anchor="middle">Keragon</text>
+        <text class="ds dn" x="125" y="526" text-anchor="middle">3 actions fire in sequence</text>
+
+        <!-- Arrow to Update OA -->
+        <line x1="230" y1="499" x2="278" y2="466" class="arr-line" stroke="#b8b3a8"/>
+        <!-- Update OA -->
+        <rect x="278" y="436" width="210" height="58" rx="8" fill="#c96040"/>
+        <text class="dt dn" x="383" y="460" text-anchor="middle">Update OA patient record</text>
+        <text class="ds dn" x="383" y="478" text-anchor="middle">Office Ally / Practice Mate</text>
+
+        <!-- Arrow to Create invoice -->
+        <line x1="230" y1="513" x2="278" y2="513" class="arr-line" stroke="#b8b3a8"/>
+        <!-- Create invoice -->
+        <rect x="278" y="484" width="210" height="58" rx="8" fill="#c96040"/>
+        <text class="dt dn" x="383" y="508" text-anchor="middle">Create invoice shell</text>
+        <text class="ds dn" x="383" y="526" text-anchor="middle">VA adds CPT/ICD + submits</text>
+
+        <!-- Arrow to Move pipeline -->
+        <line x1="230" y1="527" x2="278" y2="560" class="arr-line" stroke="#b8b3a8"/>
+        <!-- Move pipeline -->
+        <rect x="278" y="532" width="210" height="58" rx="8" fill="#7c6fc4"/>
+        <text class="dt dn" x="383" y="556" text-anchor="middle">Move GHL pipeline stage</text>
+        <text class="ds dn" x="383" y="574" text-anchor="middle">CRM updated automatically</text>
+
+        <!-- Native OA billing -->
+        <line x1="488" y1="513" x2="535" y2="513" class="arr-dash"/>
+        <rect x="535" y="484" width="130" height="58" rx="8" fill="#888780"/>
+        <text class="dt dn" x="600" y="508" text-anchor="middle">OA billing</text>
+        <text class="ds dn" x="600" y="526" text-anchor="middle">native ERA/post</text>
+
+        <!-- Invoice caveat -->
+        <rect x="20" y="610" width="320" height="44" rx="6" fill="#fdf3dc" stroke="#e8c97a" stroke-width="0.8"/>
+        <text class="warn-text dn" x="32" y="628" fill="#7a4f00">Invoice error: VA voids in Office Ally.</text>
+        <text class="warn-text dn" x="32" y="644" fill="#7a4f00">Upgrade to confirmation step if errors recur.</text>
+
+        <!-- ── DIVIDER ── -->
+        <line x1="20" y1="676" x2="780" y2="676" stroke="#d8d4cb" stroke-width="0.8"/>
+
+        <!-- ── NATIVE SECTION ── -->
+        <text class="dh dn" x="20" y="700">Native — no Keragon needed</text>
+        <line x1="20" y1="708" x2="780" y2="708" stroke="#d8d4cb" stroke-width="0.5"/>
+
+        <rect x="20" y="720" width="360" height="58" rx="8" fill="#888780"/>
+        <text class="dt dn" x="200" y="744" text-anchor="middle">Practice Mate (native)</text>
+        <text class="ds dn" x="200" y="762" text-anchor="middle">Appt reminders, SMS check-in, Patient Ally invite</text>
+
+        <rect x="400" y="720" width="360" height="58" rx="8" fill="#888780"/>
+        <text class="dt dn" x="580" y="744" text-anchor="middle">GHL (native)</text>
+        <text class="ds dn" x="580" y="762" text-anchor="middle">Reminders, follow-ups, pipeline movement</text>
+
+        <!-- ── DIVIDER ── -->
+        <line x1="20" y1="800" x2="780" y2="800" stroke="#d8d4cb" stroke-width="0.8"/>
+
+        <!-- ── NEXT STEPS ── -->
+        <text class="dh dn" x="20" y="824">Next steps</text>
+        <line x1="20" y1="832" x2="780" y2="832" stroke="#d8d4cb" stroke-width="0.5"/>
+
+        <rect x="20" y="844" width="234" height="44" rx="6" fill="#f0ede6" stroke="#d8d4cb" stroke-width="0.8"/>
+        <text class="warn-text dn" x="137" y="862" text-anchor="middle" fill="#1a1916" font-weight="500">Connect OA in Keragon</text>
+        <text class="dl dn" x="137" y="878" text-anchor="middle">Dr. Moussa — Pending</text>
+
+        <rect x="270" y="844" width="234" height="44" rx="6" fill="#f0ede6" stroke="#d8d4cb" stroke-width="0.8"/>
+        <text class="warn-text dn" x="387" y="862" text-anchor="middle" fill="#1a1916" font-weight="500">Connect GHL in Keragon</text>
+        <text class="dl dn" x="387" y="878" text-anchor="middle">Dr. Moussa — Pending</text>
+
+        <rect x="520" y="844" width="240" height="44" rx="6" fill="#f0ede6" stroke="#e8c97a" stroke-width="0.8"/>
+        <text class="warn-text dn" x="640" y="862" text-anchor="middle" fill="#7a4f00" font-weight="500">Confirm: Option B guardrail</text>
+        <text class="dl dn" x="640" y="878" text-anchor="middle" fill="#7a4f00">Dr. Moussa — Decision needed</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Section 9: Next steps -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <span class="section-title">Next steps</span>
+    </div>
+
+    <div class="next-steps-grid">
+      <div class="next-step-row">
+        <span class="next-step-action">Connect Office Ally authentication in Keragon</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Connect GoHighLevel authentication in Keragon</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Create 2 workflows in Keragon dashboard</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Add "GHL first" rule to VA onboarding checklist</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Confirm VA understands GHL forms cannot collect PHI</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Decide on invoice guardrail (Option B delay buffer recommended)</span>
+        <span class="next-step-owner">Dr. Moussa</span>
+        <span class="badge badge-amber">Confirm to close</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">VA completes workflow training before go-live</span>
+        <span class="next-step-owner">VA</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+      <div class="next-step-row">
+        <span class="next-step-action">Run test patient through both workflows before first real appointment</span>
+        <span class="next-step-owner">Dr. Moussa + VA</span>
+        <span class="badge badge-gray">Pending</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
