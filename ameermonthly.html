@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly SEO Performance Report — Coral Med Primary Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #FAFAF7;
+            color: #2C2C2C;
+            line-height: 1.6;
+            padding: 60px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 600; }
+        .muted { color: #8A8A80; }
+        .sage { color: #5B7F6A; }
+        .coral { color: #D4836A; }
+        .gold { color: #C4993B; }
+
+        /* Cover Header */
+        .cover {
+            border-bottom: 2px solid #5B7F6A;
+            padding-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #5B7F6A, #C4993B);
+            border-radius: 2px;
+        }
+        .cover-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #8A8A80;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        .cover h1 {
+            font-size: 38px;
+            color: #2C2C2C;
+            margin-bottom: 6px;
+        }
+        .cover-meta {
+            font-size: 14px;
+            color: #8A8A80;
+            margin-top: 12px;
+        }
+        .cover-meta span { margin-right: 24px; }
+        .cover-brand {
+            position: absolute;
+            top: 20px;
+            right: 0;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #5B7F6A;
+            text-transform: uppercase;
+        }
+
+        /* Section styling */
+        .section { margin-bottom: 56px; }
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2C2C2C;
+        }
+        .section-subtitle {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8A8A80;
+            margin-bottom: 8px;
+        }
+
+        /* Executive Summary */
+        .executive-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 36px 40px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            font-size: 16px;
+            line-height: 1.8;
+            border-left: 4px solid #5B7F6A;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+        }
+        .kpi-card .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 4px;
+        }
+        .kpi-card .label {
+            font-size: 12px;
+            color: #8A8A80;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .kpi-card .delta {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .delta-up { color: #5B7F6A; }
+        .delta-down { color: #D4836A; }
+        .kpi-card.highlight {
+            border: 2px solid #C4993B;
+            position: relative;
+        }
+        .kpi-card.highlight::after {
+            content: 'NEW';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 9px;
+            font-weight: 600;
+            background: #C4993B;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* Win cards */
+        .wins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .win-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px 28px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            border-left: 4px solid #5B7F6A;
+        }
+        .win-card h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5B7F6A;
+            margin-bottom: 8px;
+        }
+        .win-card p { font-size: 14px; color: #4a4a4a; line-height: 1.6; }
+
+        /* Fix cards */
+        .fix-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px 28px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            border-left: 4px solid #D4836A;
+            margin-bottom: 14px;
+        }
+        .fix-card h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #D4836A;
+            margin-bottom: 8px;
+        }
+        .fix-card p { font-size: 14px; color: #4a4a4a; line-height: 1.6; }
+
+        /* Pipeline */
+        .pipeline-list {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 36px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+        }
+        .pipeline-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0ec;
+            font-size: 15px;
+        }
+        .pipeline-item:last-child { border-bottom: none; }
+        .pipeline-icon {
+            width: 28px;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .pipeline-text { flex: 1; }
+        .pipeline-text strong { font-weight: 600; }
+        .pipeline-status {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 12px;
+            white-space: nowrap;
+        }
+        .status-done { background: #e8f2ec; color: #5B7F6A; }
+        .status-progress { background: #fef5e7; color: #C4993B; }
+        .status-queued { background: #f5f5f2; color: #8A8A80; }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+        }
+        .data-table thead { background: #f8f8f5; }
+        .data-table th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8A8A80;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 500;
+        }
+        .data-table td {
+            padding: 14px 20px;
+            font-size: 14px;
+            border-top: 1px solid #f5f5f2;
+        }
+        .data-table tr:nth-child(even) { background: #fcfcfa; }
+        .data-table .badge {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 600;
+            background: #C4993B;
+            color: white;
+            padding: 2px 7px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Bar chart */
+        .bar-chart { background: white; border-radius: 12px; padding: 32px 36px; box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
+        .bar-row { display: flex; align-items: center; margin-bottom: 18px; }
+        .bar-row:last-child { margin-bottom: 0; }
+        .bar-label { width: 140px; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+        .bar-container { flex: 1; height: 32px; background: #f5f5f2; border-radius: 6px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 12px; }
+        .bar-fill span { font-size: 12px; font-weight: 600; color: white; }
+        .bar-meta { width: 120px; text-align: right; font-size: 12px; color: #8A8A80; flex-shrink: 0; margin-left: 16px; }
+        .bar-organic { background: #5B7F6A; }
+        .bar-direct { background: #4a4a4a; }
+        .bar-referral { background: #D4836A; }
+        .bar-social { background: #5b7fa0; }
+        .bar-unassigned { background: #b0b0a8; }
+
+        /* Priorities */
+        .priorities {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 36px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+        }
+        .priority-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0ec;
+        }
+        .priority-item:last-child { border-bottom: none; }
+        .priority-num {
+            width: 32px;
+            height: 32px;
+            background: #5B7F6A;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-right: 16px;
+        }
+        .priority-text { font-size: 15px; padding-top: 5px; }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e8e8e4;
+            text-align: center;
+            color: #8A8A80;
+            font-size: 12px;
+        }
+        .footer-brand {
+            font-weight: 600;
+            color: #5B7F6A;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cover Header -->
+    <header class="cover">
+        <div class="cover-brand">ViralityX</div>
+        <p class="cover-label">Performance Report</p>
+        <h1>Weekly SEO Audit</h1>
+        <p style="font-size: 18px; color: #5B7F6A; font-weight: 500;">Coral Med Primary Care</p>
+        <div class="cover-meta">
+            <span>coral-med.com</span>
+            <span>Week of April 21, 2026</span>
+            <span>Data: Mar 31 &ndash; Apr 27, 2026</span>
+        </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="section">
+        <p class="section-subtitle">Executive Summary</p>
+        <div class="executive-summary">
+            This week we saw continued momentum in organic search performance, with Google now driving nearly half of all sessions to coral-med.com at an impressive 68% engagement rate &mdash; meaning patients actively searching for primary care in Huntington Beach are finding you and staying on the site. New patient discovery is trending upward (+2.6%), and our Google Review QR code system went live and is already tracking scans. We're now focused on deploying the optimized SEO titles we've prepared, connecting Google Search Console for keyword data, and setting up conversion tracking so we can measure actual patient inquiries &mdash; not just traffic.
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="section">
+        <p class="section-subtitle">Key Performance Indicators</p>
+        <h2 class="section-title">The Numbers That Matter</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="number">142</div>
+                <div class="label">Active Users</div>
+                <div class="delta delta-down">&darr; 6.8%</div>
+            </div>
+            <div class="kpi-card">
+                <div class="number">39</div>
+                <div class="label">New Patients Discovered You</div>
+                <div class="delta delta-up">&uarr; 2.6%</div>
+            </div>
+            <div class="kpi-card">
+                <div class="number">377</div>
+                <div class="label">Total Page Views</div>
+                <div class="delta" style="color: #8A8A80;">&mdash;</div>
+            </div>
+            <div class="kpi-card">
+                <div class="number">50.8%</div>
+                <div class="label">Engagement Rate</div>
+                <div class="delta" style="color: #8A8A80;">&mdash;</div>
+            </div>
+            <div class="kpi-card highlight">
+                <div class="number">6</div>
+                <div class="label">Google Review QR Scans</div>
+                <div class="delta delta-up">&uarr; Live</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What's Working -->
+    <div class="section">
+        <p class="section-subtitle">Wins</p>
+        <h2 class="section-title">What's Working</h2>
+        <div class="wins-grid">
+            <div class="win-card">
+                <h4>Organic Search Dominance</h4>
+                <p>Google is driving 47% of all traffic with a 68% engagement rate and 50s average time on site. Patients searching for primary care in Huntington Beach are finding you &mdash; and staying.</p>
+            </div>
+            <div class="win-card">
+                <h4>Contact Page Converting</h4>
+                <p>Your /contact page has the highest engagement time at 58 seconds. Visitors are reading your information thoroughly &mdash; a strong signal they're preparing to call or book.</p>
+            </div>
+            <div class="win-card">
+                <h4>Dr. Ameer Brand Building</h4>
+                <p>The "Meet Dr. Ameer" page is your 3rd most visited page. Patients want to know their doctor before they book. This personal connection is working.</p>
+            </div>
+            <div class="win-card">
+                <h4>QR Code System Live</h4>
+                <p>The Google Review QR code tracking is deployed and already recording scans (6 in the first period). We can now measure in-office patient engagement digitally.</p>
+            </div>
+            <div class="win-card" style="grid-column: span 2;">
+                <h4>New Patient Acquisition Trending Up</h4>
+                <p>Despite overall traffic normalization, new user acquisition is up 2.6%. This means more first-time visitors are discovering Coral Med &mdash; the audience is growing where it matters most.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- What We're Fixing -->
+    <div class="section">
+        <p class="section-subtitle">In Progress</p>
+        <h2 class="section-title">What We're Fixing</h2>
+        <div class="fix-card">
+            <h4>Direct Traffic Quality Issue</h4>
+            <p>45% of sessions show as "Direct" but with only 30% engagement and 18s average time &mdash; well below organic's 68%. This pattern suggests bot or spam traffic. We're investigating and will implement filters to clean this data.</p>
+        </div>
+        <div class="fix-card">
+            <h4>FAQ Page Underperforming</h4>
+            <p>The /faq page shows only 6 seconds of engagement &mdash; visitors aren't finding answers. We're rewriting the content with real patient questions and detailed, helpful answers that keep visitors engaged.</p>
+        </div>
+        <div class="fix-card">
+            <h4>About Page Bounce</h4>
+            <p>The /about page averages just 2 seconds &mdash; essentially an immediate bounce. We're rewriting this with compelling content about Coral Med's mission, approach, and what makes the practice different.</p>
+        </div>
+        <div class="fix-card">
+            <h4>Zero Conversion Tracking</h4>
+            <p>Currently, we can't measure how many visitors actually become patients. We're setting up phone click tracking and form submission events so we can report on real patient inquiries &mdash; not just pageviews.</p>
+        </div>
+        <div class="fix-card">
+            <h4>SEO Title Tags Need Deployment</h4>
+            <p>Current page titles aren't optimized for search rankings. We've already written the new titles and meta descriptions &mdash; they're ready to deploy on Replit this week.</p>
+        </div>
+    </div>
+
+    <!-- Active Improvements Pipeline -->
+    <div class="section">
+        <p class="section-subtitle">Pipeline</p>
+        <h2 class="section-title">Active Improvements In Progress</h2>
+        <div class="pipeline-list">
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#10003;</span>
+                <span class="pipeline-text"><strong>Google Review QR Code</strong> &mdash; deployed and tracking live</span>
+                <span class="pipeline-status status-done">Deployed</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#10003;</span>
+                <span class="pipeline-text"><strong>SEO Page Titles &amp; Meta Descriptions</strong> &mdash; written and ready to deploy on Replit</span>
+                <span class="pipeline-status status-done">Written</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#10003;</span>
+                <span class="pipeline-text"><strong>Mailer Campaign Tracking URLs</strong> &mdash; /welcome, /checkup, /wellness set up</span>
+                <span class="pipeline-status status-done">Set Up</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#128260;</span>
+                <span class="pipeline-text"><strong>Neighborhood Mailer Postcards</strong> &mdash; print-ready PDF delivered (Postcard 1)</span>
+                <span class="pipeline-status status-progress">Print Ready</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#128260;</span>
+                <span class="pipeline-text"><strong>Google Search Console</strong> &mdash; connecting for keyword ranking data</span>
+                <span class="pipeline-status status-progress">Connecting</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#128260;</span>
+                <span class="pipeline-text"><strong>Google Business Profile Optimization</strong> &mdash; in progress</span>
+                <span class="pipeline-status status-progress">In Progress</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#9634;</span>
+                <span class="pipeline-text"><strong>Conversion Event Tracking</strong> &mdash; phone clicks &amp; form submissions</span>
+                <span class="pipeline-status status-queued">Next Up</span>
+            </div>
+            <div class="pipeline-item">
+                <span class="pipeline-icon">&#9634;</span>
+                <span class="pipeline-text"><strong>Reactivation &amp; Wellness Mailer Campaigns</strong> &mdash; design &amp; targeting</span>
+                <span class="pipeline-status status-queued">Queued</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Pages Performance -->
+    <div class="section">
+        <p class="section-subtitle">Page Analytics</p>
+        <h2 class="section-title">Top Pages Performance</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Page</th>
+                    <th>Views</th>
+                    <th>Users</th>
+                    <th>Avg. Engagement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>/</strong> (Homepage)</td>
+                    <td>185</td>
+                    <td>112</td>
+                    <td>16s</td>
+                </tr>
+                <tr>
+                    <td><strong>/contact</strong></td>
+                    <td>53</td>
+                    <td>39</td>
+                    <td>58s</td>
+                </tr>
+                <tr>
+                    <td><strong>/meet-dr-ameer</strong></td>
+                    <td>38</td>
+                    <td>30</td>
+                    <td>34s</td>
+                </tr>
+                <tr>
+                    <td><strong>/primary-care-huntington-beach</strong></td>
+                    <td>15</td>
+                    <td>8</td>
+                    <td>37s</td>
+                </tr>
+                <tr>
+                    <td><strong>/pricing</strong></td>
+                    <td>12</td>
+                    <td>11</td>
+                    <td>47s</td>
+                </tr>
+                <tr>
+                    <td><strong>/aesthetics-weight-loss</strong></td>
+                    <td>11</td>
+                    <td>8</td>
+                    <td>23s</td>
+                </tr>
+                <tr>
+                    <td><strong>/faq</strong></td>
+                    <td>11</td>
+                    <td>8</td>
+                    <td>6s</td>
+                </tr>
+                <tr>
+                    <td><strong>/privacy</strong></td>
+                    <td>8</td>
+                    <td>6</td>
+                    <td>10s</td>
+                </tr>
+                <tr>
+                    <td><strong>/about</strong></td>
+                    <td>6</td>
+                    <td>6</td>
+                    <td>2s</td>
+                </tr>
+                <tr>
+                    <td><strong>/insurance</strong></td>
+                    <td>6</td>
+                    <td>6</td>
+                    <td>32s</td>
+                </tr>
+                <tr>
+                    <td><strong>/location</strong></td>
+                    <td>6</td>
+                    <td>5</td>
+                    <td>15s</td>
+                </tr>
+                <tr>
+                    <td><strong>/review</strong> <span class="badge">QR LIVE</span></td>
+                    <td>6</td>
+                    <td>5</td>
+                    <td>6s</td>
+                </tr>
+                <tr>
+                    <td><strong>/new-patients</strong></td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>27s</td>
+                </tr>
+                <tr>
+                    <td><strong>/services</strong></td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>51s</td>
+                </tr>
+                <tr>
+                    <td><strong>/terms</strong></td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4s</td>
+                </tr>
+                <tr>
+                    <td><strong>/regal-ipa-huntington-beach</strong></td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>5s</td>
+                </tr>
+                <tr>
+                    <td><strong>/direct-primary-care</strong></td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>3s</td>
+                </tr>
+                <tr>
+                    <td><strong>/medical-weight-loss</strong></td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0s</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Traffic Sources -->
+    <div class="section">
+        <p class="section-subtitle">Acquisition</p>
+        <h2 class="section-title">Traffic Sources Breakdown</h2>
+        <div class="bar-chart">
+            <div class="bar-row">
+                <div class="bar-label">Organic Search</div>
+                <div class="bar-container">
+                    <div class="bar-fill bar-organic" style="width: 94%;">
+                        <span>94 sessions</span>
+                    </div>
+                </div>
+                <div class="bar-meta">68% engaged</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Direct</div>
+                <div class="bar-container">
+                    <div class="bar-fill bar-direct" style="width: 89%;">
+                        <span>89 sessions</span>
+                    </div>
+                </div>
+                <div class="bar-meta">30% engaged</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Referral</div>
+                <div class="bar-container">
+                    <div class="bar-fill bar-referral" style="width: 8%;">
+                        <span>8</span>
+                    </div>
+                </div>
+                <div class="bar-meta">63% engaged</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Organic Social</div>
+                <div class="bar-container">
+                    <div class="bar-fill bar-social" style="width: 5%;">
+                        <span>5</span>
+                    </div>
+                </div>
+                <div class="bar-meta">60% engaged</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">Unassigned</div>
+                <div class="bar-container">
+                    <div class="bar-fill bar-unassigned" style="width: 4%;">
+                        <span>4</span>
+                    </div>
+                </div>
+                <div class="bar-meta">50% engaged</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Next Week's Priorities -->
+    <div class="section">
+        <p class="section-subtitle">Looking Ahead</p>
+        <h2 class="section-title">Next Week's Priorities</h2>
+        <div class="priorities">
+            <div class="priority-item">
+                <div class="priority-num">1</div>
+                <div class="priority-text">Deploy optimized SEO titles and meta descriptions across all pages</div>
+            </div>
+            <div class="priority-item">
+                <div class="priority-num">2</div>
+                <div class="priority-text">Connect Google Search Console for keyword ranking data and search visibility metrics</div>
+            </div>
+            <div class="priority-item">
+                <div class="priority-num">3</div>
+                <div class="priority-text">Set up conversion event tracking &mdash; phone click and form submission measurement</div>
+            </div>
+            <div class="priority-item">
+                <div class="priority-num">4</div>
+                <div class="priority-text">Continue Google Business Profile optimization for local search presence</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-brand">Prepared by ViralityX</p>
+        <p>This report is confidential and prepared exclusively for Coral Med Primary Care.</p>
+        <p style="margin-top: 4px;">Questions? Reach out to your account team anytime.</p>
+    </footer>
+
+</body>
+</html>
