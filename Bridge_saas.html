@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bridge SaaS — MVP Scope Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1020;
+    --bg-elev: #131a2e;
+    --bg-card: rgba(255,255,255,0.035);
+    --bg-card-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #e8edf5;
+    --text-dim: #8b95a8;
+    --text-faint: #5a6478;
+    --accent: #d4ff3a;
+    --accent-dim: #a8cc2e;
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.12);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96, 165, 250, 0.12);
+    --orange: #fb923c;
+    --orange-bg: rgba(251, 146, 60, 0.14);
+    --rose: #fb7185;
+    --rose-bg: rgba(251, 113, 133, 0.14);
+    --violet: #a78bfa;
+    --violet-bg: rgba(167, 139, 250, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(900px 600px at 12% -10%, rgba(212,255,58,0.06), transparent 60%),
+      radial-gradient(700px 500px at 90% 10%, rgba(96,165,250,0.05), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+
+  .serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    border-bottom: 1px solid var(--border);
+    padding: 22px 0;
+    background: rgba(10,16,32,0.7);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), #88aa1f);
+    display: grid; place-items: center;
+    font-weight: 800; color: #0a1020; font-size: 15px;
+  }
+  .brand-text { font-weight: 600; letter-spacing: 0.04em; font-size: 13px; text-transform: uppercase; color: var(--text-dim); }
+  .brand-text strong { color: var(--text); margin-right: 6px; }
+  .tnav { display: flex; gap: 22px; flex-wrap: wrap; }
+  .tnav a {
+    color: var(--text-dim); text-decoration: none; font-size: 12.5px;
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500;
+    transition: color 0.15s;
+  }
+  .tnav a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero { padding: 88px 0 64px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 6.4vw, 76px);
+    line-height: 1.04;
+    margin: 0 0 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .serif { color: var(--accent); }
+  .hero .lede {
+    font-size: 18px; color: var(--text-dim); max-width: 720px; line-height: 1.6;
+  }
+  .hero-meta {
+    display: flex; gap: 28px; margin-top: 36px; flex-wrap: wrap;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); font-weight: 600; }
+  .meta-value { font-size: 15px; color: var(--text); font-weight: 500; }
+  .meta-value .accent { color: var(--accent); }
+
+  /* SECTIONS */
+  section { padding: 72px 0; border-top: 1px solid var(--border); }
+  .sec-header { margin-bottom: 44px; }
+  .sec-num {
+    display: inline-block;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 10px;
+  }
+  .sec-title {
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.12; margin: 0 0 14px;
+    font-weight: 700; letter-spacing: -0.015em;
+  }
+  .sec-sub { font-size: 16.5px; color: var(--text-dim); max-width: 760px; }
+
+  /* THE PROBLEM */
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+  }
+  .pain-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 26px;
+    transition: all 0.2s;
+  }
+  .pain-card:hover { background: var(--bg-card-hover); border-color: var(--border-strong); }
+  .pain-num {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 38px; color: var(--rose); line-height: 1; margin-bottom: 12px;
+  }
+  .pain-title { font-weight: 600; font-size: 17px; margin-bottom: 8px; color: var(--text); }
+  .pain-body { color: var(--text-dim); font-size: 14.5px; line-height: 1.6; }
+  .pain-quote { margin-top: 12px; padding-left: 14px; border-left: 2px solid var(--rose); font-style: italic; color: var(--text); font-size: 14px; }
+
+  /* DECISIONS */
+  .decision {
+    background: linear-gradient(180deg, rgba(212,255,58,0.04), rgba(212,255,58,0));
+    border: 1px solid rgba(212,255,58,0.18);
+    border-radius: 16px; padding: 32px;
+    margin-bottom: 18px;
+  }
+  .decision .d-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  .d-chip {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    background: rgba(212,255,58,0.16); color: var(--accent);
+    padding: 5px 11px; border-radius: 999px; font-weight: 600;
+  }
+  .d-title { font-weight: 700; font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+  .d-body { color: var(--text); font-size: 15.5px; line-height: 1.65; margin-bottom: 14px; }
+  .d-why { color: var(--text-dim); font-size: 14.5px; line-height: 1.65; }
+  .d-why strong { color: var(--accent); font-weight: 600; }
+
+  /* KEEP / STRIP / NEW MATRIX */
+  .matrix {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px;
+  }
+  .col-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .col-tag {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 6px; font-weight: 700;
+  }
+  .col-keep .col-tag { background: var(--green-bg); color: var(--green); }
+  .col-strip .col-tag { background: var(--orange-bg); color: var(--orange); }
+  .col-new  .col-tag { background: var(--violet-bg); color: var(--violet); }
+  .col-title { font-weight: 600; font-size: 15px; color: var(--text); }
+  .feat { padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+  .feat:last-child { border-bottom: 0; }
+  .feat-name { font-weight: 600; color: var(--text); font-size: 14.5px; margin-bottom: 3px; }
+  .feat-note { color: var(--text-dim); font-size: 13px; line-height: 1.55; }
+
+  /* DEMO FLOW */
+  .demo-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 28px; }
+  .step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px; position: relative;
+    transition: all 0.2s;
+  }
+  .step:hover { background: var(--bg-card-hover); border-color: var(--border-strong); transform: translateY(-2px); }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(212,255,58,0.15); color: var(--accent);
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 13px; margin-bottom: 12px;
+  }
+  .step-time { font-size: 11px; color: var(--text-faint); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+  .step-title { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+  .step-body { color: var(--text-dim); font-size: 12.5px; line-height: 1.5; }
+
+  /* MOCKUP */
+  .mockup {
+    margin-top: 28px;
+    background: #050811;
+    border: 1px solid var(--border-strong);
+    border-radius: 16px; padding: 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  }
+  .mock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .mock-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .mock-dot.r { background: #fb7185; }
+  .mock-dot.y { background: #fbbf24; }
+  .mock-dot.g { background: #4ade80; }
+  .mock-title { margin-left: auto; font-size: 12px; color: var(--text-faint); font-family: 'Inter'; }
+  .gap-viz { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: center; }
+  .gap-label { color: var(--text-dim); font-size: 13px; }
+  .gap-label .big { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 36px; color: var(--text); margin-bottom: 4px; line-height: 1; }
+  .bars { display: flex; flex-direction: column; gap: 14px; }
+  .bar-row { display: grid; grid-template-columns: 80px 1fr 56px; align-items: center; gap: 12px; font-size: 13px; }
+  .bar-name { color: var(--text-dim); font-size: 12px; }
+  .bar-track { height: 10px; background: rgba(255,255,255,0.05); border-radius: 999px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; }
+  .bar-fill.healthy { background: linear-gradient(90deg, var(--green), #22c55e); }
+  .bar-fill.injured { background: linear-gradient(90deg, var(--accent), var(--accent-dim)); }
+  .bar-val { color: var(--text); font-variant-numeric: tabular-nums; font-size: 12.5px; text-align: right; }
+  .gap-readout { margin-top: 22px; display: flex; gap: 32px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .gap-stat { display: flex; flex-direction: column; }
+  .gap-stat .v { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 30px; color: var(--accent); line-height: 1; }
+  .gap-stat .l { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-weight: 600; }
+  .gap-stat .v.green { color: var(--green); }
+
+  /* BUILD PHASES */
+  .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .phase {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 26px;
+  }
+  .phase-tag {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 8px;
+  }
+  .phase-title { font-weight: 700; font-size: 18px; margin-bottom: 4px; }
+  .phase-time { color: var(--text-faint); font-size: 13px; margin-bottom: 16px; }
+  .phase-list { list-style: none; padding: 0; margin: 0; }
+  .phase-list li { color: var(--text-dim); font-size: 13.5px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+  .phase-list li:last-child { border-bottom: 0; }
+  .phase-list li::before { content: "→"; color: var(--accent); margin-right: 8px; }
+
+  /* PRICING */
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .tier {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px;
+    display: flex; flex-direction: column;
+  }
+  .tier.featured { border-color: rgba(212,255,58,0.4); background: linear-gradient(180deg, rgba(212,255,58,0.04), transparent); position: relative; }
+  .tier.featured::before {
+    content: "RECOMMENDED FIRST TIER";
+    position: absolute; top: -10px; left: 24px;
+    background: var(--accent); color: #0a1020;
+    font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+    letter-spacing: 0.1em;
+  }
+  .tier-name { font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+  .tier-target { color: var(--text-faint); font-size: 13px; margin-bottom: 18px; }
+  .tier-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+  .tier-price .v { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 44px; color: var(--text); line-height: 1; }
+  .tier-price .u { color: var(--text-dim); font-size: 14px; }
+  .tier-note { color: var(--text-dim); font-size: 12.5px; margin-bottom: 18px; }
+  .tier-feats { list-style: none; padding: 0; margin: 0; flex: 1; }
+  .tier-feats li { padding: 7px 0; color: var(--text); font-size: 13.5px; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+  .tier-feats li:last-child { border-bottom: 0; }
+  .tier-feats li::before { content: "+"; color: var(--accent); margin-right: 8px; font-weight: 700; }
+
+  /* ONBOARDING */
+  .onb-flow { margin-top: 24px; }
+  .onb-row {
+    display: grid; grid-template-columns: 130px 1fr; gap: 24px; align-items: start;
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+  }
+  .onb-row:last-child { border-bottom: 0; }
+  .onb-time {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: var(--accent); font-size: 22px; line-height: 1.2;
+  }
+  .onb-step { color: var(--text); font-weight: 600; margin-bottom: 4px; }
+  .onb-desc { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+
+  /* OPEN QUESTIONS */
+  .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+  .q-card {
+    background: rgba(96, 165, 250, 0.04);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 12px; padding: 20px;
+  }
+  .q-tag {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); font-weight: 600; margin-bottom: 8px;
+  }
+  .q-text { color: var(--text); font-size: 15px; line-height: 1.55; font-weight: 500; }
+  .q-context { color: var(--text-dim); font-size: 13px; margin-top: 8px; line-height: 1.55; }
+
+  /* FOOTER */
+  footer { padding: 56px 0 80px; border-top: 1px solid var(--border); }
+  .foot-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .foot-h {
+    font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15;
+    font-weight: 700; margin: 0 0 8px; letter-spacing: -0.015em;
+  }
+  .foot-h .serif { color: var(--accent); }
+  .foot-sub { color: var(--text-dim); font-size: 14.5px; max-width: 540px; }
+
+  @media (max-width: 900px) {
+    .problem-grid, .matrix, .phases, .pricing, .questions { grid-template-columns: 1fr; }
+    .demo-strip { grid-template-columns: 1fr 1fr; }
+    .gap-viz { grid-template-columns: 1fr; }
+    .hero { padding: 64px 0 48px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="wrap row">
+      <div class="brand">
+        <div class="brand-mark">Bx</div>
+        <div class="brand-text"><strong>Bridge</strong>SaaS — MVP Map</div>
+      </div>
+      <nav class="tnav">
+        <a href="#problem">Problem</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#mvp">MVP Scope</a>
+        <a href="#demo">Demo Flow</a>
+        <a href="#build">Build</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#onboarding">Onboarding</a>
+        <a href="#questions">For Victor</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">VIRALITY X · MAY 13, 2026 · STRATEGIC PLAN</div>
+      <h1>The PT industry is testing strength.<br/>Nobody's <span class="serif">storing it.</span></h1>
+      <p class="lede">
+        Victor and Chris are training clinics across the country to do objective strength testing —
+        and leaving them with a $250 device and a calculator. Bridge SaaS is the missing software
+        backend. This is the map of the simplest version we can put in front of a clinic and have
+        them say <em>I need this</em>.
+      </p>
+
+      <div class="hero-meta">
+        <div class="meta-item">
+          <div class="meta-label">ICP Wedge</div>
+          <div class="meta-value">Mid-size hybrid clinics <span class="accent">(4–15 therapists)</span></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Wow Moment</div>
+          <div class="meta-value">Side-to-side gap closing <span class="accent">+ auto PDF</span></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Build Approach</div>
+          <div class="meta-value">Hybrid — <span class="accent">fresh shell, ported logic</span></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Timeline to MVP</div>
+          <div class="meta-value"><span class="accent">~10 weeks</span> from kickoff</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">01 · THE PROBLEM</div>
+        <h2 class="sec-title">Four pains. One software gap.</h2>
+        <p class="sec-sub">Victor handed us the entire diagnosis on the discovery calls. Every clinic Chris trains hits the same wall — and the wall is software, not hardware.</p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="pain-card">
+          <div class="pain-num">01</div>
+          <div class="pain-title">The mental-math moment</div>
+          <div class="pain-body">Therapist tests injured side, then healthy side, then squints at a calculator while the patient watches. The "objective" test becomes a fumble. The trust hit happens in real time.</div>
+          <div class="pain-quote">"They're doing math in front of the patient. It looks like a dinosaur."</div>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">02</div>
+          <div class="pain-title">Nothing goes home</div>
+          <div class="pain-body">No PDF. No email. No way for a parent or referring physician to see progress between sessions. The session ends, the data dies on a Post-it.</div>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">03</div>
+          <div class="pain-title">EMRs ignore strength</div>
+          <div class="pain-body">WebPT and Jane handle scheduling and notes but have zero strength tracking. Clinics that bought the $250 device have nowhere to put the numbers it produces.</div>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">04</div>
+          <div class="pain-title">Competitor norms are polluted</div>
+          <div class="pain-body">Kinvent and Vald average injured + healthy + all ages together — useless benchmarks. Vald is enterprise-priced. Kinvent moves slow and big-company. Excel sheets are what's left.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section id="decisions">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">02 · LOCKED DECISIONS</div>
+        <h2 class="sec-title">Three constraints. Everything else flows from these.</h2>
+        <p class="sec-sub">Each decision below kills a hundred feature debates downstream. Hold the line on these and the MVP almost designs itself.</p>
+      </div>
+
+      <div class="decision">
+        <div class="d-head">
+          <div class="d-chip">Decision 01 · ICP Wedge</div>
+          <h3 class="d-title">Mid-size hybrid clinics — 4 to 15 therapists.</h3>
+        </div>
+        <div class="d-body">
+          We sell first into clinics that look like Bridge Water. Hybrid performance + rehab,
+          multiple staff, admin who signs the contract, clinicians who use the product daily.
+          ACV target: <strong>$300–800/mo</strong>. We earn the right to drop a Solo PT tier
+          ($79/mo) once the workflow is proven.
+        </div>
+        <div class="d-why">
+          <strong>Why this and not solo PT first.</strong> Distribution. Victor and Chris are already
+          in this segment — their workshops, their network, their FIU students. Solo PT is the bigger
+          market on paper but cold without a wedge. We're not building broad, we're building deep
+          where the demand is already warm.
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="d-head">
+          <div class="d-chip">Decision 02 · Wow Moment</div>
+          <h3 class="d-title">Side-to-side gap closing + auto-emailed PDF.</h3>
+        </div>
+        <div class="d-body">
+          Every PT case has a healthy side and an injured side. The universal question across ACL,
+          rotator cuff, ankle, hip — every diagnosis — is <em>are we closing the gap?</em>
+          That visualization is the hero. The auto-emailed report is the close.
+        </div>
+        <div class="d-why">
+          <strong>Why not radar / norms / AI insights first.</strong> Those are second-test value.
+          They require cohort data we don't have day one and a learning curve to interpret. The gap
+          chart works on the very first session — therapist tests both sides, screen shows the
+          delta, parent gets a PDF before they leave the parking lot. That's the demo we win on.
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="d-head">
+          <div class="d-chip">Decision 03 · Build Approach</div>
+          <h3 class="d-title">Hybrid — fresh multi-tenant shell, port the 22 formulas.</h3>
+        </div>
+        <div class="d-body">
+          Don't fork Victor's Replit build. Nikki architects fresh: auth, tenancy, billing, RBAC
+          from clean ground. <strong>Then</strong> we port the formula library (Z-Score, Torque,
+          FBW/TBW, DSI, LSI, RTD, RFD/BW, Sorensen + the rest) and the dark-premium report engine.
+          That's where the real IP lives.
+        </div>
+        <div class="d-why">
+          <strong>Why not just fork.</strong> Bridge Water's app has clinic-specific assumptions
+          baked into every model — service types, role definitions, the column shapes of their old
+          Excel sheets. Forking means dragging those assumptions into every future tenant.
+          ~10 weeks to a clean MVP is worth more than ~6 weeks to a messy one we can't sell.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEEP / STRIP / NEW -->
+  <section id="mvp">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">03 · MVP SCOPE</div>
+        <h2 class="sec-title">What we keep, strip, and build new.</h2>
+        <p class="sec-sub">Bridge Water's build was a custom platform with three intake types and 22 formulas. The SaaS strips it back to one job: <em>test, see the gap, send the report.</em></p>
+      </div>
+
+      <div class="matrix">
+        <!-- KEEP -->
+        <div class="col col-keep">
+          <div class="col-head">
+            <div class="col-tag">Keep</div>
+            <div class="col-title">From Bridge Water, port directly</div>
+          </div>
+          <div class="feat"><div class="feat-name">Formula library (22 calcs)</div><div class="feat-note">Z-Score, Torque, FBW/TBW, DSI, LSI, RTD, RFD/BW, Sorensen, etc. This is the IP.</div></div>
+          <div class="feat"><div class="feat-name">Dark-premium PDF report engine</div><div class="feat-note">Top-strength callout, trend arrows, tier badges. Already gorgeous — reuse the templates.</div></div>
+          <div class="feat"><div class="feat-name">Approval queue</div><div class="feat-note">Clinician reviews before patient gets email. Liability + branding moat. Keep.</div></div>
+          <div class="feat"><div class="feat-name">Admin vs staff permissions</div><div class="feat-note">Staff edits metrics, admin owns delete/export/billing. Already proven model.</div></div>
+          <div class="feat"><div class="feat-name">DOB auto age calc</div><div class="feat-note">Tiny but Victor specifically asked for this. Costs nothing, signals craft.</div></div>
+          <div class="feat"><div class="feat-name">Most-recent-test auto-pull</div><div class="feat-note">Critical for longitudinal view. Already solved.</div></div>
+        </div>
+
+        <!-- STRIP -->
+        <div class="col col-strip">
+          <div class="col-head">
+            <div class="col-tag">Strip</div>
+            <div class="col-title">Out of MVP — re-add later if asked</div>
+          </div>
+          <div class="feat"><div class="feat-name">3 service types (THROWERS / PLYO / PATIENT)</div><div class="feat-note">SaaS day 1 = one universal intake. Service types are a Bridge Water org-shape.</div></div>
+          <div class="feat"><div class="feat-name">303-column PLYO intake</div><div class="feat-note">Day 1 schema is small and opinionated. Power users get custom fields later.</div></div>
+          <div class="feat"><div class="feat-name">20-sheet PATIENT structure</div><div class="feat-note">Same — model after universal session, not Bridge Water's spreadsheet legacy.</div></div>
+          <div class="feat"><div class="feat-name">Compare athlete vs specific other athlete</div><div class="feat-note">Cool but niche. v1.1 feature. Cohort comparison is enough at MVP.</div></div>
+          <div class="feat"><div class="feat-name">Editable Canva-style report toggle</div><div class="feat-note">Defer. Ship one great default report. Editor adds weeks of UX.</div></div>
+          <div class="feat"><div class="feat-name">Norm playground (live override)</div><div class="feat-note">Brilliant Victor idea but advanced UX. v1.1.</div></div>
+        </div>
+
+        <!-- NEW -->
+        <div class="col col-new">
+          <div class="col-head">
+            <div class="col-tag">New</div>
+            <div class="col-title">SaaS-only — not in Bridge Water build</div>
+          </div>
+          <div class="feat"><div class="feat-name">Multi-tenant architecture</div><div class="feat-note">Every clinic isolated. Row-level security from day one. This is the SaaS unlock.</div></div>
+          <div class="feat"><div class="feat-name">Self-serve clinic signup</div><div class="feat-note">Sign up → enter clinic name → 15-min onboarding → first test. No Nikki in the loop.</div></div>
+          <div class="feat"><div class="feat-name">Stripe billing + trial</div><div class="feat-note">14-day free trial, card up front. Tier change in-app. Annual discount.</div></div>
+          <div class="feat"><div class="feat-name">Seedable norms with auto-evolve</div><div class="feat-note">Admin pastes published norms. As clinic logs sessions, system blends and labels "manual" vs "calculated".</div></div>
+          <div class="feat"><div class="feat-name">Side-to-side gap engine</div><div class="feat-note">First-class chart, not buried. The hero feature on the dashboard.</div></div>
+          <div class="feat"><div class="feat-name">Parent / referring-doc email link</div><div class="feat-note">Tokenized URL to view PDF without an account. Conversion engine — every patient sees the brand.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO FLOW -->
+  <section id="demo">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">04 · THE 60-SECOND DEMO</div>
+        <h2 class="sec-title">What makes them say "I need this."</h2>
+        <p class="sec-sub">The whole sale lives in the first minute. Here's the demo flow we build the MVP around — every screen exists to make this story land.</p>
+      </div>
+
+      <div class="demo-strip">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-time">0:00 – 0:10</div>
+          <div class="step-title">"Pull up a patient"</div>
+          <div class="step-body">Search by name. One tap. Profile shows last 3 sessions, current side-to-side gap, days since onset.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-time">0:10 – 0:25</div>
+          <div class="step-title">"Log today's test"</div>
+          <div class="step-body">iPad-friendly form. Injured side, healthy side, body part, three reps. Submit.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-time">0:25 – 0:40</div>
+          <div class="step-title">Gap closes on screen</div>
+          <div class="step-body">Two bars animate. "82% of healthy side, up from 71% last week." Therapist points. Patient leans in.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-time">0:40 – 0:55</div>
+          <div class="step-title">One-tap approve & send</div>
+          <div class="step-body">Branded PDF previews. Clinician taps approve. Email auto-sends to patient + parent + referring MD.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-time">0:55 – 1:00</div>
+          <div class="step-title">"I need this."</div>
+          <div class="step-body">No calculator. No Excel. No Post-it. Five taps, parent gets a PDF before they leave the parking lot.</div>
+        </div>
+      </div>
+
+      <!-- MOCK -->
+      <div class="mockup">
+        <div class="mock-header">
+          <div class="mock-dot r"></div>
+          <div class="mock-dot y"></div>
+          <div class="mock-dot g"></div>
+          <div class="mock-title">bridge · J. Rivera · Right shoulder · Session 6 of 12</div>
+        </div>
+
+        <div class="gap-viz">
+          <div class="gap-label">
+            <span class="big">Gap closing</span>
+            Right shoulder · External rotation torque
+          </div>
+          <div class="bars">
+            <div class="bar-row">
+              <div class="bar-name">Healthy (L)</div>
+              <div class="bar-track"><div class="bar-fill healthy" style="width:100%"></div></div>
+              <div class="bar-val">42.8 Nm</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-name">Injured (R)</div>
+              <div class="bar-track"><div class="bar-fill injured" style="width:82%"></div></div>
+              <div class="bar-val">35.1 Nm</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gap-readout">
+          <div class="gap-stat"><div class="v">82%</div><div class="l">Of Healthy Side</div></div>
+          <div class="gap-stat"><div class="v green">+11pt</div><div class="l">vs Last Session</div></div>
+          <div class="gap-stat"><div class="v">6</div><div class="l">Sessions in</div></div>
+          <div class="gap-stat"><div class="v green">On Track</div><div class="l">RTP Projection</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILD PHASES -->
+  <section id="build">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">05 · BUILD PHASES</div>
+        <h2 class="sec-title">10 weeks to a clinic-ready MVP.</h2>
+        <p class="sec-sub">Nikki architects the foundation first. We don't port a single Bridge Water formula until tenancy and billing are clean.</p>
+      </div>
+
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-tag">Phase A · Weeks 1–4</div>
+          <div class="phase-title">Foundation</div>
+          <div class="phase-time">Tenant shell · No Bridge Water code yet</div>
+          <ul class="phase-list">
+            <li>Multi-tenant DB schema (row-level security)</li>
+            <li>Clinic + user + role models</li>
+            <li>Auth (email + Google), invites, RBAC</li>
+            <li>Stripe billing — trial, subscription, dunning</li>
+            <li>Self-serve signup → onboarding wizard skeleton</li>
+            <li>Empty dashboard shell, theming system</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-tag">Phase B · Weeks 5–8</div>
+          <div class="phase-title">Core Workflow</div>
+          <div class="phase-time">The actual product · Demo-ready</div>
+          <ul class="phase-list">
+            <li>Patient intake (universal, opinionated schema)</li>
+            <li>Session logging form (iPad-first)</li>
+            <li>Port the 22 formulas from Bridge Water</li>
+            <li>Side-to-side gap chart (the hero)</li>
+            <li>Trend chart (longitudinal % change)</li>
+            <li>PDF report engine + email send</li>
+            <li>Approval queue</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-tag">Phase C · Weeks 9–10</div>
+          <div class="phase-title">Polish + Pilot</div>
+          <div class="phase-time">Make it sellable</div>
+          <ul class="phase-list">
+            <li>Seedable norms (manual + auto-evolve labeling)</li>
+            <li>Cohort comparison (age / sport / level filters)</li>
+            <li>Tokenized public report links (parent / MD view)</li>
+            <li>Onboarding wizard polish (15-min first test)</li>
+            <li>Pilot deploy: Bridge Water + 2 friendly clinics</li>
+            <li>Feedback loop → v1.0 lock</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">06 · PRICING MODEL</div>
+        <h2 class="sec-title">Three tiers. Mid-size is the wedge.</h2>
+        <p class="sec-sub">Annual discount 20%. Stripe handles dunning. No setup fee on the SaaS tiers — friction kills conversion. Enterprise gets a contract + onboarding fee.</p>
+      </div>
+
+      <div class="pricing">
+        <div class="tier">
+          <div class="tier-name">Solo</div>
+          <div class="tier-target">Single therapist / cash-pay PT</div>
+          <div class="tier-price"><span class="v">$79</span><span class="u">/ mo</span></div>
+          <div class="tier-note">Up to 50 active patients · 1 user seat</div>
+          <ul class="tier-feats">
+            <li>Patient intake + session logging</li>
+            <li>Side-to-side gap chart</li>
+            <li>PDF report (clinic-branded)</li>
+            <li>Email send to patient + MD</li>
+            <li>Bridge brand on PDF footer</li>
+          </ul>
+        </div>
+        <div class="tier featured">
+          <div class="tier-name">Clinic</div>
+          <div class="tier-target">Mid-size hybrid · 4–15 therapists</div>
+          <div class="tier-price"><span class="v">$349</span><span class="u">/ mo</span></div>
+          <div class="tier-note">Unlimited patients · 10 user seats · +$25 per extra seat</div>
+          <ul class="tier-feats">
+            <li>Everything in Solo</li>
+            <li>Approval queue + admin roles</li>
+            <li>Seedable norms + cohort comparison</li>
+            <li>Most-recent-test auto pull</li>
+            <li>Trend tracking + AI insights</li>
+            <li>White-labeled PDF (no Bridge brand)</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+        <div class="tier">
+          <div class="tier-name">Enterprise</div>
+          <div class="tier-target">Multi-location · 15+ therapists</div>
+          <div class="tier-price"><span class="v">Custom</span></div>
+          <div class="tier-note">Contract · per-location pricing · onboarding fee</div>
+          <ul class="tier-feats">
+            <li>Everything in Clinic</li>
+            <li>Multi-location dashboards</li>
+            <li>Custom intake fields</li>
+            <li>SSO + audit logs</li>
+            <li>API access</li>
+            <li>Norm playground (advanced)</li>
+            <li>Dedicated CSM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING -->
+  <section id="onboarding">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">07 · NEW CLINIC ONBOARDING</div>
+        <h2 class="sec-title">From signup to first test — under 15 minutes.</h2>
+        <p class="sec-sub">If a clinic can't get from <em>I signed up</em> to <em>I just sent a parent a PDF</em> on day one, we lose them. The wizard is the product as much as the dashboard is.</p>
+      </div>
+
+      <div class="onb-flow">
+        <div class="onb-row">
+          <div class="onb-time">Min 0–2</div>
+          <div>
+            <div class="onb-step">Sign up + clinic profile</div>
+            <div class="onb-desc">Email, clinic name, address, logo upload. Pick brand color. Stripe card on file. 14-day trial active.</div>
+          </div>
+        </div>
+        <div class="onb-row">
+          <div class="onb-time">Min 2–5</div>
+          <div>
+            <div class="onb-step">Invite team</div>
+            <div class="onb-desc">Add up to 10 emails with admin/staff role. Skip-able — you can do this later. Defaults to "just me" for solo.</div>
+          </div>
+        </div>
+        <div class="onb-row">
+          <div class="onb-time">Min 5–8</div>
+          <div>
+            <div class="onb-step">Pick your norms starting point</div>
+            <div class="onb-desc">Three choices: (a) start with our published seed norms, (b) paste in your own published norms, (c) start blank and build as you log. Most pick (a).</div>
+          </div>
+        </div>
+        <div class="onb-row">
+          <div class="onb-time">Min 8–11</div>
+          <div>
+            <div class="onb-step">Add first patient</div>
+            <div class="onb-desc">Guided form. Name, DOB, injured body part, side, days since onset. System creates patient profile + opens first session.</div>
+          </div>
+        </div>
+        <div class="onb-row">
+          <div class="onb-time">Min 11–14</div>
+          <div>
+            <div class="onb-step">Log first session</div>
+            <div class="onb-desc">Therapist enters healthy + injured side values. Gap chart appears. PDF previews. Tap approve.</div>
+          </div>
+        </div>
+        <div class="onb-row">
+          <div class="onb-time">Min 14–15</div>
+          <div>
+            <div class="onb-step">First PDF sent</div>
+            <div class="onb-desc">Patient gets the email. Clinic admin gets a "you just sent your first Bridge report" confirmation. Activation event fires. They're a customer.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPEN QUESTIONS FOR VICTOR -->
+  <section id="questions">
+    <div class="wrap">
+      <div class="sec-header">
+        <div class="sec-num">08 · OPEN QUESTIONS FOR VICTOR</div>
+        <h2 class="sec-title">Bring these to the next call.</h2>
+        <p class="sec-sub">Calls I'd rather Victor make than guess on. His answers shape the next two phases.</p>
+      </div>
+
+      <div class="questions">
+        <div class="q-card">
+          <div class="q-tag">Strategic Partner Terms</div>
+          <div class="q-text">What does "strategic partner" mean in writing?</div>
+          <div class="q-context">Equity % vs revenue share vs intro commission? Is he in the cap table or a referral partner? Needs to be papered before pilots go live.</div>
+        </div>
+        <div class="q-card">
+          <div class="q-tag">Pilot Clinics</div>
+          <div class="q-text">Which 2–3 clinics in his + Chris's network are warmest for the pilot?</div>
+          <div class="q-context">We need real users for weeks 9–10. Free pilot in exchange for feedback + testimonial. Victor names the list.</div>
+        </div>
+        <div class="q-card">
+          <div class="q-tag">Norm Seeds</div>
+          <div class="q-text">Which published norm sets do we ship with at launch?</div>
+          <div class="q-context">Chris is the source for this. Likely shoulder ER/IR, ACL LSI, knee extension torque, grip. The "starter pack" of seed norms decides what tests we support on day 1.</div>
+        </div>
+        <div class="q-card">
+          <div class="q-tag">Device Integration</div>
+          <div class="q-text">Manual entry only at MVP, or do we wire up to the $250 device?</div>
+          <div class="q-context">Manual entry is faster to ship. Direct device sync is a wow upgrade but adds 3–4 weeks. Lean: manual at MVP, device sync as a v1.1 feature once we know which device wins.</div>
+        </div>
+        <div class="q-card">
+          <div class="q-tag">Bridge Water as Lighthouse</div>
+          <div class="q-text">Is Bridge Water the first paying tenant on the SaaS, or do they stay on the custom build?</div>
+          <div class="q-context">Big call. Either we migrate them (Bridge Water = case study #1) or they keep their bespoke app and we sell to peer clinics. Both viable. Affects how we shape Phase 2.</div>
+        </div>
+        <div class="q-card">
+          <div class="q-tag">Name + Brand</div>
+          <div class="q-text">Does Victor want "Bridge" the brand on the SaaS, or do we name it separately?</div>
+          <div class="q-context">"Bridge" is his clinic. Using it for the SaaS is a free distribution boost but ties his clinic brand to a product. Could be a feature ("by Bridge Water Performance") or risk. Needs his nod.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <div>
+          <h3 class="foot-h">Next: <span class="serif">mockups + landing page.</span></h3>
+          <p class="foot-sub">Once you've gut-checked this scope, the next two deliverables are interactive Figma-grade screen mockups of the demo flow and a landing page hero we can drop in front of Victor's network.</p>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Source of truth</div>
+          <div class="meta-value">Bridge-SaaS-MVP-Map.html · v1</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
