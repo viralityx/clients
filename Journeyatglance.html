@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bridge PTP — The Journey at a Glance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1020;
+    --bg-card: rgba(255,255,255,0.035);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8edf5;
+    --text-dim: #8b95a8;
+    --text-faint: #5a6478;
+    --accent: #d4ff3a;
+    --green: #4ade80;
+    --blue: #60a5fa;
+    --orange: #fb923c;
+    --violet: #a78bfa;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background:
+      radial-gradient(900px 600px at 12% -10%, rgba(212,255,58,0.06), transparent 60%),
+      radial-gradient(700px 500px at 90% 10%, rgba(96,165,250,0.05), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* HEADER */
+  .head { padding: 56px 0 20px; text-align: center; }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 14px;
+  }
+  .head h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic; font-weight: 600;
+    font-size: clamp(40px, 6vw, 64px); line-height: 1.05;
+    margin: 0; letter-spacing: -0.015em;
+  }
+  .head p {
+    margin: 18px auto 0; max-width: 540px;
+    color: var(--text-dim); font-size: 15px; line-height: 1.55;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    padding: 18px 0; margin-top: 28px;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--text-dim); letter-spacing: 0.02em; }
+  .ld { width: 10px; height: 10px; border-radius: 50%; }
+  .ld.p2 { background: var(--accent); }
+  .ld.p3 { background: var(--violet); }
+  .ld.ex { background: var(--green); }
+  .ld.mn { background: var(--orange); }
+
+  /* SOURCES FAN */
+  .sources {
+    margin: 40px 0 0;
+    padding: 28px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+  }
+  .sources-label {
+    text-align: center;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .source-row {
+    display: grid; grid-template-columns: repeat(10, 1fr); gap: 7px;
+  }
+  .src {
+    text-align: center; padding: 12px 4px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    transition: background 0.2s;
+  }
+  .src:hover { background: rgba(255,255,255,0.05); }
+  .src .si { font-size: 20px; line-height: 1; margin-bottom: 4px; }
+  .src .sn { font-size: 10.5px; color: var(--text); line-height: 1.25; font-weight: 500; }
+
+  /* CONVERGE arrow */
+  .converge-arrow {
+    text-align: center;
+    margin: 16px 0 8px;
+    position: relative;
+  }
+  .converge-arrow .ca-line {
+    width: 2px; height: 32px; background: linear-gradient(180deg, transparent, var(--accent)); margin: 0 auto;
+  }
+  .converge-arrow .ca-label {
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; padding-top: 8px;
+  }
+
+  /* JOURNEY STAGES */
+  .journey { margin: 4px 0 0; }
+  .stage {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px 22px;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .stage:hover { background: rgba(255,255,255,0.05); transform: translateX(2px); }
+  .stage.p3 { border-left-color: var(--violet); }
+  .stage.ex { border-left-color: var(--green); }
+  .stage.mn { border-left-color: var(--orange); }
+  .stage.star { border-left-width: 5px; background: rgba(212,255,58,0.05); }
+
+  .snum {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic; font-weight: 600;
+    font-size: 42px; line-height: 1;
+    color: var(--accent);
+    text-align: center;
+  }
+  .stage.p3 .snum { color: var(--violet); }
+  .stage.ex .snum { color: var(--green); }
+  .stage.mn .snum { color: var(--orange); }
+
+  .sbody h3 {
+    margin: 0 0 3px;
+    font-size: 17px; font-weight: 600; color: var(--text);
+    line-height: 1.2;
+  }
+  .sbody .sline {
+    margin: 0;
+    color: var(--text-dim); font-size: 13px; line-height: 1.5;
+  }
+  .sbody .sline .day {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.04em;
+    color: var(--accent);
+    background: rgba(212,255,58,0.08);
+    padding: 1px 6px; border-radius: 4px;
+    margin-right: 7px;
+  }
+  .stage.p3 .sbody .sline .day { color: var(--violet); background: rgba(167,139,250,0.1); }
+  .stage.ex .sbody .sline .day { color: var(--green); background: rgba(74,222,128,0.1); }
+  .stage.mn .sbody .sline .day { color: var(--orange); background: rgba(251,146,60,0.1); }
+
+  .sright { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .pill {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 600; padding: 3px 9px; border-radius: 14px;
+    white-space: nowrap;
+  }
+  .pill.p2 { color: var(--accent); background: rgba(212,255,58,0.12); }
+  .pill.p3 { color: var(--violet); background: rgba(167,139,250,0.14); }
+  .pill.ex { color: var(--green); background: rgba(74,222,128,0.12); }
+  .pill.mn { color: var(--orange); background: rgba(251,146,60,0.14); }
+  .pill.star { color: var(--accent); background: rgba(212,255,58,0.18); }
+
+  /* CONNECTOR */
+  .conn {
+    height: 18px;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .conn::before {
+    content: ""; width: 2px; height: 100%;
+    background: rgba(255,255,255,0.15);
+  }
+  .conn.accent::before { background: var(--accent); }
+  .conn.violet::before { background: var(--violet); }
+
+  /* OPERATING PRINCIPLE BAND */
+  .principle {
+    margin: 16px 0 22px;
+    padding: 14px 20px;
+    background: rgba(212,255,58,0.04);
+    border: 1px dashed rgba(212,255,58,0.25);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12.5px; color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .principle strong { color: var(--accent); letter-spacing: 0.04em; }
+  .principle .arrow { color: var(--accent); font-weight: 600; margin: 0 6px; }
+
+  /* LOOP-BACK */
+  .loop {
+    margin: 28px 0 12px;
+    padding: 22px 24px;
+    background: linear-gradient(90deg, rgba(167,139,250,0.08), rgba(212,255,58,0.06));
+    border: 1px dashed rgba(167,139,250,0.3);
+    border-radius: 14px;
+    text-align: center;
+  }
+  .loop .lt {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 600;
+    color: var(--violet); font-size: 22px; margin-bottom: 4px;
+  }
+  .loop .lp {
+    color: var(--text-dim); font-size: 13px; margin: 0; line-height: 1.55;
+  }
+  .loop .larrow {
+    font-size: 22px; color: var(--violet); margin-bottom: 8px;
+  }
+
+  /* METRICS */
+  .metrics {
+    margin: 40px 0 0;
+    padding: 28px 26px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .metrics-label {
+    text-align: center;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .metric-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .metric { text-align: center; padding: 12px 8px; }
+  .metric .mv {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 600;
+    color: var(--accent); font-size: 32px; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric .ml {
+    font-size: 11.5px; color: var(--text-dim); letter-spacing: 0.04em; line-height: 1.4;
+  }
+
+  /* PHASES TOTALS */
+  .phase-counts {
+    display: flex; justify-content: center; gap: 26px; flex-wrap: wrap;
+    margin-top: 32px; padding: 18px;
+    background: rgba(0,0,0,0.18); border-radius: 12px;
+  }
+  .pc { display: flex; align-items: center; gap: 10px; }
+  .pc .pcv { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 26px; line-height: 1; }
+  .pc .pcl { font-size: 12px; color: var(--text-dim); letter-spacing: 0.04em; }
+  .pc.p2 .pcv { color: var(--accent); }
+  .pc.p3 .pcv { color: var(--violet); }
+  .pc.ex .pcv { color: var(--green); }
+  .pc.mn .pcv { color: var(--orange); }
+
+  /* FOOTER */
+  footer.foot { padding: 50px 0 70px; text-align: center; color: var(--text-faint); font-size: 12px; letter-spacing: 0.04em; }
+  footer .sig strong { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .source-row { grid-template-columns: repeat(3, 1fr); }
+    .src .sn { font-size: 11px; }
+    .stage { grid-template-columns: 50px 1fr; gap: 12px; }
+    .sright { grid-column: 1 / -1; flex-direction: row; }
+    .snum { font-size: 36px; }
+    .metric-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+<header class="head">
+  <div class="eyebrow">Bridge Physical Therapy & Performance</div>
+  <h1>The customer journey,<br/>end to end.</h1>
+  <p>How a stranger becomes a client — and how that client becomes the reason other people find Bridge.</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="ld p2"></div>Phase 2 — building now</div>
+    <div class="legend-item"><div class="ld p3"></div>Phase 3 — next</div>
+    <div class="legend-item"><div class="ld ex"></div>Already exists</div>
+    <div class="legend-item"><div class="ld mn"></div>Human touch</div>
+  </div>
+</header>
+
+<!-- LEAD SOURCES -->
+<section class="sources">
+  <div class="sources-label">10 ways leads come in</div>
+  <div class="source-row">
+    <div class="src"><div class="si">📱</div><div class="sn">FB / IG ads</div></div>
+    <div class="src"><div class="si">🎵</div><div class="sn">TikTok</div></div>
+    <div class="src"><div class="si">💬</div><div class="sn">IG DMs</div></div>
+    <div class="src"><div class="si">🌐</div><div class="sn">Wix / Web</div></div>
+    <div class="src"><div class="si">📞</div><div class="sn">Inbound call</div></div>
+    <div class="src"><div class="si">🌙</div><div class="sn">Missed call</div></div>
+    <div class="src"><div class="si">🩺</div><div class="sn">Physician</div></div>
+    <div class="src"><div class="si">🏟️</div><div class="sn">Coach contact</div></div>
+    <div class="src"><div class="si">👥</div><div class="sn">Word of mouth</div></div>
+    <div class="src"><div class="si">🚪</div><div class="sn">Walk-in</div></div>
+  </div>
+</section>
+
+<div class="converge-arrow">
+  <div class="ca-line"></div>
+  <div class="ca-label">All converge → one pipeline</div>
+  <div class="ca-line"></div>
+</div>
+
+<!-- OPERATING PRINCIPLE -->
+<div class="principle">
+  <strong>OPERATING RULE</strong> · For personalized client content: <span class="arrow">→</span> AI drafts <span class="arrow">→</span> Steph reviews <span class="arrow">→</span> Steph sends. Full auto only for transactional (reminders, confirmations).
+</div>
+
+<!-- JOURNEY STAGES -->
+<section class="journey">
+
+  <div class="stage p3">
+    <div class="snum">01</div>
+    <div class="sbody">
+      <h3>Captured + AI-Qualified</h3>
+      <p class="sline"><span class="day">DAY 0 · 5min</span>AI SMS asks 2–3 questions, auto-tags service line.</p>
+    </div>
+    <div class="sright"><div class="pill p3">Phase 3</div></div>
+  </div>
+
+  <div class="conn"></div>
+
+  <div class="stage p3">
+    <div class="snum">02</div>
+    <div class="sbody">
+      <h3>Booked or Routed</h3>
+      <p class="sline"><span class="day">DAY 0 · 30min</span>Simple cases self-book on Jane. Complex routes to Steph.</p>
+    </div>
+    <div class="sright"><div class="pill p3">Phase 3</div></div>
+  </div>
+
+  <div class="conn"></div>
+
+  <div class="stage mn">
+    <div class="snum">03</div>
+    <div class="sbody">
+      <h3>Discovery Call</h3>
+      <p class="sline"><span class="day">DAY 1–7</span>Free 15–30 min intro. Steph or Victor. Human moment.</p>
+    </div>
+    <div class="sright"><div class="pill ex">Existing</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">04</div>
+    <div class="sbody">
+      <h3>Pre-Eval Reminders</h3>
+      <p class="sline"><span class="day">DAY 7–14</span>Confirmation, intake link, "what to expect," day-before SMS.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2 · #2</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage mn">
+    <div class="snum">05</div>
+    <div class="sbody">
+      <h3>Initial Eval</h3>
+      <p class="sline"><span class="day">DAY 14</span>Phase 1 app battery + Kinvent / Voltra / Bridge Athletic per service. AI drafts SOAP for Jane.</p>
+    </div>
+    <div class="sright"><div class="pill ex">Phase 1 live</div><div class="pill p2">+ AI SOAP</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage star">
+    <div class="snum">06</div>
+    <div class="sbody">
+      <h3>Post-Eval Send ★</h3>
+      <p class="sline"><span class="day">DAY 14 · same day</span>AI drafts email + plan + summary (HEP for PT) → Steph reviews → Branded PDF goes out. Auto follow-up SMS after.</p>
+    </div>
+    <div class="sright"><div class="pill star">Phase 2 · #2 ★</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">07</div>
+    <div class="sbody">
+      <h3>Active Program (Block 0)</h3>
+      <p class="sline"><span class="day">DAY 14–60+</span>Bridge Athletic for S&amp;C, Jane for PT. Pre-session reminders + no-show recovery auto.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">08</div>
+    <div class="sbody">
+      <h3>Session 5 — Review Ask</h3>
+      <p class="sline"><span class="day">SESSION 5</span>SMS Google review link 24hr after 5th visit. Once per client.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2 · #5</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">09</div>
+    <div class="sbody">
+      <h3>Retest + Recurring Update</h3>
+      <p class="sline"><span class="day">EVERY 1–3 MONTHS</span>AI drafts metrics + plan email or Loom. Steph reviews + sends. Client + clinician notified.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2 · #3</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">10</div>
+    <div class="sbody">
+      <h3>Discharge + Review Fallback</h3>
+      <p class="sline"><span class="day">PROGRAM END</span>Summary email, past-client tag, review ask if missed at S5.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2</div></div>
+  </div>
+
+  <div class="conn accent"></div>
+
+  <div class="stage">
+    <div class="snum">11</div>
+    <div class="sbody">
+      <h3>Reactivation 30 / 60 / 90</h3>
+      <p class="sline"><span class="day">POST-DISCHARGE</span>Pack-aware. Sessions left = warmer tone. Depleted = offer new pack.</p>
+    </div>
+    <div class="sright"><div class="pill p2">Phase 2 · #4</div></div>
+  </div>
+
+  <div class="conn violet"></div>
+
+  <div class="stage p3">
+    <div class="snum">12</div>
+    <div class="sbody">
+      <h3>Referral Flywheel</h3>
+      <p class="sline"><span class="day">ONGOING</span>Clients refer friends. Physicians + sports coaches get outcome reports → more referrals.</p>
+    </div>
+    <div class="sright"><div class="pill p3">Phase 3</div></div>
+  </div>
+
+</section>
+
+<!-- LOOP BACK -->
+<div class="loop">
+  <div class="larrow">↺</div>
+  <div class="lt">Referrals re-enter at Stage 1.</div>
+  <p class="lp">The journey isn't a line — it's a loop. Each happy client becomes a lead source for the next three.</p>
+</div>
+
+<!-- PHASE COUNTS -->
+<div class="phase-counts">
+  <div class="pc p2"><div class="pcv">8</div><div class="pcl">Phase 2 stages<br/>building now</div></div>
+  <div class="pc p3"><div class="pcv">3</div><div class="pcl">Phase 3 stages<br/>next up</div></div>
+  <div class="pc ex"><div class="pcv">2</div><div class="pcl">Already exist<br/>(Phase 1 + discovery)</div></div>
+  <div class="pc mn"><div class="pcv">2</div><div class="pcl">Human touches<br/>kept on purpose</div></div>
+</div>
+
+<!-- METRICS -->
+<section class="metrics">
+  <div class="metrics-label">What this unlocks</div>
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="mv">+30–40%</div>
+      <div class="ml">Lead → eval conversion</div>
+    </div>
+    <div class="metric">
+      <div class="mv">−65%</div>
+      <div class="ml">Post-eval admin time</div>
+    </div>
+    <div class="metric">
+      <div class="mv">5–10×</div>
+      <div class="ml">Google review velocity</div>
+    </div>
+    <div class="metric">
+      <div class="mv">3–5×</div>
+      <div class="ml">Reactivation rate</div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="sig">Bridge PTP · Built by <strong>Virality-X</strong> · 2026-05-14</div>
+</footer>
+
+</main>
+
+</body>
+</html>

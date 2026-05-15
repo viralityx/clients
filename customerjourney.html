@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bridge PTP — The Customer Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1020;
+    --bg-card: rgba(255,255,255,0.035);
+    --bg-card-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #e8edf5;
+    --text-dim: #8b95a8;
+    --text-faint: #5a6478;
+    --accent: #d4ff3a;
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.12);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96, 165, 250, 0.12);
+    --orange: #fb923c;
+    --orange-bg: rgba(251, 146, 60, 0.14);
+    --rose: #fb7185;
+    --rose-bg: rgba(251, 113, 133, 0.14);
+    --violet: #a78bfa;
+    --violet-bg: rgba(167, 139, 250, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background:
+      radial-gradient(900px 600px at 12% -10%, rgba(212,255,58,0.06), transparent 60%),
+      radial-gradient(700px 500px at 90% 10%, rgba(96,165,250,0.05), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+  /* TOP */
+  .topbar { border-bottom: 1px solid var(--border); padding: 22px 0; background: rgba(10,16,32,0.7); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+  .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #88aa1f); display: grid; place-items: center; font-weight: 800; color: #0a1020; font-size: 14px; }
+  .brand-text { font-weight: 600; letter-spacing: 0.04em; font-size: 13px; text-transform: uppercase; color: var(--text-dim); }
+  .brand-text strong { color: var(--text); margin-right: 6px; }
+
+  /* HERO */
+  .hero { padding: 80px 0 60px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(48px, 7vw, 84px); line-height: 1.02; margin: 0 0 28px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; letter-spacing: -0.015em; }
+  .hero .lede { font-size: 19px; color: var(--text-dim); max-width: 800px; line-height: 1.6; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; padding: 24px 0; margin-top: 36px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-dim); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .legend-dot.auto { background: var(--accent); }
+  .legend-dot.manual { background: var(--orange); }
+  .legend-dot.client { background: var(--blue); }
+  .legend-dot.exists { background: var(--green); }
+  .legend-dot.future { background: var(--violet); }
+
+  /* SECTION */
+  section.block { padding: 64px 0; border-top: 1px solid var(--border); }
+  .section-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin-bottom: 14px; }
+  .section-title { font-size: clamp(34px, 4.5vw, 52px); line-height: 1.08; margin: 0 0 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; letter-spacing: -0.01em; }
+  .section-intro { font-size: 17px; color: var(--text-dim); max-width: 800px; margin-bottom: 38px; line-height: 1.6; }
+
+  /* PILLS */
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .pill.auto { color: var(--accent); background: rgba(212,255,58,0.10); }
+  .pill.manual { color: var(--orange); background: var(--orange-bg); }
+  .pill.client { color: var(--blue); background: var(--blue-bg); }
+  .pill.exists { color: var(--green); background: var(--green-bg); }
+  .pill.future { color: var(--violet); background: var(--violet-bg); }
+  .pill.phase2 { color: var(--accent); background: rgba(212,255,58,0.10); border: 1px solid rgba(212,255,58,0.25); }
+  .pill.phase3 { color: var(--violet); background: var(--violet-bg); border: 1px solid rgba(167,139,250,0.25); }
+
+  /* LEAD SOURCES FAN-IN */
+  .sources {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 32px 32px;
+  }
+  .sources h3 { margin: 0 0 6px; font-size: 22px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; }
+  .sources p { margin: 0 0 24px; color: var(--text-dim); font-size: 14.5px; }
+  .source-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .source {
+    background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 18px; text-align: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .source:hover { background: var(--bg-card-hover); border-color: var(--border-strong); }
+  .source .icon { font-size: 22px; margin-bottom: 6px; line-height: 1; }
+  .source .name { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .source .sub { font-size: 11.5px; color: var(--text-faint); letter-spacing: 0.02em; }
+  .converge {
+    margin-top: 22px; padding-top: 22px; border-top: 1px dashed var(--border);
+    text-align: center; color: var(--text-dim); font-size: 13.5px;
+  }
+  .converge .arrow { font-size: 28px; color: var(--accent); display: block; margin-bottom: 6px; }
+  .converge strong { color: var(--accent); }
+
+  /* JOURNEY STAGE CARD */
+  .stage {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 34px 36px; margin-bottom: 22px;
+    position: relative; overflow: hidden;
+  }
+  .stage::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent);
+  }
+  .stage.phase3::before { background: var(--violet); }
+  .stage.existing::before { background: var(--green); }
+  .stage.manual::before { background: var(--orange); }
+
+  .stage-head { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 18px; flex-wrap: wrap; }
+  .stage-num {
+    font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+    font-size: 64px; line-height: 1; color: var(--accent);
+    font-weight: 600; flex-shrink: 0; min-width: 70px;
+  }
+  .stage.phase3 .stage-num { color: var(--violet); }
+  .stage-title-wrap { flex: 1; min-width: 0; }
+  .stage-day {
+    display: inline-block;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11.5px; letter-spacing: 0.08em;
+    color: var(--text-faint); background: rgba(255,255,255,0.04);
+    padding: 3px 9px; border-radius: 5px; margin-bottom: 8px;
+  }
+  .stage h3 { margin: 0 0 8px; font-size: 26px; color: var(--text); font-weight: 600; line-height: 1.15; }
+  .stage .stage-tag-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .stage .lede { margin: 0; color: var(--text-dim); font-size: 15px; line-height: 1.6; max-width: 740px; }
+
+  .stage-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; margin-top: 14px; }
+  .panel {
+    background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 22px;
+  }
+  .panel h5 {
+    margin: 0 0 12px; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--text-faint); font-weight: 600;
+  }
+  .panel p { margin: 0 0 10px; color: var(--text); font-size: 13.5px; line-height: 1.6; }
+  .panel p:last-child { margin-bottom: 0; }
+  .panel ul { margin: 0; padding: 0; list-style: none; }
+  .panel ul li {
+    position: relative; padding: 6px 0 6px 22px;
+    font-size: 13px; color: var(--text); line-height: 1.55;
+  }
+  .panel ul li::before {
+    content: ""; position: absolute; left: 4px; top: 14px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
+  .stage.phase3 .panel ul li::before { background: var(--violet); }
+  .stage.existing .panel ul li::before { background: var(--green); }
+  .stage.manual .panel ul li::before { background: var(--orange); }
+
+  .panel .field-call {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px; color: var(--accent);
+    background: rgba(212,255,58,0.08); padding: 1px 6px; border-radius: 4px;
+  }
+
+  .outcome {
+    margin-top: 16px; padding: 14px 18px;
+    background: rgba(0,0,0,0.22); border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    font-size: 13.5px; color: var(--text); line-height: 1.55;
+  }
+  .stage.phase3 .outcome { border-left-color: var(--violet); }
+  .stage.existing .outcome { border-left-color: var(--green); }
+  .stage.manual .outcome { border-left-color: var(--orange); }
+  .outcome strong { color: var(--accent); display: block; margin-bottom: 2px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .stage.phase3 .outcome strong { color: var(--violet); }
+
+  /* SERVICE-LINE NOTE */
+  .svc-note {
+    margin-top: 14px; padding: 12px 16px;
+    background: var(--violet-bg); border: 1px dashed rgba(167,139,250,0.3);
+    border-radius: 8px;
+    font-size: 12.5px; color: var(--text); line-height: 1.55;
+  }
+  .svc-note strong { color: var(--violet); display: block; margin-bottom: 3px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* CONNECTOR BETWEEN STAGES */
+  .connect {
+    text-align: center; padding: 6px 0;
+    color: var(--text-faint); font-size: 18px;
+  }
+
+  /* OPERATING PRINCIPLE BANNER */
+  .principle-banner {
+    margin: 30px 0 0;
+    padding: 22px 28px;
+    background: linear-gradient(90deg, rgba(212,255,58,0.08), rgba(212,255,58,0.02));
+    border: 1px dashed rgba(212,255,58,0.3);
+    border-radius: 14px;
+  }
+  .principle-banner .pb-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 6px;
+  }
+  .principle-banner h3 {
+    margin: 0 0 8px; font-size: 20px; color: var(--text); font-weight: 600;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+  }
+  .principle-banner p {
+    margin: 0; color: var(--text-dim); font-size: 14px; line-height: 1.6;
+  }
+  .principle-banner .pb-arrow { color: var(--accent); font-weight: 700; margin: 0 4px; }
+
+  /* FLOW SUMMARY DIAGRAM */
+  .flow {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 36px 32px;
+  }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
+    align-items: center; gap: 0;
+    margin-bottom: 22px;
+  }
+  .flow-row:last-child { margin-bottom: 0; }
+  .flow-node {
+    background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 12px; text-align: center;
+  }
+  .flow-node.accent { background: rgba(212,255,58,0.06); border-color: rgba(212,255,58,0.3); }
+  .flow-node.violet { background: var(--violet-bg); border-color: rgba(167,139,250,0.3); }
+  .flow-node .ft { font-weight: 600; font-size: 12.5px; color: var(--text); }
+  .flow-node.accent .ft { color: var(--accent); }
+  .flow-node.violet .ft { color: var(--violet); }
+  .flow-node .fs { font-size: 11px; color: var(--text-faint); margin-top: 2px; letter-spacing: 0.02em; }
+  .flow-arrow { text-align: center; color: var(--text-faint); font-size: 16px; }
+
+  /* METRICS PANEL */
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 22px; }
+  .metric .ml { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin-bottom: 8px; }
+  .metric .mv { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--accent); font-size: 36px; line-height: 1; }
+  .metric .ms { font-size: 12.5px; color: var(--text-dim); margin-top: 8px; line-height: 1.5; }
+
+  footer.foot { border-top: 1px solid var(--border); padding: 50px 0 70px; color: var(--text-dim); font-size: 13px; }
+  footer .foot-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  footer .sig strong { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .source-grid { grid-template-columns: repeat(2, 1fr); }
+    .stage-body { grid-template-columns: 1fr; }
+    .metric-grid { grid-template-columns: 1fr 1fr; }
+    .flow-row { grid-template-columns: 1fr; gap: 8px; }
+    .flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap row">
+    <div class="brand">
+      <div class="brand-mark">B</div>
+      <div class="brand-text"><strong>Bridge PTP</strong> · The Customer Journey · End to End</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="eyebrow">From stranger to lifelong client</div>
+  <h1>The journey that<br/>maximizes results.</h1>
+  <p class="lede">
+    Twelve stages from "first ad impression" to "discharged client who refers friends." Every step shows what fires automatically, what stays manual, what the client experiences, and exactly where Phase 2 plugs in to compound the rest. Built from the audit — real tags, real fields, real triggers.
+  </p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot auto"></div>Automated (Phase 2)</div>
+    <div class="legend-item"><div class="legend-dot future"></div>Automated (Phase 3)</div>
+    <div class="legend-item"><div class="legend-dot exists"></div>Already exists</div>
+    <div class="legend-item"><div class="legend-dot manual"></div>Manual (Steph / clinician)</div>
+    <div class="legend-item"><div class="legend-dot client"></div>Client action</div>
+  </div>
+</section>
+
+<!-- LEAD ENTRY -->
+<section class="block wrap">
+  <div class="section-eyebrow">Stage zero · Entry</div>
+  <h2 class="section-title">Where leads come from.</h2>
+  <p class="section-intro">
+    Nine inbound channels feed Bridge's funnel. Today, half are automated and half route through Steph's phone. The win is making every channel converge into ONE qualified pipeline.
+  </p>
+
+  <div class="sources">
+    <h3>Lead sources today</h3>
+    <p>Each one carries different intent, different urgency, different fit signals. The goal: same pipeline, same standard of care, regardless of where they came from.</p>
+
+    <div class="source-grid">
+      <div class="source"><div class="icon">📱</div><div class="name">Facebook / IG ads</div><div class="sub">Paid · pre-qualified</div></div>
+      <div class="source"><div class="icon">🎵</div><div class="name">TikTok lead form</div><div class="sub">Form-submitted</div></div>
+      <div class="source"><div class="icon">💬</div><div class="name">Instagram DMs</div><div class="sub">Organic conversation</div></div>
+      <div class="source"><div class="icon">🌐</div><div class="name">Wix website</div><div class="sub">Form / newsletter / chatbot</div></div>
+      <div class="source"><div class="icon">📞</div><div class="name">Inbound call</div><div class="sub">Phone, normal hours</div></div>
+      <div class="source"><div class="icon">🌙</div><div class="name">Missed call</div><div class="sub">After hours · today: lost</div></div>
+      <div class="source"><div class="icon">🩺</div><div class="name">Physician referral</div><div class="sub">B2B (Fox PT, etc.)</div></div>
+      <div class="source"><div class="icon">🏟️</div><div class="name">Sports coach</div><div class="sub">B2B (Hannah at Gulliver pattern)</div></div>
+      <div class="source"><div class="icon">👥</div><div class="name">Word of mouth</div><div class="sub">Friend / parent referral</div></div>
+      <div class="source"><div class="icon">🚪</div><div class="name">Walk-in</div><div class="sub">Direct foot traffic</div></div>
+    </div>
+
+    <div class="converge">
+      <span class="arrow">↓</span>
+      <strong>All ten sources should converge into the same pipeline.</strong><br/>
+      Today, only ~4 of 10 are meaningfully automated. Phase 3 closes the gap.
+    </div>
+  </div>
+
+  <div class="principle-banner">
+    <div class="pb-eyebrow">Bridge's operating rule (from Victor's notes)</div>
+    <h3>AI drafts. Steph reviews. Steph sends.</h3>
+    <p>For any personalized client communication — eval summaries, plan emails, 1–3 month update emails, Loom video scripts — AI does the drafting <span class="pb-arrow">→</span> Steph reviews <span class="pb-arrow">→</span> Steph clicks send. Full auto-send is reserved for transactional touches: appointment confirmations, reminders, booking links, no-show recovery, review-ask SMS. This keeps Victor's voice in the content and Steph in the loop on every client.</p>
+  </div>
+</section>
+
+<!-- STAGE 1 -->
+<section class="block wrap">
+  <div class="section-eyebrow">The journey, stage by stage</div>
+  <h2 class="section-title">From first touch to lifelong client.</h2>
+  <p class="section-intro">
+    Each card shows what happens, what fires, who's involved, and where Phase 2 changes the game. Read top to bottom — the journey is the order.
+  </p>
+
+  <article class="stage phase3">
+    <div class="stage-head">
+      <div class="stage-num">01</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 0 · 0–5 min</span>
+        <h3>Lead captured and qualified</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase3">Phase 3 build</span>
+          <span class="pill future">AI-assisted</span>
+        </div>
+        <p class="lede">A new lead hits any of the 9 channels. Within minutes, an AI-assisted SMS thread asks two or three short questions to identify which service line they need, what their goal is, and how soon they're ready to start.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What happens</h5>
+        <ul>
+          <li>Lead lands in GHL contacts with a source tag (e.g., <span class="field-call">bridge fb ads</span>, <span class="field-call">name via lookup</span>).</li>
+          <li>AI SMS thread fires within 60 seconds: "Hey, this is Bridge — quick question, what are you looking to work on?"</li>
+          <li>Based on reply, AI assigns service-line tag automatically.</li>
+          <li>Missed-call leads get auto-text-back inside 60 seconds with booking link.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>How it fires</h5>
+        <ul>
+          <li>Trigger: new GHL contact created from any source</li>
+          <li>AI classifies reply → adds tag from <span class="field-call">physical therapy</span> / <span class="field-call">pitcher/thrower</span> / <span class="field-call">recovery/arm care</span> / <span class="field-call">strength &amp; conditioning (bb/sb)</span> / <span class="field-call">strength &amp; conditioning (non-bb/sb)</span></li>
+          <li>Adds <span class="field-call">new lead</span> tag</li>
+          <li>Existing "Active Tag added Workflow" auto-creates Opportunity</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Every lead is service-line-tagged within 5 minutes. No more Steph manually typing names from referral texts. After-hours leads no longer fall through.</div>
+  </article>
+
+  <article class="stage phase3">
+    <div class="stage-head">
+      <div class="stage-num">02</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 0 · 5–30 min</span>
+        <h3>Auto-booked or routed to Steph</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase3">Phase 3 build</span>
+        </div>
+        <p class="lede">Once service line is identified, two paths: simple/clear cases auto-book a discovery call on Jane's calendar. Complex/sensitive cases (rehab post-injury, parent of injured kid) route to Steph with full context for a human conversation.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>Auto-book path</h5>
+        <ul>
+          <li>AI sends Jane booking link tied to correct service-line calendar.</li>
+          <li>Client picks a slot from <span class="field-call">Discovery Call (10am–12pm / 12pm–4pm / 4pm–7pm)</span>.</li>
+          <li>Confirmation SMS + email fire immediately.</li>
+          <li>Tag flips to <span class="field-call">scheduled</span>.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Manual path (when needed)</h5>
+        <ul>
+          <li>Rehab / complex cases route to Steph with summary of what AI learned.</li>
+          <li>Steph calls back within business hours, books on appropriate calendar.</li>
+          <li>Manual override always available — automation never gets in the way.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>~60% of leads book themselves, freeing Steph for the 40% that need a human first. Same-day booking conversion rises from ~40% (today's manual) to ~70%.</div>
+  </article>
+
+  <article class="stage manual">
+    <div class="stage-head">
+      <div class="stage-num">03</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 1–7</span>
+        <h3>Discovery call</h3>
+        <div class="stage-tag-strip">
+          <span class="pill exists">Already exists</span>
+          <span class="pill manual">Steph / Victor</span>
+        </div>
+        <p class="lede">15–30 minute free intro call. Person hears about Bridge, asks questions, gets a recommendation on which service is right for them. This is the human moment — the relationship starts here.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>Pre-call automation (Phase 2)</h5>
+        <ul>
+          <li>Day-before SMS reminder fires automatically.</li>
+          <li>"What to expect" content sent based on service-line tag.</li>
+          <li>Calendar invite already in their inbox.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>The call itself</h5>
+        <ul>
+          <li>Steph or Victor runs the conversation.</li>
+          <li>End state: book an actual eval on Jane, OR move to "not ready" tag if not the right moment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Discovery call → eval conversion is the highest-leverage metric to track. Currently no instrumentation. Phase 2 dashboards will surface this.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">04</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 7–14</span>
+        <h3>Pre-eval: confirmation + intake</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #2 entry</span>
+          <span class="pill auto">Automated</span>
+        </div>
+        <p class="lede">The eval is booked in Jane. Now Phase 2 kicks in. Confirmation, intake form, and "what to expect" content all auto-deliver, ramping the client toward a high-quality first session.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What fires when</h5>
+        <ul>
+          <li><strong>T+5 min after booking:</strong> Confirmation email + SMS</li>
+          <li><strong>T+1 day:</strong> Intake form link sent (auto-filled with what we already know)</li>
+          <li><strong>T-2 days from appt:</strong> "What to expect" content, service-specific</li>
+          <li><strong>T-1 day:</strong> Reminder SMS with location + clinician name</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Data we lean on</h5>
+        <ul>
+          <li><span class="field-call">upcoming_appt_start_at</span> — when</li>
+          <li><span class="field-call">upcoming_appt_treatment_name</span> — service</li>
+          <li><span class="field-call">upcoming_appt_staff_member_name</span> — clinician</li>
+          <li><span class="field-call">upcoming_appt_reminder_start_time</span> — pre-computed by Clinic Sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-note">
+      <strong>Service-line branching</strong>
+      Recovery/Rehab clients get a "what to bring (insurance, prior imaging, current pain log)" guide. Pitching/S&amp;C clients get a "what to wear, how to warm up" guide. Same workflow, different content variants.
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>No-show rate drops significantly. Clients arrive ready, intake form already filled, mental model prepped. First session quality goes up.</div>
+  </article>
+
+  <article class="stage manual">
+    <div class="stage-head">
+      <div class="stage-num">05</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 14 (or earlier)</span>
+        <h3>Initial evaluation</h3>
+        <div class="stage-tag-strip">
+          <span class="pill exists">Phase 1 app live</span>
+          <span class="pill manual">Clinician</span>
+        </div>
+        <p class="lede">Client arrives, clinician runs the service-specific battery. S&amp;C uses Kinvent + Voltra. Pitching uses Phase 1 app + tracking software. PT uses Jane chart + recommended tests by body part / sport. All data captured into the Phase 1 database.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What happens</h5>
+        <ul>
+          <li>Clinician runs service-specific assessment battery.</li>
+          <li>Plyo / one-pager report generates as eval completes.</li>
+          <li>Clinician dictates raw notes → AI SOAP tool reformats to Jane structure.</li>
+          <li>SOAP reviewed by clinician, pasted into Jane chart.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Tools by service line</h5>
+        <ul>
+          <li><strong>S&amp;C:</strong> Kinvent + Voltra + Phase 1 app · Bridge Athletic for programming</li>
+          <li><strong>Pitching:</strong> Phase 1 app + tracking / programming software</li>
+          <li><strong>PT / Recovery:</strong> Jane chart + body-part-specific tests + HEP delivery</li>
+          <li><span class="pill phase2">Deliverable #1</span> AI SOAP saves 10–15 min per session</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Clinician finishes session admin in 5–10 minutes instead of 30. Service-specific tools stay in clinician's hands; AI handles the documentation.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">06</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 14 · same-day</span>
+        <h3>Post-eval send — AI drafts, Steph sends</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #2</span>
+          <span class="pill manual">Hybrid: AI + Steph</span>
+        </div>
+        <p class="lede">The moment eval data lands and syncs to GHL, AI drafts the personalized client email (summary + plan + HEP for PT). Steph reviews and sends. Then SMS booking link and follow-up nudges fire fully automatic. Victor's operating rule: AI drafts personal content, Steph sends.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What fires when</h5>
+        <ul>
+          <li><strong>T+0 min:</strong> AI drafts email summary + plan (+ HEP for PT) → Steph review queue</li>
+          <li><strong>T+0 min auto:</strong> Branded PDF report attached</li>
+          <li><strong>T+~15 min (after Steph clicks send):</strong> Email goes out</li>
+          <li><strong>T+1 hr auto:</strong> SMS with follow-up booking link</li>
+          <li><strong>T+24 hr auto:</strong> Nudge SMS if no follow-up booked</li>
+          <li><strong>T+72 hr auto:</strong> Task to Steph if still no booking</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Auto vs. human-touch</h5>
+        <ul>
+          <li><strong>Auto-send:</strong> SMS reminders, booking links, transactional confirmations</li>
+          <li><strong>Steph reviews:</strong> Personalized email summary, plan content, HEP details</li>
+          <li>Entry: service-line tag + <span class="field-call">active = Yes</span> + <span class="field-call">arrived</span> tag</li>
+          <li>Compliance: <span class="field-call">do_not_email</span>, <span class="field-call">send_sms_notifications</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-note">
+      <strong>Service-line variation</strong>
+      PT clients get HEP (Home Exercise Program) attached to the email. S&amp;C clients get a Bridge Athletic login link to access their program. Pitching gets the tracking software setup details. AI drafts each version differently.
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Same-day report delivery, but with Victor's voice preserved. Steph stays in the loop on what every client receives. Follow-up booking rate climbs because the link arrives at the emotional peak.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">07</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DAY 14–60+ · Block 0 forward</span>
+        <h3>Active program block</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #3 + supporting</span>
+          <span class="pill auto">Recurring auto-touch</span>
+        </div>
+        <p class="lede">Client is in their program. S&amp;C athletes are training in Bridge Athletic. Pitchers are running their throwing program. PT clients are working their HEP plus in-clinic sessions. Each appointment generates a touchpoint, each missed session generates a recovery touch.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>Per-session touchpoints</h5>
+        <ul>
+          <li><strong>Day before:</strong> SMS reminder with location + clinician</li>
+          <li><strong>Same day:</strong> Pre-appt confirmation</li>
+          <li><strong>Post-session:</strong> Optional check-in SMS (configurable)</li>
+          <li><strong>If no-show:</strong> Recovery SMS within 1 hour</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Data driving each fire</h5>
+        <ul>
+          <li><span class="field-call">upcoming_appt_*</span> drives all pre-session</li>
+          <li><span class="field-call">last_appt_state</span> = "no_show" drives recovery</li>
+          <li><span class="field-call">no_show_count</span> caps how often we ping chronic no-shows</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-note">
+      <strong>Service-line variation</strong>
+      Pitchers in-season get lighter pre-session communication (they're stressed). Off-season they get full engagement. Rehab clients get a "how are you feeling between sessions?" pulse-check that S&amp;C clients don't.
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Attendance stays high. Drop-off gets caught at session 1–2, not session 5. Client feels seen between visits, not just during them.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">08</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">SESSION 5</span>
+        <h3>First review ask</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #5</span>
+          <span class="pill auto">SMS · once only</span>
+        </div>
+        <p class="lede">At session 5, the client has felt the work. They've bought in. This is the highest-conversion moment to ask for a Google review. Single SMS, 24 hours after the 5th visit ends.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>Trigger logic</h5>
+        <ul>
+          <li>Fires when <span class="field-call">appointments_count = 5</span></li>
+          <li>24 hours after last appt end time</li>
+          <li>Once per client — never asked again</li>
+          <li>If they decline, tag added to suppress future asks</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Compliance</h5>
+        <ul>
+          <li>Requires <span class="field-call">ratings_emails = Yes</span> (separate from marketing opt-in)</li>
+          <li>SMS only — email asks underperform</li>
+          <li>Negative-reply detector routes to Steph if client texts back unhappy</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Review velocity 5–10x current. New clients find Bridge through fresh Google reviews. Review-driven trust compounds the ad spend.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">09</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">EVERY 1–3 MONTHS</span>
+        <h3>Retest + recurring update</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #3</span>
+          <span class="pill manual">AI drafts + Steph sends</span>
+        </div>
+        <p class="lede">Victor's notes lock the cadence: every 1–3 months across S&amp;C, PT, and Pitching, active clients get a recurring update with their refreshed metrics + plan. Format: email OR Loom video (Steph's call per client). AI drafts the content from latest data; Steph reviews and sends.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What fires</h5>
+        <ul>
+          <li>Auto-detect: client crosses 30 / 60 / 90 day mark since last retest</li>
+          <li>AI pulls latest metrics + drafts update (email or Loom script)</li>
+          <li>Steph reviews draft, edits if needed, sends as email or records as Loom</li>
+          <li>If retest is needed: booking link auto-included</li>
+          <li>Internal notification to assigned clinician (frequency change, plan update)</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Service-line variation</h5>
+        <ul>
+          <li><strong>S&amp;C:</strong> 1–3 month update · Bridge Athletic data + new metrics</li>
+          <li><strong>Pitcher / Thrower:</strong> 1–3 month update · velocity + KPIs per sport</li>
+          <li><strong>PT / Recovery:</strong> 1–3 month update · POC progress + HEP refresh</li>
+          <li><strong>Rehab (active):</strong> milestone-driven (not 1–3 month) until cleared</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>The "every 1–3 months Steph sends" cadence Victor already runs by hand becomes systematic. Retest compliance and re-engagement climb. Loom adds personal touch without manual scripting.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">10</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">DISCHARGE / PROGRAM END</span>
+        <h3>Graceful exit + second review window</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #2 + #5</span>
+        </div>
+        <p class="lede">Rehab clients get discharged when they hit return-to-play. S&amp;C and pitching clients reach program end. In both cases, the relationship doesn't end here — it transitions.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>What fires</h5>
+        <ul>
+          <li>Discharge summary email (clinical for rehab, performance for S&amp;C)</li>
+          <li>Tag added: <span class="field-call">bridge therapy past client</span></li>
+          <li>Removed from active appt reminders</li>
+          <li>If not yet asked: Google review SMS (review-ask fallback window)</li>
+          <li>30-day post-discharge wellness check fires automatically</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Second review window</h5>
+        <ul>
+          <li>If <span class="field-call">discharged_at</span> populates and review wasn't asked at session 5</li>
+          <li>Fires 24 hrs post-discharge as a fallback</li>
+          <li>Same opt-in / suppression rules</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Client leaves on a high note. Their last interaction is positive, structured, and sets up the return relationship. Review velocity gets a second shot.</div>
+  </article>
+
+  <article class="stage">
+    <div class="stage-head">
+      <div class="stage-num">11</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">30 / 60 / 90 DAY · pack-aware</span>
+        <h3>Reactivation sequence</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase2">Phase 2 #4</span>
+          <span class="pill auto">Pack-aware tiered SMS</span>
+        </div>
+        <p class="lede">Lapsed clients get a three-touch sequence with tone shifting each tier. Pack-aware: clients with sessions remaining get a warm "let's get you back in," while depleted-pack clients get an offer for a new pack. Steph only intervenes when someone replies.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>The cadence</h5>
+        <ul>
+          <li><strong>Day 30:</strong> Friendly check-in. No CTA. Pure relationship.</li>
+          <li><strong>Day 60:</strong> Reschedule offer with booking link (or pack-renewal offer if depleted).</li>
+          <li><strong>Day 90:</strong> "We miss you" — softer close, possible incentive (Victor's call).</li>
+          <li><strong>Day 120+:</strong> Off active sequence, into quarterly newsletter list.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>Pack-aware branching</h5>
+        <ul>
+          <li><strong>Sessions remaining:</strong> "Your pack still has X sessions — let's use them"</li>
+          <li><strong>Pack depleted:</strong> "Ready to grab a new pack? Here's a refresh on what's next"</li>
+          <li>Filter: <span class="field-call">marketing_emails = Yes</span>, exclude <span class="field-call">bridge therapy not interested</span></li>
+          <li>LTV-aware via <span class="field-call">total_purchased</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-note">
+      <strong>Service-line variation</strong>
+      Rehab clients pause out at discharge — they shouldn't get "we miss you" pings unless they re-show symptoms. S&amp;C / pitching clients have seasonal pauses (in-season vs. off-season) that can shift cadence. Victor confirms cadence later if needed.
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Reactivation conversion 3–5x baseline. Steph's manual outreach drops to "respond when someone replies." Pack-renewal share of revenue grows.</div>
+  </article>
+
+  <article class="stage phase3">
+    <div class="stage-head">
+      <div class="stage-num">12</div>
+      <div class="stage-title-wrap">
+        <span class="stage-day">ONGOING · post-program</span>
+        <h3>Referral flywheel — 3 loops</h3>
+        <div class="stage-tag-strip">
+          <span class="pill phase3">Phase 3 build</span>
+          <span class="pill future">Compounds everything</span>
+        </div>
+        <p class="lede">The branded report from Stage 6 is Bridge's most shareable asset. Phase 3 turns it into three parallel referral engines: client-to-friend, physician-to-Bridge, and high-school-coach-to-Bridge. All three loops auto-credit attribution.</p>
+      </div>
+    </div>
+
+    <div class="stage-body">
+      <div class="panel">
+        <h5>B2C client referral</h5>
+        <ul>
+          <li>At session 10 or discharge: branded referral link auto-sent</li>
+          <li>Friend books through link → both parties get notified</li>
+          <li>Attribution tracked back to original client</li>
+          <li>Referring client gets a thank-you / loyalty bump</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h5>B2B physician + coach loops</h5>
+        <ul>
+          <li><strong>Physician:</strong> referrers (Fox PT, etc.) auto-receive outcome summary at discharge</li>
+          <li><strong>Coach:</strong> high school coaches who refer athletes (Hannah at Gulliver pattern) receive eval results + plan summary</li>
+          <li>Both flagged via <span class="field-call">referring_professional</span> + <span class="field-call">referring_staff_member_id</span></li>
+          <li>Builds Bridge's reputation in physician + sports-coach networks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="outcome"><strong>Outcome</strong>Referral attribution becomes measurable across all three loops. CAC trends down as referred leads (highest LTV) become a bigger share of the funnel. Sports-coach pipeline compounds Bridge's local reputation around schools.</div>
+  </article>
+</section>
+
+<!-- FLOW SUMMARY -->
+<section class="block wrap">
+  <div class="section-eyebrow">The whole journey in one frame</div>
+  <h2 class="section-title">Twelve stages, one pipeline.</h2>
+  <p class="section-intro">
+    Every lead — regardless of channel — runs the same path. Phase 2 handles the middle four (eval → discharge). Phase 3 wraps the front (capture) and back (referral). Existing tag workflows quietly manage the Opportunity stage transitions in the background.
+  </p>
+
+  <div class="flow">
+    <div class="flow-row">
+      <div class="flow-node violet"><div class="ft">01 · Captured</div><div class="fs">AI-qualified</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node violet"><div class="ft">02 · Booked</div><div class="fs">Auto or Steph</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="ft">03 · Discovery call</div><div class="fs">Phase 2 reminders</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">04 · Pre-eval</div><div class="fs">Reminders + intake</div></div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-node"><div class="ft">05 · Initial eval</div><div class="fs">Phase 1 app + AI SOAP</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">06 · Post-eval</div><div class="fs">Report + 6 auto sends</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">07 · Active program</div><div class="fs">Per-session touches</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">08 · Review #1</div><div class="fs">Session 5</div></div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-node accent"><div class="ft">09 · Retest</div><div class="fs">Service-specific</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">10 · Discharge</div><div class="fs">Review #2 fallback</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node accent"><div class="ft">11 · Reactivation</div><div class="fs">30/60/90 day</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node violet"><div class="ft">12 · Referral</div><div class="fs">Flywheel kicks in</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY METRICS -->
+<section class="block wrap">
+  <div class="section-eyebrow">What this unlocks</div>
+  <h2 class="section-title">Where the results show up.</h2>
+  <p class="section-intro">
+    These are the moves the journey makes possible — directional, not promised numbers until we see Phase 2 baseline data.
+  </p>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="ml">Lead → eval</div>
+      <div class="mv">+30–40%</div>
+      <div class="ms">AI qualification at entry + missed-call recovery + same-day booking automation.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Post-eval admin</div>
+      <div class="mv">−65%</div>
+      <div class="ms">From ~30 min per session to ~10. AI SOAP + auto-report + auto-follow-up.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Google review velocity</div>
+      <div class="mv">5–10×</div>
+      <div class="ms">Asked at every qualified milestone instead of when someone remembers.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Reactivation rate</div>
+      <div class="mv">3–5×</div>
+      <div class="ms">Tiered 30/60/90 sequence replaces ad-hoc manual outreach.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ANATOMY -->
+<section class="block wrap">
+  <div class="section-eyebrow">Reading the journey</div>
+  <h2 class="section-title">What to push on, what's already done.</h2>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="ml">Phase 2 stages</div>
+      <div class="mv">#4–11</div>
+      <div class="ms">Eight stages where Phase 2 directly fires. The audit confirms every trigger field exists.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Phase 3 stages</div>
+      <div class="mv">#1, #2, #12</div>
+      <div class="ms">Lead capture, AI qualification, referral flywheel. Where Phase 3 prints money.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Existing stages</div>
+      <div class="mv">#3, #5</div>
+      <div class="ms">Discovery call + eval already work. Phase 2 adds the reminders + AI SOAP around them.</div>
+    </div>
+    <div class="metric">
+      <div class="ml">Manual touches kept</div>
+      <div class="mv">3</div>
+      <div class="ms">Discovery call, eval, and Steph-routed complex cases. Humans where it matters.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-row">
+    <div class="sig">Prepared by <strong>Virality-X</strong> · Bridge PTP · Customer Journey · 2026-05-14</div>
+    <div>This is the system, end to end.</div>
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>
