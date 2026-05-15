@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bridge PTP — GHL Audit Findings (Final)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1020;
+    --bg-card: rgba(255,255,255,0.035);
+    --bg-card-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #e8edf5;
+    --text-dim: #8b95a8;
+    --text-faint: #5a6478;
+    --accent: #d4ff3a;
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.12);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96, 165, 250, 0.12);
+    --orange: #fb923c;
+    --orange-bg: rgba(251, 146, 60, 0.14);
+    --rose: #fb7185;
+    --rose-bg: rgba(251, 113, 133, 0.14);
+    --violet: #a78bfa;
+    --violet-bg: rgba(167, 139, 250, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background:
+      radial-gradient(900px 600px at 12% -10%, rgba(212,255,58,0.06), transparent 60%),
+      radial-gradient(700px 500px at 90% 10%, rgba(96,165,250,0.05), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  .topbar { border-bottom: 1px solid var(--border); padding: 22px 0; background: rgba(10,16,32,0.7); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+  .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #88aa1f); display: grid; place-items: center; font-weight: 800; color: #0a1020; font-size: 14px; }
+  .brand-text { font-weight: 600; letter-spacing: 0.04em; font-size: 13px; text-transform: uppercase; color: var(--text-dim); }
+  .brand-text strong { color: var(--text); margin-right: 6px; }
+  .meta-stamp { font-size: 12px; color: var(--text-faint); letter-spacing: 0.04em; }
+
+  .hero { padding: 80px 0 60px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(44px, 6vw, 72px); line-height: 1.04; margin: 0 0 28px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; letter-spacing: -0.015em; }
+  .hero .lede { font-size: 18px; color: var(--text-dim); max-width: 760px; line-height: 1.6; }
+
+  .summary-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; }
+  .ss-cell { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 18px; }
+  .ss-cell .ss-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; font-weight: 600; }
+  .ss-cell .ss-value { font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .ss-cell .ss-value.accent { color: var(--accent); }
+  .ss-cell .ss-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  section.block { padding: 64px 0; border-top: 1px solid var(--border); }
+  .section-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin-bottom: 14px; }
+  .section-title { font-size: clamp(32px, 4vw, 46px); line-height: 1.08; margin: 0 0 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; letter-spacing: -0.01em; }
+  .section-intro { font-size: 16px; color: var(--text-dim); max-width: 800px; margin-bottom: 38px; line-height: 1.6; }
+
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .pill.green { color: var(--green); background: var(--green-bg); }
+  .pill.blue { color: var(--blue); background: var(--blue-bg); }
+  .pill.orange { color: var(--orange); background: var(--orange-bg); }
+  .pill.rose { color: var(--rose); background: var(--rose-bg); }
+  .pill.violet { color: var(--violet); background: var(--violet-bg); }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px 30px; margin-bottom: 14px;
+  }
+  .arch-grid { display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; align-items: center; gap: 0; }
+  .arch-node { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; text-align: center; }
+  .arch-node.accent { border-color: rgba(212,255,58,0.4); background: rgba(212,255,58,0.06); }
+  .arch-node .nt { font-weight: 600; font-size: 14.5px; color: var(--text); margin-bottom: 4px; }
+  .arch-node.accent .nt { color: var(--accent); }
+  .arch-node .nsub { font-size: 11.5px; color: var(--text-faint); letter-spacing: 0.02em; line-height: 1.4; }
+  .arch-arrow { text-align: center; color: var(--text-faint); font-size: 22px; }
+  .arch-bottom { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .arch-fact { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .arch-fact strong { color: var(--text); }
+
+  /* FINDING CARDS */
+  .find-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .find {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 24px;
+  }
+  .find-status { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .find h4 { margin: 0 0 8px; font-size: 16.5px; color: var(--text); font-weight: 600; }
+  .find p { margin: 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
+  .find .impl { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 12.5px; color: var(--text); line-height: 1.55; }
+  .find .impl strong { color: var(--accent); display: block; margin-bottom: 3px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* TABLE */
+  .table-wrap { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg-card); }
+  table.tt { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.tt th, table.tt td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  table.tt th { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; background: rgba(0,0,0,0.18); }
+  table.tt td { color: var(--text); }
+  table.tt td.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; color: var(--accent); font-size: 12.5px; }
+  table.tt td.dim { color: var(--text-dim); font-size: 12.5px; }
+  table.tt td.right { text-align: right; }
+  table.tt tr:last-child td { border-bottom: none; }
+
+  /* TAG CHIPS */
+  .tag-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .tag-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .tag-group h5 { margin: 0 0 10px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; }
+  .tag-group h5 .cnt { color: var(--accent); margin-left: 6px; }
+  .tag-chip {
+    display: inline-block; padding: 4px 10px; margin: 0 4px 6px 0;
+    border-radius: 6px; font-size: 12.5px; color: var(--text);
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  .tag-chip.svc { background: rgba(212,255,58,0.08); border-color: rgba(212,255,58,0.2); color: var(--accent); }
+  .tag-chip.exclude { background: rgba(251,113,133,0.08); border-color: rgba(251,113,133,0.2); color: var(--rose); }
+
+  /* FOLDER STATS */
+  .folders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+  .folder { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .folder .ftitle { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .folder .fcount { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--accent); font-size: 28px; line-height: 1; }
+  .folder .fsub { font-size: 11px; color: var(--text-faint); margin-top: 4px; letter-spacing: 0.03em; }
+
+  /* CORRECTIONS BANNER */
+  .corrections {
+    background: linear-gradient(180deg, rgba(96,165,250,0.05), rgba(96,165,250,0.01));
+    border: 1px solid rgba(96,165,250,0.18);
+    border-radius: 14px; padding: 22px 26px; margin-bottom: 28px;
+  }
+  .corrections h4 { margin: 0 0 6px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); font-weight: 700; }
+  .corrections p { margin: 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
+  .corrections ul { margin: 10px 0 0; padding-left: 18px; color: var(--text-dim); font-size: 13.5px; line-height: 1.7; }
+  .corrections strong { color: var(--text); }
+
+  /* PHASE 2 ARCH DECISIONS */
+  .decision { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 14px; }
+  .decision .dh { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+  .decision .dnum { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--accent); font-weight: 600; font-size: 26px; line-height: 1; }
+  .decision h4 { margin: 0; font-size: 17px; color: var(--text); font-weight: 600; }
+  .decision p { margin: 0 0 10px; color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+  .code {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin-top: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12.5px;
+    color: var(--text); white-space: pre-wrap; line-height: 1.6;
+  }
+  .code .k { color: var(--accent); }
+  .code .c { color: var(--text-faint); }
+
+  /* OUTSTANDING / NEXT */
+  .next-card { background: linear-gradient(180deg, rgba(212,255,58,0.05), rgba(212,255,58,0.01)); border: 1px solid rgba(212,255,58,0.18); border-radius: 16px; padding: 30px 32px; }
+  .next-card h3 { margin: 0 0 6px; font-size: 24px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; }
+  .next-card p.lede { margin: 0 0 22px; color: var(--text-dim); font-size: 14.5px; }
+  .next-list { list-style: none; padding: 0; margin: 0; }
+  .next-list li { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
+  .next-list li:first-child { border-top: none; }
+  .next-list .nl-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(212,255,58,0.12); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .next-list .nl-text { font-size: 14px; color: var(--text); line-height: 1.55; }
+  .next-list .nl-text strong { color: var(--accent); }
+  .next-list .nl-sub { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+
+  footer.foot { border-top: 1px solid var(--border); padding: 40px 0 60px; color: var(--text-dim); font-size: 13px; }
+  footer .foot-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  footer .sig strong { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .summary-strip, .find-grid, .folders, .tag-grid { grid-template-columns: 1fr; }
+    .arch-grid { grid-template-columns: 1fr; gap: 8px; }
+    .arch-arrow { transform: rotate(90deg); padding: 4px 0; }
+    .arch-bottom { grid-template-columns: 1fr; }
+    .meta-stamp { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap row">
+    <div class="brand">
+      <div class="brand-mark">B</div>
+      <div class="brand-text"><strong>Bridge PTP</strong> · GHL Audit · Final</div>
+    </div>
+    <div class="meta-stamp">May 14, 2026 · Location ID: <span style="color:var(--text);">mFnM12qfYhk5rVIRW3Ew</span></div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero wrap">
+  <div class="eyebrow">Phase 2 · Deliverable 6 (Audit)</div>
+  <h1>What's actually<br/>in your GHL.</h1>
+  <p class="lede">
+    Logged into the Bridge Physical Therapy and Performance GHL location, mapped every custom field, every tag, every workflow, every calendar, and sampled real patient + lead records. This is the canonical audit — what's there, what's working, what to clean up, and what it means for Phase 2.
+  </p>
+
+  <div class="summary-strip">
+    <div class="ss-cell"><div class="ss-label">Contacts</div><div class="ss-value accent">2,846</div><div class="ss-sub">Live database</div></div>
+    <div class="ss-cell"><div class="ss-label">Custom fields</div><div class="ss-value">132</div><div class="ss-sub">~118 Clinic Sync · 14 forms/junk</div></div>
+    <div class="ss-cell"><div class="ss-label">Tags</div><div class="ss-value">23</div><div class="ss-sub">Service-line + funnel taxonomy</div></div>
+    <div class="ss-cell"><div class="ss-label">Existing workflows</div><div class="ss-value">14</div><div class="ss-sub">All CRM hygiene · not customer-facing</div></div>
+  </div>
+</section>
+
+<!-- CORRECTIONS -->
+<section class="block wrap">
+  <div class="corrections">
+    <h4>Corrections from preliminary findings</h4>
+    <p>This audit replaces any prior interim summary. Two earlier claims were wrong and are corrected here:</p>
+    <ul>
+      <li>Earlier said <strong>"zero existing workflows / clean slate."</strong> Wrong. Bridge has 14 workflows, 11 published, 634+ historical enrollments since April 2025. They are all CRM-hygiene (tag-triggered Opportunity management), not customer messaging.</li>
+      <li>Earlier flagged a <strong>"med-spa scope wrinkle"</strong> based on Botox / Peptide / Tirzepatide / TRT / IV custom fields. Wrong. Bridge does not offer those services. Those fields are GHL template residue from the snapshot Bridge was set up from, same category as the "real estate" and "LGP Purchase Amount" junk fields. Real service lines are PT, Pitcher/Thrower, Recovery/Arm Care, and S&amp;C (bb/sb + non-bb/sb) — confirmed via tag taxonomy.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="block wrap">
+  <div class="section-eyebrow">The architecture</div>
+  <h2 class="section-title">How the system actually works.</h2>
+  <p class="section-intro">
+    Jane is the operational source of truth for appointments. Clinic Sync mirrors Jane data into GHL custom fields every 30 minutes. GHL is the communications hub (SMS, email, voice, IG DMs) and lightweight CRM. Phase 2 adds the automation layer on top.
+  </p>
+
+  <div class="arch">
+    <div class="arch-grid">
+      <div class="arch-node">
+        <div class="nt">Jane EMR</div>
+        <div class="nsub">Appointments<br/>SOAP notes · Bookings</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node">
+        <div class="nt">Clinic Sync</div>
+        <div class="nsub">$45/mo middleware<br/>30-min refresh</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node accent">
+        <div class="nt">GHL</div>
+        <div class="nsub">Comms · Tags<br/>+ Phase 2 automations</div>
+      </div>
+    </div>
+    <div class="arch-bottom">
+      <div class="arch-fact"><strong>GHL calendars only used for Discovery Calls.</strong> All real patient appointments live in Jane and surface in GHL via the `upcoming_appt_*` and `last_appt_*` field families. Phase 2 triggers off these synced fields, not GHL calendar events.</div>
+      <div class="arch-fact"><strong>Tags drive everything.</strong> Service line, funnel position, opt-outs — all live in the tag system. Bridge's existing tag-triggered workflows manage the Opportunity pipeline. Phase 2 workflows hook into the same tag system so Steph's mental model stays intact.</div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY FINDINGS -->
+<section class="block wrap">
+  <div class="section-eyebrow">What we confirmed</div>
+  <h2 class="section-title">Eight findings that shape Phase 2.</h2>
+
+  <div class="find-grid">
+
+    <div class="find">
+      <div class="find-status"><span class="pill green">Healthy</span></div>
+      <h4>Clinic Sync is syncing rich data per patient</h4>
+      <p>Sampled real patient <em>Daniel Scudieri</em> (patient #1039, Recovery Eval today with Alec Hyde, referred by Fox PT - Yasser Santana). Confirmed 30+ Clinic Sync fields populated including `last_visit`, `discharged_at`, `appointments_count`, `referral_source`, `upcoming_appt_treatment_name`, `upcoming_appt_staff_member_name`, plus pre-computed `upcoming_appt_reminder_start_time`. Last API sync: today.</p>
+      <div class="impl"><strong>Phase 2 impact</strong>No data plumbing required. Every trigger field we need is live and populated for actual patients. We build directly on this layer.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill green">Ready</span></div>
+      <h4>A2P 10DLC SMS compliance fully verified</h4>
+      <p>Two phone numbers both A2P Verified: <strong>+1 (305) 204-6550</strong> (Default) and <strong>+1 (786) 952-7377</strong> (secondary). Both Local type. Both forward voice to +1 (786) 683-7778. Green compliance banner confirmed.</p>
+      <div class="impl"><strong>Phase 2 impact</strong>SMS automations can ship the day templates are approved. No 2–4 week registration delay. The 305 number is the default sender; we'll confirm with Victor what the 786 is used for.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill blue">Active</span></div>
+      <h4>14 existing workflows, all CRM hygiene</h4>
+      <p>Tag-triggered workflows built April 2025 that manage Opportunity pipeline status. Total historical enrollments: 634. None send customer messages — they only find/create/update Opportunities when tags change. Highest volume: "Active Tag added Workflow" (367 enrollments).</p>
+      <div class="impl"><strong>Phase 2 impact</strong>Zero conflict risk for our customer-messaging workflows. We hook into the SAME tag vocabulary instead of inventing new tags — keeps Steph's existing system clean.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill green">Defined</span></div>
+      <h4>Tag taxonomy is the canonical service-line filter</h4>
+      <p>23 tags organize contacts by service line (5 tags), funnel position (6 tags), edge cases (6 tags), source (5 tags), and lifecycle (2 tags). The 5 service-line tags map exactly to Bridge's real service offerings.</p>
+      <div class="impl"><strong>Phase 2 impact</strong>Service-line filtering is one tag-check at workflow entry. Clean, declarative, easy for Steph to understand and maintain.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill green">Captured</span></div>
+      <h4>Granular notification preferences per channel</h4>
+      <p>Each contact has independent flags: `do_not_email`, `marketing_emails`, `send_sms_notifications`, `send_notifications`, `ratings_emails`, `email_wait_list_notifications`, `sms_wait_list_notifications`. Daniel Scudieri's profile shows these set per Jane's intake configuration.</p>
+      <div class="impl"><strong>Phase 2 impact</strong>Each automation respects the relevant flag. Review automation honors `ratings_emails`. Reactivation honors `marketing_emails`. Post-Eval honors `do_not_email`. No cross-contamination.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill blue">Discovered</span></div>
+      <h4>B2B referral pipeline is real and tracked</h4>
+      <p>Daniel Scudieri came in via Inbound Call referred by <strong>Fox PT - Yasser Santana</strong>. Fields populated: `referring_professional`, `referring_professional_phone`, `referring_staff_member_id`. This means Bridge has a doctor/clinic referral network already being captured.</p>
+      <div class="impl"><strong>Phase 3 impact</strong>Referring-doctor automation (auto-thank-you, follow-up on referred patient outcomes) has clean data foundation. Saving this finding for the Phase 3 scope conversation.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill orange">Friction</span></div>
+      <h4>Steph manually enters leads on her phone</h4>
+      <p>Sampled lead <em>Sims Walker Malachi</em> — created via "MOBILE_USER" with `tag: name via lookup`. Conversation shows Steph manually entering referred leads ("Hannah at Gulliver shared your number") and outbound-texting them by hand. The booking portal also confuses parents ("the portal took me to picking stuff").</p>
+      <div class="impl"><strong>Phase 3 impact</strong>Lead capture automation (FB ads → AI SMS qualification → auto-book) replaces this manual flow directly. High-leverage, clear ROI. Noting for Phase 3 scope.</div>
+    </div>
+
+    <div class="find">
+      <div class="find-status"><span class="pill rose">Cleanup</span></div>
+      <h4>Template junk fields cluttering every contact</h4>
+      <p>Fields visible on every contact that don't apply to Bridge: "What type of real estate service are you interested in?", "Multi Dropdown 1tw9", "LGP - Purchase Amount", "Message", and the entire "Marketing Campaign Data" folder (Botox / Peptide / Tirzepatide / TRT / IV Therapy / Form Submitted Date). These are GHL template residue.</p>
+      <div class="impl"><strong>Phase 2 impact</strong>Doesn't block anything. Optional cleanup item — we can hide or delete during Phase 2 build if Victor wants.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TAG TAXONOMY -->
+<section class="block wrap">
+  <div class="section-eyebrow">The tag system</div>
+  <h2 class="section-title">23 tags, 5 categories.</h2>
+  <p class="section-intro">
+    This is Bridge's existing taxonomy. Phase 2 workflows will use these exact tags — no new ones invented unless absolutely necessary.
+  </p>
+
+  <div class="tag-grid">
+    <div class="tag-group">
+      <h5>Service line<span class="cnt">5</span></h5>
+      <span class="tag-chip svc">physical therapy</span>
+      <span class="tag-chip svc">pitcher/thrower</span>
+      <span class="tag-chip svc">recovery/arm care</span>
+      <span class="tag-chip svc">strength &amp; conditioning (bb/sb)</span>
+      <span class="tag-chip svc">strength &amp; conditioning (non-bb/sb)</span>
+    </div>
+    <div class="tag-group">
+      <h5>Funnel position<span class="cnt">6</span></h5>
+      <span class="tag-chip">new lead</span>
+      <span class="tag-chip">contacted</span>
+      <span class="tag-chip">scheduled</span>
+      <span class="tag-chip">arrived</span>
+      <span class="tag-chip">active</span>
+      <span class="tag-chip">no show / cancel</span>
+    </div>
+    <div class="tag-group">
+      <h5>Exclusions (suppress)<span class="cnt">3</span></h5>
+      <span class="tag-chip exclude">bridge therapy not interested</span>
+      <span class="tag-chip exclude">unqualified / not a good fit</span>
+      <span class="tag-chip exclude">spam likely</span>
+    </div>
+    <div class="tag-group">
+      <h5>Edge cases<span class="cnt">3</span></h5>
+      <span class="tag-chip">not ready</span>
+      <span class="tag-chip">unable to contact</span>
+      <span class="tag-chip">couldn't find caller name</span>
+    </div>
+    <div class="tag-group">
+      <h5>Source<span class="cnt">5</span></h5>
+      <span class="tag-chip">bridge fb ads</span>
+      <span class="tag-chip">fb lead form submitted</span>
+      <span class="tag-chip">tiktok lead form submitted</span>
+      <span class="tag-chip">bridge subscriber</span>
+      <span class="tag-chip">name via lookup</span>
+    </div>
+    <div class="tag-group">
+      <h5>Lifecycle<span class="cnt">1</span></h5>
+      <span class="tag-chip">bridge therapy past client</span>
+      <p style="margin: 10px 0 0; font-size: 12px; color: var(--text-faint); line-height: 1.5;">
+        More reliable than `discharged_at` for identifying past clients in the reactivation sequence.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM FIELDS -->
+<section class="block wrap">
+  <div class="section-eyebrow">Custom fields</div>
+  <h2 class="section-title">132 fields, 6 folders.</h2>
+  <p class="section-intro">
+    Most created Jan 12, 2026 in bulk by Clinic Sync's initial setup. The trigger fields below are what every Phase 2 workflow keys off of.
+  </p>
+
+  <div class="folders">
+    <div class="folder"><div class="ftitle">Additional Info</div><div class="fcount">97</div><div class="fsub">Clinic Sync — appt lifecycle, totals, status</div></div>
+    <div class="folder"><div class="ftitle">Marketing Campaign Data</div><div class="fcount">12</div><div class="fsub">Template junk — cleanup target</div></div>
+    <div class="folder"><div class="ftitle">General Info</div><div class="fcount">10</div><div class="fsub">Address + intake basics</div></div>
+    <div class="folder"><div class="ftitle">Contact</div><div class="fcount">9</div><div class="fsub">Standard contact fields</div></div>
+    <div class="folder"><div class="ftitle">A2P 10DLC Compliance</div><div class="fcount">3</div><div class="fsub">SMS opt-in/opt-out · regulatory</div></div>
+    <div class="folder"><div class="ftitle">Form | Form 5</div><div class="fcount">1</div><div class="fsub">"What Services Are You Interested In?"</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="tt">
+      <thead>
+        <tr><th style="width:30%;">Field</th><th style="width:18%;">Type</th><th>Phase 2 use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">last_visit</td><td class="dim">Date</td><td>Reactivation trigger (30 / 60 / 90 day aging)</td></tr>
+        <tr><td class="mono">last_appt_treatment_name</td><td class="dim">Text</td><td>Confirms what service the last appt was (e.g. "Recovery Eval")</td></tr>
+        <tr><td class="mono">last_appt_staff_member_name</td><td class="dim">Text</td><td>Personalize messages with the right clinician's name</td></tr>
+        <tr><td class="mono">last_appt_state</td><td class="dim">Text</td><td>"arrived" / "no_show" / "cancelled" — drives no-show recovery</td></tr>
+        <tr><td class="mono">upcoming_appt_start_at</td><td class="dim">Date</td><td>Pre-appointment reminder timing</td></tr>
+        <tr><td class="mono">upcoming_appt_treatment_name</td><td class="dim">Text</td><td>Service type for the next visit (e.g. "Recovery Eval")</td></tr>
+        <tr><td class="mono">upcoming_appt_reminder_start_time</td><td class="dim">Text</td><td>Pre-computed by Clinic Sync — use directly, no math</td></tr>
+        <tr><td class="mono">discharged_at</td><td class="dim">Date</td><td>Rehab discharge → Google review ask 24 hrs later (secondary signal — primary is `bridge therapy past client` tag)</td></tr>
+        <tr><td class="mono">appointments_count</td><td class="dim">Number</td><td>5th-session milestone trigger for review ask</td></tr>
+        <tr><td class="mono">no_show_count</td><td class="dim">Number</td><td>Suppress reactivation for chronic no-shows</td></tr>
+        <tr><td class="mono">total_purchased</td><td class="dim">Money</td><td>LTV-aware reactivation tier (high vs. low LTV)</td></tr>
+        <tr><td class="mono">referral_source</td><td class="dim">Text</td><td>Attribution + Phase 3 referral-program eligibility</td></tr>
+        <tr><td class="mono">referring_professional</td><td class="dim">Text</td><td>B2B referral attribution (Phase 3)</td></tr>
+        <tr><td class="mono">active</td><td class="dim">Text</td><td>Master filter — only "Yes" enters most workflows</td></tr>
+        <tr><td class="mono">patient_number</td><td class="dim">Text</td><td>Jane patient ID — confirms record is a real synced patient</td></tr>
+        <tr><td class="mono">do_not_email</td><td class="dim">Text</td><td>Email compliance check</td></tr>
+        <tr><td class="mono">marketing_emails</td><td class="dim">Text</td><td>Reactivation compliance check (must be "Yes")</td></tr>
+        <tr><td class="mono">send_sms_notifications</td><td class="dim">Text</td><td>SMS compliance check (must be "Yes")</td></tr>
+        <tr><td class="mono">ratings_emails</td><td class="dim">Text</td><td>Google review automation compliance check</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- WORKFLOWS -->
+<section class="block wrap">
+  <div class="section-eyebrow">Existing workflows</div>
+  <h2 class="section-title">What's already running.</h2>
+  <p class="section-intro">
+    14 workflows built April 2025. All are tag-triggered CRM hygiene — they manage the Opportunity pipeline (find/create/update Opp when a tag changes). None send messages to clients. Phase 2 customer-facing workflows live alongside these without conflict.
+  </p>
+
+  <div class="table-wrap">
+    <table class="tt">
+      <thead>
+        <tr><th>Workflow</th><th>Status</th><th class="right">Historical enrollments</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Active Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">367</td><td>Tag "active" → Find or Create Opportunity</td></tr>
+        <tr><td>Contacted Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">76</td><td>Tag "contacted" → Update Opportunity stage</td></tr>
+        <tr><td>Unqualified / Not a Good Fit Tag added</td><td><span class="pill green">Published</span></td><td class="right mono">75</td><td>Tag "unqualified" → Mark Opp lost</td></tr>
+        <tr><td>Scheduled Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">39</td><td>Tag "scheduled" → Move Opp to scheduled stage</td></tr>
+        <tr><td>Voice Ai Alert</td><td><span class="pill green">Published</span></td><td class="right mono">31</td><td>Jan 2026 build · alerts on AI voice events</td></tr>
+        <tr><td>Arrived Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">22</td><td>Tag "arrived" → Mark appointment fulfilled</td></tr>
+        <tr><td>Not ready Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">12</td><td>Tag "not ready" → Park Opp</td></tr>
+        <tr><td>Spam Tag added Workflow</td><td><span class="pill green">Published</span></td><td class="right mono">10</td><td>Tag "spam likely" → Discard Opp</td></tr>
+        <tr><td>No Show / Cancelled Tag added</td><td><span class="pill green">Published</span></td><td class="right mono">1</td><td>Tag → Update Opp · low historical volume</td></tr>
+        <tr><td>Unable to Contact Tag added</td><td><span class="pill green">Published</span></td><td class="right mono">1</td><td>Tag → Update Opp · low historical volume</td></tr>
+        <tr><td>Wix Newsletter</td><td><span class="pill green">Published</span></td><td class="right mono">0</td><td>Newsletter subscriber handling · never fired</td></tr>
+        <tr><td>Bridge New Lead Workflow</td><td><span class="pill orange">Draft</span></td><td class="right mono">18</td><td>Incomplete · 18 historical enrollments before draft</td></tr>
+        <tr><td>New Workflow : 1768803078407</td><td><span class="pill orange">Draft</span></td><td class="right mono">0</td><td>Test workflow · cleanup target</td></tr>
+        <tr><td>Recipe - Email Drip Sequence</td><td><span class="pill orange">Draft</span></td><td class="right mono">0</td><td>GHL template · unused</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top: 20px; color: var(--text-dim); font-size: 13.5px; line-height: 1.6;">
+    Plus two folders containing additional workflows we didn't drill into: <strong style="color:var(--text);">Facebook Lead Submission</strong> (Apr 2024) and <strong style="color:var(--text);">Wix Downloadable PDFs</strong> (Jan 2026). Likely lead-magnet capture workflows — Phase 3 relevance.
+  </p>
+</section>
+
+<!-- PHASE 2 DECISIONS -->
+<section class="block wrap">
+  <div class="section-eyebrow">What this means for Phase 2</div>
+  <h2 class="section-title">Six architecture decisions, locked.</h2>
+  <p class="section-intro">
+    The audit gives us enough information to commit to specific design choices for each Phase 2 workflow. These are not guesses — they map to fields and tags that exist and are populated.
+  </p>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">01</span><h4>Entry filter for every Phase 2 workflow</h4></div>
+    <p>One filter block at the top of every workflow. Med-spa scope confusion is gone because there's no med-spa to filter for, but service-line specificity still matters for branching.</p>
+    <div class="code"><span class="c"># Required to enter:</span>
+HAS tag in [physical therapy, pitcher/thrower, recovery/arm care,
+            strength &amp; conditioning (bb/sb),
+            strength &amp; conditioning (non-bb/sb)]
+AND active = "Yes"
+AND patient_number IS NOT empty
+
+<span class="c"># Automatic exit:</span>
+HAS tag in [bridge therapy not interested, unqualified / not a good fit, spam likely]</div>
+  </div>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">02</span><h4>Post-Eval Workflow trigger</h4></div>
+    <p>Triggers off Jane data syncing into GHL, not GHL calendar events (since evals don't live in GHL calendars).</p>
+    <div class="code"><span class="c"># Trigger:</span>
+Tag "arrived" added (after eval session marked complete in Jane)
+OR last_appt_state changes to "arrived"
+
+<span class="c"># Branch by service:</span>
+IF last_appt_treatment_name CONTAINS "Eval" → fire eval-specific flow
+ELSE → standard post-session flow</div>
+  </div>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">03</span><h4>Retest Reminder logic</h4></div>
+    <p>Cadence per service line still requires Victor's handwritten journey notes (the May 6 ask). Field-level wiring is locked.</p>
+    <div class="code"><span class="c"># Trigger (daily check):</span>
+last_visit &lt; today - X weeks  <span class="c"># X varies by service tag</span>
+AND active = "Yes"
+AND NO tag "scheduled"  <span class="c"># already booked, suppress</span>
+
+<span class="c"># Service-specific cadence (pending Victor input):</span>
+recovery/arm care → milestone-based (not time)
+pitcher/thrower → ~X weeks
+strength &amp; conditioning → ~X weeks</div>
+  </div>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">04</span><h4>Client Reactivation Sequence</h4></div>
+    <p>Use `bridge therapy past client` tag as primary signal — more reliable than `discharged_at` field across service types.</p>
+    <div class="code"><span class="c"># Trigger:</span>
+last_visit &gt; today - 30 days
+AND active = "No" OR HAS tag "bridge therapy past client"
+AND marketing_emails = "Yes"
+AND no_show_count &lt; 3  <span class="c"># suppress chronic no-shows</span></div>
+  </div>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">05</span><h4>Google Review Automation</h4></div>
+    <p>Three possible milestone triggers, all on real fields. Victor picks which ones fire.</p>
+    <div class="code"><span class="c"># Eligible milestones (any/all):</span>
+appointments_count = 5  <span class="c"># 5th session</span>
+OR HAS tag "arrived" AND last_appt_treatment_name CONTAINS "Eval"  <span class="c"># post-eval</span>
+OR discharged_at = today - 1 day  <span class="c"># 24hr post-discharge</span>
+
+<span class="c"># Compliance:</span>
+AND ratings_emails = "Yes"
+AND no prior review-ask in last 90 days</div>
+  </div>
+
+  <div class="decision">
+    <div class="dh"><span class="dnum">06</span><h4>Clinic Sync — preliminary recommendation</h4></div>
+    <p>Based on the field richness (132 fields), confirmed live sync (Daniel Scudieri's data populated today), and the 5-minute audit budget reduction (no plumbing needed): <strong style="color:var(--accent);">preliminary recommendation is KEEP.</strong> Final recommendation pending review of the Clinic Sync admin dashboard for sync frequency, error rate, and last-sync-time confirmation. Victor needs to share that login.</p>
+  </div>
+</section>
+
+<!-- OUTSTANDING -->
+<section class="block wrap">
+  <div class="next-card">
+    <p style="margin: 0 0 4px; color: var(--accent); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;">What's needed to start build</p>
+    <h3>Three asks for Victor.</h3>
+    <p class="lede">Concrete inputs we still need before Phase 2 workflow construction can finalize. None blocks audit acceptance — all needed by end of Week 1 of build.</p>
+
+    <ol class="next-list">
+      <li>
+        <div class="nl-num">1</div>
+        <div>
+          <div class="nl-text"><strong>Handwritten customer journey notes</strong> — the 3 pages by service type promised on May 6.</div>
+          <div class="nl-sub">Locks retest cadence per service, confirms milestone triggers, and tells us where to insert the Google review ask. Currently the only missing data for full Phase 2 spec.</div>
+        </div>
+      </li>
+      <li>
+        <div class="nl-num">2</div>
+        <div>
+          <div class="nl-text"><strong>10–15 sample SOAP notes</strong> for AI training.</div>
+          <div class="nl-sub">Real notes across service types — your shorthand, your phrasing. Used to train the AI prompt so output matches your voice.</div>
+        </div>
+      </li>
+      <li>
+        <div class="nl-num">3</div>
+        <div>
+          <div class="nl-text"><strong>Clinic Sync admin login</strong> (separate from GHL).</div>
+          <div class="nl-sub">For verifying sync health (last-run time, error log, refresh interval). Not blocking — can be a Week 1 follow-up if not immediately available.</div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- AUDIT COMPLETE -->
+<section class="block wrap">
+  <div class="section-eyebrow">Status</div>
+  <h2 class="section-title">Audit complete.</h2>
+  <p class="section-intro">
+    Deliverable 6 of 6 in Phase 2 — closed. Remaining five workflows have a confirmed data foundation. Build can start Monday.
+  </p>
+
+  <div class="find-grid">
+    <div class="find">
+      <div class="find-status"><span class="pill green">Complete</span></div>
+      <h4>Phase 2 Deliverable 6 — Clinic Sync Audit</h4>
+      <p>Preliminary recommendation: KEEP. Final confirmation pending admin dashboard review (Victor to share login).</p>
+    </div>
+    <div class="find">
+      <div class="find-status"><span class="pill blue">Next</span></div>
+      <h4>Phase 2 build kickoff</h4>
+      <p>Week 1: Post-Eval Workflow architecture + AI SOAP prompt v1. Templates drafted for Victor approval by Friday.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-row">
+    <div class="sig">Prepared by <strong>Virality-X</strong> · Bridge PTP Phase 2 · GHL Audit · 2026-05-14 · Replaces all interim findings</div>
+    <div>Ready to build.</div>
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>
