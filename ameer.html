@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly SEO & Performance Audit — Coral Med Primary Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #FAFAF7;
+            color: #2C2C2C;
+            line-height: 1.6;
+            padding: 60px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 600; }
+        .muted { color: #8A8A80; }
+        .sage { color: #5B7F6A; }
+        .coral { color: #D4836A; }
+        .gold { color: #C4993B; }
+
+        .cover {
+            border-bottom: 2px solid #5B7F6A;
+            padding-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 80px; height: 4px;
+            background: linear-gradient(90deg, #5B7F6A, #C4993B);
+            border-radius: 2px;
+        }
+        .cover-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #8A8A80;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        .cover h1 {
+            font-size: 36px;
+            color: #2C2C2C;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+        .cover .date {
+            font-size: 16px;
+            color: #5B7F6A;
+            font-weight: 500;
+        }
+        .cover .powered {
+            position: absolute;
+            top: 20px; right: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C4993B;
+            border: 1px solid #C4993B;
+            padding: 4px 12px;
+            border-radius: 3px;
+        }
+
+        /* KPI Cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 50px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid #E8E6E1;
+            text-align: center;
+        }
+        .kpi-card .kpi-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8A8A80;
+            margin-bottom: 6px;
+        }
+        .kpi-card .kpi-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .kpi-card .kpi-sub {
+            font-size: 12px;
+            color: #8A8A80;
+            margin-top: 4px;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .section-subtitle {
+            font-size: 13px;
+            color: #8A8A80;
+            margin-bottom: 20px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        thead th {
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8A8A80;
+            padding: 10px 12px;
+            border-bottom: 2px solid #5B7F6A;
+        }
+        thead th:not(:first-child) { text-align: right; }
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #F0EDE8;
+        }
+        tbody td:not(:first-child) { text-align: right; }
+        tbody tr:hover { background: #F7F7F5; }
+        .keyword-type {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .type-branded { background: #E8E6E1; color: #666; }
+        .type-discovery { background: #F0F7F2; color: #5B7F6A; }
+        .type-local { background: #FFF5F3; color: #D4836A; }
+        .type-service { background: #FFFBF0; color: #C4993B; }
+
+        /* Insight Cards */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .insight-card {
+            background: white;
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid #E8E6E1;
+        }
+        .insight-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .insight-card p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .insight-card .tag {
+            display: inline-block;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .tag-win { background: #F0F7F2; color: #5B7F6A; }
+        .tag-fix { background: #FFF5F3; color: #D4836A; }
+        .tag-opportunity { background: #FFFBF0; color: #C4993B; }
+        .tag-action { background: #EEF0F8; color: #4A5B8C; }
+
+        /* Action Items */
+        .action-list {
+            list-style: none;
+        }
+        .action-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #F0EDE8;
+            font-size: 14px;
+        }
+        .action-list li:last-child { border-bottom: none; }
+        .action-priority {
+            flex-shrink: 0;
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+        .priority-1 { background: #D4836A; }
+        .priority-2 { background: #C4993B; }
+        .priority-3 { background: #5B7F6A; }
+
+        /* GBP Section */
+        .gbp-update-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .gbp-stat {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #E8E6E1;
+            text-align: center;
+        }
+        .gbp-stat .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #5B7F6A;
+        }
+        .gbp-stat .stat-label {
+            font-size: 11px;
+            color: #8A8A80;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .completed-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background: #F0F7F2;
+            color: #5B7F6A;
+            font-weight: 600;
+        }
+        .completed-badge::before {
+            content: '✓';
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #E8E6E1;
+            text-align: center;
+            font-size: 12px;
+            color: #8A8A80;
+        }
+
+        @media (max-width: 768px) {
+            .kpi-row { grid-template-columns: 1fr 1fr; }
+            .insight-grid { grid-template-columns: 1fr; }
+            .gbp-update-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+    <div class="powered">ViralityX</div>
+    <div class="cover-label">Weekly Performance & SEO Audit</div>
+    <h1>Coral Med: Primary Care</h1>
+    <div class="date">Week of May 12–18, 2026 &nbsp;•&nbsp; Huntington Beach, CA</div>
+</div>
+
+<!-- EXECUTIVE SUMMARY KPIs -->
+<div class="kpi-row">
+    <div class="kpi-card">
+        <div class="kpi-label">Google Search Clicks</div>
+        <div class="kpi-value sage">51</div>
+        <div class="kpi-sub">Last 3 months via Search Console</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-label">Search Impressions</div>
+        <div class="kpi-value" style="color:#C4993B;">758</div>
+        <div class="kpi-sub">Times shown in Google results</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-label">Click-Through Rate</div>
+        <div class="kpi-value sage">6.7%</div>
+        <div class="kpi-sub">Industry avg: 3-5%</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-label">Avg. Search Position</div>
+        <div class="kpi-value" style="color:#D4836A;">5.6</div>
+        <div class="kpi-sub">Page 1 average</div>
+    </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="section">
+    <h2 class="section-title">Executive Summary</h2>
+    <div class="section-subtitle">What happened this week and what it means</div>
+
+    <div class="insight-grid">
+        <div class="insight-card">
+            <div class="tag tag-win">Win</div>
+            <h3>Page 1 Rankings Established</h3>
+            <p>Coral Med is ranking on page 1 (position 5.6 average) across Google Search with a 6.7% CTR — above the medical industry average of 3-5%. The site is showing up for 60 different search queries.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-win">Win</div>
+            <h3>GBP Fully Optimized This Week</h3>
+            <p>We completed a full Google Business Profile overhaul: new SEO-rich description, 5 new business categories, 14+ new services added, duplicate services removed, and a Google Post published. Profile strength: "Looks Good."</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-fix">Issue</div>
+            <h3>Almost All Traffic is Branded</h3>
+            <p>90%+ of search clicks come from people already searching "Coral Med" or "Dr. Moussa" by name. Very few discovery searches (like "primary care Huntington Beach") are driving traffic yet. This is the #1 SEO opportunity.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-opportunity">Opportunity</div>
+            <h3>Weight Loss Keywords Ranking High</h3>
+            <p>"Weight loss Huntington Beach" is at position 2.5 and "direct primary care orange county" is at position 1.0 — but getting zero clicks. Optimizing titles and meta descriptions will convert these impressions into patients.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SEARCH CONSOLE: TOP KEYWORDS -->
+<div class="section">
+    <h2 class="section-title">Search Console: Keyword Rankings</h2>
+    <div class="section-subtitle">What people are searching to find Coral Med — data from Google Search Console (last 3 months)</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Search Query</th>
+                <th>Clicks</th>
+                <th>Impressions</th>
+                <th>CTR</th>
+                <th>Avg. Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ameer moussa md <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>5</strong></td>
+                <td>18</td>
+                <td class="sage">27.8%</td>
+                <td class="sage">2.3</td>
+            </tr>
+            <tr>
+                <td>coral med <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>2</strong></td>
+                <td>63</td>
+                <td class="coral">3.2%</td>
+                <td>5.0</td>
+            </tr>
+            <tr>
+                <td>dr ameer moussa <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>2</strong></td>
+                <td>16</td>
+                <td class="sage">12.5%</td>
+                <td class="sage">3.8</td>
+            </tr>
+            <tr>
+                <td>ameer moussa <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>2</strong></td>
+                <td>11</td>
+                <td class="sage">18.2%</td>
+                <td class="sage">2.0</td>
+            </tr>
+            <tr>
+                <td>dr moussa <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>1</strong></td>
+                <td>16</td>
+                <td class="coral">6.3%</td>
+                <td class="coral">8.9</td>
+            </tr>
+            <tr>
+                <td>coralmed <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>1</strong></td>
+                <td>12</td>
+                <td>8.3%</td>
+                <td class="sage">3.3</td>
+            </tr>
+            <tr>
+                <td>coral medical <span class="keyword-type type-branded">Branded</span></td>
+                <td><strong>1</strong></td>
+                <td>11</td>
+                <td>9.1%</td>
+                <td>4.4</td>
+            </tr>
+            <tr style="background:#F0F7F2;">
+                <td>direct primary care orange county <span class="keyword-type type-discovery">Discovery</span></td>
+                <td><strong>1</strong></td>
+                <td>2</td>
+                <td class="sage"><strong>50%</strong></td>
+                <td class="sage"><strong>1.0</strong></td>
+            </tr>
+            <tr>
+                <td>17122 beach blvd <span class="keyword-type type-local">Local</span></td>
+                <td>0</td>
+                <td>15</td>
+                <td class="coral">0%</td>
+                <td class="coral">9.0</td>
+            </tr>
+            <tr>
+                <td>17122 beach blvd huntington beach <span class="keyword-type type-local">Local</span></td>
+                <td>0</td>
+                <td>11</td>
+                <td class="coral">0%</td>
+                <td class="coral">8.7</td>
+            </tr>
+            <tr>
+                <td>coral health <span class="keyword-type type-branded">Branded</span></td>
+                <td>0</td>
+                <td>10</td>
+                <td class="coral">0%</td>
+                <td class="sage">2.1</td>
+            </tr>
+            <tr>
+                <td>coral clinic <span class="keyword-type type-branded">Branded</span></td>
+                <td>0</td>
+                <td>10</td>
+                <td class="coral">0%</td>
+                <td class="coral">9.4</td>
+            </tr>
+            <tr style="background:#FFFBF0;">
+                <td>weight loss huntington beach <span class="keyword-type type-service">Service</span></td>
+                <td>0</td>
+                <td>4</td>
+                <td class="coral">0%</td>
+                <td class="sage"><strong>2.5</strong></td>
+            </tr>
+            <tr style="background:#FFFBF0;">
+                <td>growth treatment clinic <span class="keyword-type type-service">Service</span></td>
+                <td>0</td>
+                <td>5</td>
+                <td class="coral">0%</td>
+                <td class="sage"><strong>1.0</strong></td>
+            </tr>
+            <tr>
+                <td>trusculpt <span class="keyword-type type-service">Service</span></td>
+                <td>0</td>
+                <td>6</td>
+                <td class="coral">0%</td>
+                <td class="coral">19.3</td>
+            </tr>
+            <tr style="background:#FFFBF0;">
+                <td>weight loss injections <span class="keyword-type type-service">Service</span></td>
+                <td>0</td>
+                <td>3</td>
+                <td class="coral">0%</td>
+                <td>10.0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- KEYWORD ANALYSIS -->
+<div class="section">
+    <h2 class="section-title">Keyword Analysis & Opportunities</h2>
+    <div class="section-subtitle">Where the biggest SEO wins are hiding</div>
+
+    <div class="insight-grid">
+        <div class="insight-card">
+            <div class="tag tag-opportunity">Quick Win</div>
+            <h3>"coral med" — 63 Impressions, Only 3.2% CTR</h3>
+            <p>This is the #1 impression keyword but position 5.0 means other "Coral Med" brands are competing. The branded search result title needs to clearly say "Primary Care — Huntington Beach" to stand out and earn the click.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-opportunity">Quick Win</div>
+            <h3>"weight loss huntington beach" — Position 2.5</h3>
+            <p>Ranking near the top for a high-value service keyword but getting 0 clicks. The page title and meta description for the weight loss service page needs to be compelling enough to earn the click at this position.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-win">Strong Position</div>
+            <h3>"direct primary care orange county" — #1</h3>
+            <p>Already ranking #1 with a 50% CTR. This is a validated keyword. We should build more content around DPC/concierge medicine to dominate this search category across related queries.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-fix">Needs Work</div>
+            <h3>Address Searches — Position 9, 0% CTR</h3>
+            <p>"17122 beach blvd" has 15 impressions but 0 clicks at position 9. This means the GBP listing isn't showing up strongly for address-based searches. The GBP updates we made this week should help improve this.</p>
+        </div>
+    </div>
+
+    <div class="insight-grid" style="margin-top:0;">
+        <div class="insight-card">
+            <div class="tag tag-fix">Gap</div>
+            <h3>Missing: Non-Branded Discovery Keywords</h3>
+            <p>Not ranking for critical searches like "primary care doctor huntington beach," "family doctor near me," "doctor accepting new patients huntington beach." These are the highest-intent searches and the biggest growth opportunity.</p>
+        </div>
+        <div class="insight-card">
+            <div class="tag tag-action">Strategy</div>
+            <h3>Target Keywords for This Month</h3>
+            <p>Priority targets: "primary care huntington beach," "doctor huntington beach," "family doctor fountain valley," "medical weight loss orange county," "concierge doctor huntington beach." These need dedicated page content.</p>
+        </div>
+    </div>
+</div>
+
+<!-- GBP UPDATES THIS WEEK -->
+<div class="section">
+    <h2 class="section-title">Google Business Profile — Updates Completed</h2>
+    <div class="section-subtitle">Optimizations applied this week to boost local search visibility</div>
+
+    <div class="gbp-update-grid" style="margin-bottom:20px;">
+        <div class="gbp-stat">
+            <div class="stat-value">330</div>
+            <div class="stat-label">Customer Interactions</div>
+        </div>
+        <div class="gbp-stat">
+            <div class="stat-value">5.0 ★</div>
+            <div class="stat-label">Review Rating</div>
+        </div>
+        <div class="gbp-stat">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Google Reviews</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Update</th>
+                <th>Status</th>
+                <th>Impact</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Business description rewritten with SEO keywords</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td class="sage">High</td>
+            </tr>
+            <tr>
+                <td>5 secondary business categories added (Family Practice, Doctor, GP, Internist, Weight Loss)</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td class="sage">High</td>
+            </tr>
+            <tr>
+                <td>14 new services added (Annual Physicals, Wellness, Chronic Care, Lab Work, etc.)</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td class="sage">High</td>
+            </tr>
+            <tr>
+                <td>Duplicate services removed (DPC, Fillers)</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td>Medium</td>
+            </tr>
+            <tr>
+                <td>Google Post published (welcoming new patients)</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td>Medium</td>
+            </tr>
+            <tr>
+                <td>Google Search Console verified & connected</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td class="sage">High</td>
+            </tr>
+            <tr>
+                <td>QR code tracking live on postcard campaign (/welcome)</td>
+                <td><span class="completed-badge">Done</span></td>
+                <td>Medium</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- THIS WEEK'S ACTION PLAN -->
+<div class="section">
+    <h2 class="section-title">This Week's Action Plan</h2>
+    <div class="section-subtitle">Priority tasks for May 19–25, 2026</div>
+
+    <ul class="action-list">
+        <li>
+            <div class="action-priority priority-1">1</div>
+            <div>
+                <strong>Deploy SEO page titles & meta descriptions on coral-med.com</strong><br>
+                <span class="muted">The optimized titles and metas are ready (document already created). Deploying them on Replit will immediately improve CTR for "coral med" (currently 3.2%) and help rank for non-branded keywords. This is the single highest-impact SEO action right now.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-1">2</div>
+            <div>
+                <strong>Create dedicated landing pages for target keywords</strong><br>
+                <span class="muted">Build out pages for: "Weight Loss Huntington Beach" (already ranking #2.5), "Direct Primary Care Orange County" (already #1), and "Primary Care Huntington Beach" (not ranking yet). Each page needs 500+ words of unique content targeting that keyword.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-1">3</div>
+            <div>
+                <strong>Deploy /checkup and /wellness QR code redirects on Replit</strong><br>
+                <span class="muted">Only /welcome is live. The other two postcard QR codes need their redirect pages built so all three mailer campaigns are tracking in GA.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-2">4</div>
+            <div>
+                <strong>Upload 10+ photos to Google Business Profile</strong><br>
+                <span class="muted">Dr. Moussa needs to provide: professional headshot, office exterior, waiting room, exam rooms, team photo, and signage. Businesses with more photos get significantly more calls and direction requests.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-2">5</div>
+            <div>
+                <strong>Set up GA4 conversion tracking</strong><br>
+                <span class="muted">Configure events for phone number clicks, contact form submissions, and appointment bookings. This lets us measure which traffic sources actually convert into patients.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-3">6</div>
+            <div>
+                <strong>Weekly Google Post</strong><br>
+                <span class="muted">Posts expire after 7 days. Create a new post each week highlighting a different service, health tip, or patient-facing update. No phone numbers in text — use the "Call" button instead.</span>
+            </div>
+        </li>
+        <li>
+            <div class="action-priority priority-3">7</div>
+            <div>
+                <strong>Review generation strategy</strong><br>
+                <span class="muted">15 reviews at 5.0 stars is great quality but low volume. Implement a review request flow — after appointments, send patients to the Google review link. Target: 5 new reviews per month.</span>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- METRICS TO WATCH -->
+<div class="section">
+    <h2 class="section-title">Key Metrics to Watch Next Week</h2>
+    <div class="section-subtitle">Benchmarks we're tracking week-over-week</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target (30 days)</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Search Console clicks (weekly)</td>
+                <td><strong>~17/week</strong></td>
+                <td class="sage">25/week</td>
+                <td>Search Console</td>
+            </tr>
+            <tr>
+                <td>Search impressions (weekly)</td>
+                <td><strong>~250/week</strong></td>
+                <td class="sage">400/week</td>
+                <td>Search Console</td>
+            </tr>
+            <tr>
+                <td>Average CTR</td>
+                <td><strong>6.7%</strong></td>
+                <td class="sage">8%+</td>
+                <td>Search Console</td>
+            </tr>
+            <tr>
+                <td>Average search position</td>
+                <td><strong>5.6</strong></td>
+                <td class="sage">4.0</td>
+                <td>Search Console</td>
+            </tr>
+            <tr>
+                <td>GBP customer interactions</td>
+                <td><strong>330</strong></td>
+                <td class="sage">400+</td>
+                <td>Google Business</td>
+            </tr>
+            <tr>
+                <td>Google reviews</td>
+                <td><strong>15</strong></td>
+                <td class="sage">20</td>
+                <td>Google Business</td>
+            </tr>
+            <tr>
+                <td>Non-branded keyword clicks</td>
+                <td><strong>1</strong></td>
+                <td class="sage">10+</td>
+                <td>Search Console</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    Prepared by <strong style="color:#5B7F6A;">ViralityX</strong> for Coral Med: Primary Care &nbsp;•&nbsp; Week of May 12–18, 2026<br>
+    Data sources: Google Search Console, Google Analytics 4, Google Business Profile
+</div>
+
+</body>
+</html>
