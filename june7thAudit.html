@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Live SEO & Visibility Audit | June 2, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FAFAF7;
+    color: #2C2C2C;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 600; }
+  code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .sage { color: #5B7F6A; }
+  .coral { color: #D4836A; }
+  .gold { color: #C4993B; }
+  .muted { color: #8A8A80; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 50px 40px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 100%);
+    color: white;
+    padding: 70px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, #5B7F6A 0%, #C4993B 50%, #D4836A 100%);
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(196,153,59,0.15);
+    border: 1px solid rgba(196,153,59,0.4);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #C4993B;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #C4993B;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(196,153,59,0.7);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(196,153,59,0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(196,153,59,0); }
+    100% { box-shadow: 0 0 0 0 rgba(196,153,59,0); }
+  }
+  .hero h1 {
+    font-size: 54px;
+    line-height: 1.05;
+    margin-bottom: 18px;
+    color: white;
+  }
+  .hero h1 .em { color: #C4993B; font-style: italic; }
+  .hero-sub {
+    font-size: 18px;
+    opacity: 0.78;
+    max-width: 680px;
+    margin-bottom: 32px;
+  }
+  .hero-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .check-chip {
+    background: rgba(91,127,106,0.15);
+    border: 1px solid rgba(91,127,106,0.4);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #95C0A4;
+  }
+  .check-chip::before { content: '✓ '; color: #95C0A4; font-weight: 700; }
+  .powered {
+    position: absolute;
+    top: 28px; right: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #C4993B;
+    border: 1px solid rgba(196,153,59,0.5);
+    padding: 6px 14px;
+    border-radius: 3px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 36px;
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 20px;
+  }
+  .meta-row div span { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 3px; }
+
+  /* GROWTH BAND */
+  .growth-band {
+    background: linear-gradient(180deg, #F0F7F2 0%, #F7FAF8 100%);
+    border-bottom: 1px solid #D2E4D8;
+    padding: 40px 40px;
+  }
+  .growth-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .growth-tag {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #5B7F6A;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .growth-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+  }
+  .growth-sub {
+    font-size: 15px;
+    color: #5B7F6A;
+    margin-bottom: 26px;
+  }
+  .growth-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .gcell {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 20px;
+    border: 1px solid #D2E4D8;
+  }
+  .gcell .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8A8A80;
+    margin-bottom: 8px;
+  }
+  .gcell .compare {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .gcell .old {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #BBB;
+    text-decoration: line-through;
+  }
+  .gcell .arrow {
+    color: #5B7F6A;
+    font-size: 14px;
+  }
+  .gcell .new {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #5B7F6A;
+    font-weight: 700;
+  }
+  .gcell .delta {
+    display: inline-block;
+    font-size: 11px;
+    background: #5B7F6A;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .gcell .delta.warn { background: #C4993B; }
+
+  /* CRITICAL ALERT BAND */
+  .alert-band {
+    background: linear-gradient(180deg, #FFF5F3 0%, #FFFBFA 100%);
+    border-bottom: 1px solid #F0D5CC;
+    padding: 30px 40px;
+  }
+  .alert-band-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .alert-icon {
+    width: 56px; height: 56px;
+    background: #D4836A;
+    color: white;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .alert-band h2 { font-size: 22px; margin-bottom: 4px; color: #B85A3D; }
+  .alert-band p { font-size: 14px; color: #8B4530; }
+
+  /* SECTION */
+  .section { margin-bottom: 50px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #5B7F6A;
+    padding-bottom: 12px;
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #C4993B;
+    letter-spacing: 2px;
+  }
+  .section-title { font-size: 28px; color: #2C2C2C; }
+  .section-sub {
+    font-size: 14px;
+    color: #8A8A80;
+    margin-top: 14px;
+    margin-bottom: 28px;
+    max-width: 720px;
+  }
+
+  /* LIVE QUERIES TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #E8E6E1;
+  }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8A8A80;
+    padding: 14px 16px;
+    background: #FAFAF7;
+    border-bottom: 2px solid #5B7F6A;
+  }
+  thead th:not(:first-child) { text-align: right; }
+  tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #F0EDE8;
+  }
+  tbody td:not(:first-child) { text-align: right; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #F7F7F5; }
+  .kw-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .t-brand { background: #E8E6E1; color: #666; }
+  .t-disc { background: #F0F7F2; color: #5B7F6A; }
+
+  /* CRITICAL FINDINGS */
+  .crit {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    border: 1px solid #E8E6E1;
+    border-left: 5px solid #D4836A;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+  }
+  .crit-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: #D4836A;
+    line-height: 1;
+  }
+  .crit-tag {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: #D4836A;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .crit h3 { font-size: 19px; margin-bottom: 8px; }
+  .crit .what {
+    background: #FAFAF7;
+    border: 1px solid #E8E6E1;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .crit .what .lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8A8A80;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .crit .impact {
+    font-size: 13px;
+    color: #555;
+    margin-top: 8px;
+  }
+  .crit .impact strong { color: #B85A3D; }
+  .crit .fix {
+    background: #F0F7F2;
+    border: 1px solid #D2E4D8;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #3A5747;
+  }
+  .crit .fix::before {
+    content: 'THE FIX → ';
+    font-weight: 700;
+    color: #5B7F6A;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+
+  /* COMPETITIVE GRID */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .comp {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #E8E6E1;
+  }
+  .comp-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .comp-cat {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+  .comp-cat.threat { background: #FFF5F3; color: #D4836A; }
+  .comp-cat.opp { background: #F0F7F2; color: #5B7F6A; }
+  .comp-cat.neutral { background: #FFFBF0; color: #C4993B; }
+  .comp h3 { font-size: 17px; margin-bottom: 10px; }
+  .comp p { font-size: 14px; color: #555; }
+  .comp ul { list-style: none; margin-top: 12px; }
+  .comp ul li {
+    font-size: 13px;
+    padding: 6px 0;
+    color: #555;
+    border-top: 1px solid #F0EDE8;
+  }
+  .comp ul li:first-child { border-top: none; }
+  .comp ul li strong { color: #2C2C2C; }
+  .comp .verdict {
+    background: #FAFAF7;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    border-left: 3px solid #5B7F6A;
+  }
+  .comp .verdict.threat { border-left-color: #D4836A; }
+  .comp .verdict strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; color: #5B7F6A; }
+  .comp .verdict.threat strong { color: #D4836A; }
+
+  /* GBP LIVE PANEL */
+  .gbp-panel {
+    background: white;
+    border-radius: 14px;
+    padding: 32px;
+    border: 1px solid #E8E6E1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .gbp-rating {
+    text-align: center;
+    background: linear-gradient(135deg, #FAFAF7 0%, #F7F7F5 100%);
+    border-radius: 12px;
+    padding: 28px 20px;
+    border: 1px solid #E8E6E1;
+  }
+  .gbp-rating .stars {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: #5B7F6A;
+    line-height: 1;
+  }
+  .gbp-rating .stars .star { color: #C4993B; }
+  .gbp-rating .rcount {
+    font-size: 14px;
+    color: #8A8A80;
+    margin-top: 8px;
+  }
+  .gbp-rating .rcount strong { color: #2C2C2C; }
+  .gbp-details dt {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8A8A80;
+    margin-top: 14px;
+    margin-bottom: 2px;
+  }
+  .gbp-details dt:first-child { margin-top: 0; }
+  .gbp-details dd { font-size: 15px; color: #2C2C2C; }
+  .gbp-flag {
+    background: #FFFBF0;
+    border-left: 3px solid #C4993B;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #7A6020;
+  }
+  .gbp-flag strong { color: #C4993B; }
+
+  /* ACTION PLAN */
+  .actions {
+    background: white;
+    border-radius: 14px;
+    padding: 8px 0;
+    border: 1px solid #E8E6E1;
+  }
+  .action-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px;
+    gap: 20px;
+    padding: 22px 28px;
+    align-items: center;
+    border-bottom: 1px solid #F0EDE8;
+  }
+  .action-row:last-child { border-bottom: none; }
+  .action-rank {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #C4993B;
+    line-height: 1;
+  }
+  .action-row.crit-row .action-rank { color: #D4836A; }
+  .action-row h4 { font-size: 16px; margin-bottom: 4px; }
+  .action-row .ades { font-size: 13px; color: #8A8A80; }
+  .impact-pill {
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 14px;
+    background: #F0F7F2;
+    color: #5B7F6A;
+  }
+  .impact-pill.crit-pill { background: #FFF5F3; color: #D4836A; }
+  .impact-pill.high { background: #FFFBF0; color: #C4993B; }
+
+  /* FOOTER */
+  .footer {
+    background: #2C2C2C;
+    color: rgba(255,255,255,0.6);
+    padding: 28px 40px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .footer .brand { color: #C4993B; font-weight: 600; letter-spacing: 1px; }
+
+  @media (max-width: 900px) {
+    .growth-grid, .comp-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 36px; }
+    .crit, .gbp-panel { grid-template-columns: 1fr; }
+    .action-row { grid-template-columns: 50px 1fr; }
+    .impact-pill { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="powered">ViralityX</div>
+  <div class="hero-inner">
+    <div class="live-pill"><span class="live-dot"></span> LIVE AUDIT — RUN JUNE 2, 2026</div>
+    <h1>Pulled directly from your Google data, <span class="em">just now.</span></h1>
+    <div class="hero-sub">Live numbers from Google Search Console + Google Business Profile, cross-checked against the May 18 report. Plus a full site &amp; directory scan to flag what's silently capping the next phase of growth.</div>
+    <div class="hero-checks">
+      <span class="check-chip">Live Search Console pull — 90 days</span>
+      <span class="check-chip">Live GBP merchant view</span>
+      <span class="check-chip">Live site HTML inspected</span>
+      <span class="check-chip">5 directory citations verified</span>
+      <span class="check-chip">Local competitor footprint mapped</span>
+    </div>
+    <div class="meta-row">
+      <div><span>Practice</span>Coral Med — 17122 Beach Blvd #102, HB</div>
+      <div><span>Data Source</span>Google Search Console + GBP (live)</div>
+      <div><span>Date</span>June 2, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- GROWTH BAND -->
+<div class="growth-band">
+  <div class="growth-inner">
+    <div class="growth-tag">Growth Since Last Report (May 18 → June 2)</div>
+    <div class="growth-headline">Every core metric is moving in the right direction.</div>
+    <div class="growth-sub">Pulled live from Search Console + GBP. Trailing 90-day window vs. prior report.</div>
+    <div class="growth-grid">
+      <div class="gcell">
+        <div class="lbl">Search Clicks</div>
+        <div class="compare">
+          <span class="old">51</span><span class="arrow">→</span><span class="new">76</span>
+        </div>
+        <span class="delta">+49% in 2 weeks</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">Impressions</div>
+        <div class="compare">
+          <span class="old">758</span><span class="arrow">→</span><span class="new">1,070</span>
+        </div>
+        <span class="delta">+41% in 2 weeks</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">Avg. CTR</div>
+        <div class="compare">
+          <span class="old">6.7%</span><span class="arrow">→</span><span class="new">7.1%</span>
+        </div>
+        <span class="delta">Above 3–5% benchmark</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">Google Reviews</div>
+        <div class="compare">
+          <span class="old">15</span><span class="arrow">→</span><span class="new">18</span>
+        </div>
+        <span class="delta">+3 new 5★ reviews</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CRITICAL ALERT BAND -->
+<div class="alert-band">
+  <div class="alert-band-inner">
+    <div class="alert-icon">!</div>
+    <div>
+      <h2>3 technical issues are silently capping every metric above.</h2>
+      <p>Found during today's live HTML inspection. Fixing them is what unlocks the next phase — detailed in Section 02 below.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SECTION 01 — LIVE GSC -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Live Search Console — Top Queries</h2>
+    </div>
+    <p class="section-sub">Real, current top queries from Google Search Console — pulled minutes ago. Last 90 days. Total: 73 distinct queries appearing in Google results.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>Clicks</th>
+          <th>Impressions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ameer moussa md</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>7</strong></td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td><strong>coral med</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>4</strong></td>
+          <td>85</td>
+        </tr>
+        <tr>
+          <td><strong>ameer moussa</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>3</strong></td>
+          <td>21</td>
+        </tr>
+        <tr>
+          <td><strong>dr ameer moussa</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>3</strong></td>
+          <td>19</td>
+        </tr>
+        <tr>
+          <td><strong>dr moussa</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>1</strong></td>
+          <td>31</td>
+        </tr>
+        <tr>
+          <td><strong>coralmed</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>1</strong></td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td><strong>coral medical</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>1</strong></td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td><strong>dr mousa</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>1</strong></td>
+          <td>9</td>
+        </tr>
+        <tr style="background:#F0F7F2;">
+          <td><strong>direct primary care orange county</strong> <span class="kw-tag t-disc">Discovery</span></td>
+          <td><strong>1</strong></td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td><strong>dr. musa</strong> <span class="kw-tag t-brand">Branded</span></td>
+          <td><strong>1</strong></td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#8A8A80;margin-top:10px;text-align:right;">Showing top 10 of 73 queries · Source: live Google Search Console</p>
+
+    <div style="background:#FFFBF0;border-left:4px solid #C4993B;border-radius:8px;padding:18px 22px;margin-top:20px;">
+      <strong style="color:#C4993B;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Pattern to flag</strong>
+      <p style="font-size:14px;margin-top:8px;color:#555;">9 of the top 10 queries are <strong>branded</strong>. Branded SEO is locked. The next 90 days are about expanding into <strong>non-branded discovery searches</strong> — people who don't know Dr. Moussa yet. That's where the open growth is.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 02 — CRITICAL FINDINGS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Critical Findings — Found Today</h2>
+    </div>
+    <p class="section-sub">Three technical issues caught in live HTML inspection. Each one is silently capping the growth shown above. Fixing them is the unlock.</p>
+
+    <!-- CRIT 1 -->
+    <div class="crit">
+      <div class="crit-num">1</div>
+      <div>
+        <div class="crit-tag">Critical — Indexing Issue</div>
+        <h3>Every page on the site is telling Google to ignore it.</h3>
+        <p>Both <span class="mono">/services</span> and <span class="mono">/about</span> have a canonical tag pointing to the homepage. This is a hard signal to Google saying "don't index this page — use the homepage instead."</p>
+        <div class="what">
+          <div class="lbl">What we found in the live HTML</div>
+          <span class="mono">&lt;link rel="canonical" href="https://www.coral-med.com"&gt;</span> &nbsp;— on every page
+        </div>
+        <p class="impact"><strong>Why it matters:</strong> Service pages literally cannot rank because Google is being told they're duplicates of the homepage. The growth metrics above are happening DESPITE this issue — fixing it unlocks the entire site's ability to rank for service-specific keywords (weight loss, DPC, primary care, etc.).</p>
+        <div class="fix">Update each page's canonical to point to itself. 15-minute fix in Replit. Unlocks the entire site's ability to rank for service-specific keywords.</div>
+      </div>
+    </div>
+
+    <!-- CRIT 2 -->
+    <div class="crit">
+      <div class="crit-num">2</div>
+      <div>
+        <div class="crit-tag">Critical — Duplicate Meta</div>
+        <h3>Every page has the same title and description.</h3>
+        <p>Live HTML check: homepage, /services, /about all return identical meta titles and descriptions. The SEO meta rewrite we built last month is sitting in a document — never deployed to production.</p>
+        <div class="what">
+          <div class="lbl">Current title (on every page)</div>
+          "Primary Care in Huntington Beach | Coral Med"
+        </div>
+        <p class="impact"><strong>Why it matters:</strong> This is precisely why "coral med" shows 85 monthly impressions but only 4 clicks (4.7% CTR vs. our 7.1% sitewide average). Each page needs a unique, intent-matched title to earn the click.</p>
+        <div class="fix">Deploy the SEO meta document we already wrote. One push to Replit. Immediately improves CTR on every existing impression — no new traffic required.</div>
+      </div>
+    </div>
+
+    <!-- CRIT 3 -->
+    <div class="crit">
+      <div class="crit-num">3</div>
+      <div>
+        <div class="crit-tag">Critical — NAP Inconsistency</div>
+        <h3>Dr. Moussa is listed in the wrong city on 3 major directories.</h3>
+        <p>Live citation check: Vitals, Healthgrades, and WebMD all list Dr. Moussa as <strong>Los Angeles, CA</strong> instead of Huntington Beach. Only Doximity and USNews show the correct city.</p>
+        <div class="what">
+          <div class="lbl">Live citation status</div>
+          ✗ Vitals.com — Los Angeles, CA<br>
+          ✗ Healthgrades.com — Los Angeles, CA<br>
+          ✗ WebMD Care — Los Angeles, CA<br>
+          ✓ Doximity — Huntington Beach (correct)<br>
+          ✓ Health.usnews.com — Huntington Beach (correct)
+        </div>
+        <p class="impact"><strong>Why it matters:</strong> Google cross-references NAP data across directories to verify business legitimacy. When 60% of major medical citations say "Los Angeles," Google's confidence in the Huntington Beach location drops — suppressing local pack rankings for "doctor near me" searches.</p>
+        <div class="fix">Claim and correct each profile (free, ~1 hour total per directory). Push the corrected NAP through the next 30 days and watch local pack visibility climb.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03 — LIVE GBP -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Live Google Business Profile Snapshot</h2>
+    </div>
+    <p class="section-sub">Pulled directly from the GBP merchant view minutes ago. Everything Google is showing potential patients right now.</p>
+
+    <div class="gbp-panel">
+      <div class="gbp-rating">
+        <div class="stars">5.0<span class="star">★</span></div>
+        <div class="rcount"><strong>18</strong> verified Google reviews</div>
+      </div>
+      <div>
+        <dl class="gbp-details">
+          <dt>Business name</dt>
+          <dd>Coral Med: Primary Care</dd>
+          <dt>Category</dt>
+          <dd>Medical clinic in Huntington Beach, California</dd>
+          <dt>Address</dt>
+          <dd>17122 Beach Blvd #102, Huntington Beach, CA 92647</dd>
+          <dt>Phone</dt>
+          <dd>(714) 847-6545</dd>
+          <dt>Hours status</dt>
+          <dd>Open · Closes 5:30 PM</dd>
+          <dt>Photos</dt>
+          <dd>Logo + exterior storefront visible in panel</dd>
+        </dl>
+        <div class="gbp-flag">
+          <strong>Heads up — found in the live merchant view:</strong> Profile was last updated by you <strong>8 weeks ago</strong>. Google's local algorithm rewards profiles that publish weekly. We need to get back on the Google Post cadence — 1 post per week minimum.
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#F0F7F2;border-left:4px solid #5B7F6A;border-radius:8px;padding:18px 22px;margin-top:20px;">
+      <strong style="color:#5B7F6A;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Reputation strength → growth lever</strong>
+      <p style="font-size:14px;margin-top:8px;color:#555;">3 new 5-star reviews in the last 2 weeks, zero negatives. That's the strongest possible review velocity signal. Practices with 50+ reviews appear in significantly more local searches — a systematic review-request flow gets you to 50 in 90 days.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 04 — LIVE COMPETITIVE LANDSCAPE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Live Competitive Landscape</h2>
+    </div>
+    <p class="section-sub">Pulled from real-time Google SERPs for the highest-value keyword groups. Here's who Coral Med is fighting — and where the open territory is.</p>
+
+    <div class="comp-grid">
+      <div class="comp">
+        <div class="comp-head">
+          <span class="comp-cat threat">Direct Threat</span>
+        </div>
+        <h3>Primary Care — Huntington Beach</h3>
+        <p>Five well-funded competitors actively bidding for visibility on this term.</p>
+        <ul>
+          <li><strong>One Medical</strong> — 2 HB locations (Pacific City, Bella Terra). Corporate brand.</li>
+          <li><strong>Edinger Medical Group</strong> — Multi-physician, established.</li>
+          <li><strong>Hoag Medical Group</strong> — Hospital-system backed.</li>
+          <li><strong>Coast Family Medical</strong> — 17822 Beach Blvd · <span style="color:#D4836A;">7 blocks from Coral Med</span>.</li>
+          <li><strong>Elevated Health DPC</strong> — Delaware St · direct DPC competitor.</li>
+        </ul>
+        <div class="verdict threat">
+          <strong>The angle</strong>
+          Don't fight One Medical's brand — flank it. Coral Med wins on "private," "personal," "real doctor relationship" — everything corporate primary care can't offer.
+        </div>
+      </div>
+
+      <div class="comp">
+        <div class="comp-head">
+          <span class="comp-cat opp">Open Territory</span>
+        </div>
+        <h3>Direct Primary Care — Orange County</h3>
+        <p>Coral Med ranks <strong>#1</strong> live for this term. The DPC competitive set is in Irvine — leaving Huntington Beach wide open.</p>
+        <ul>
+          <li><strong>Embrace DPC</strong> — Irvine</li>
+          <li><strong>Halcyon Health DPC</strong> — Irvine</li>
+          <li><strong>Portola DPC</strong> — Irvine (3-doc team)</li>
+          <li><strong>OC House Calls</strong> — Aliso Viejo</li>
+        </ul>
+        <div class="verdict">
+          <strong>The play</strong>
+          Coral Med is the only DPC option in Huntington Beach proper. Build the content cluster for "DPC Huntington Beach" before another local practice notices the gap.
+        </div>
+      </div>
+
+      <div class="comp">
+        <div class="comp-head">
+          <span class="comp-cat threat">Saturated</span>
+        </div>
+        <h3>Medical Weight Loss — Huntington Beach</h3>
+        <p>Hyper-competitive. Med spas and dedicated weight-loss clinics own this SERP.</p>
+        <ul>
+          <li><strong>Beach Cities Medical Weight Control</strong> — 135 reviews.</li>
+          <li><strong>Shape &amp; Skin Medical Spa</strong></li>
+          <li><strong>Restore MedSpa &amp; Wellness</strong></li>
+          <li><strong>Beach Family Doctors</strong> — direct competitor.</li>
+        </ul>
+        <div class="verdict threat">
+          <strong>The differentiation</strong>
+          Med spas can't position around "physician-supervised, medically managed." That's Coral Med's wedge — clinical credibility vs. aesthetic-clinic packaging.
+        </div>
+      </div>
+
+      <div class="comp">
+        <div class="comp-head">
+          <span class="comp-cat opp">Validated</span>
+        </div>
+        <h3>Branded — "Coral Med" / "Dr. Moussa"</h3>
+        <p>Branded SEO is locked. coral-med.com is #1 for every branded query; 18 reviews showing in the SERP panel.</p>
+        <ul>
+          <li>coral-med.com — #1 (Search Console confirmed)</li>
+          <li>Instagram <span class="mono">@_coralmed_</span> — 320+ followers, ranking #2</li>
+          <li>Doximity — clean professional listing</li>
+          <li>3 directory citations need NAP cleanup</li>
+        </ul>
+        <div class="verdict">
+          <strong>What this proves</strong>
+          Brand is searchable. Next 90 days = move from "people who already know Dr. Moussa" to "people searching for a doctor."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 05 — THIS WEEK'S ACTION PLAN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">This Week's Action Plan</h2>
+    </div>
+    <p class="section-sub">Ranked by impact. Top three are the critical findings from today's live HTML inspection — every other initiative compounds once these are unblocked.</p>
+
+    <div class="actions">
+      <div class="action-row crit-row">
+        <div class="action-rank">1</div>
+        <div>
+          <h4>Fix canonical tags sitewide</h4>
+          <div class="ades">Update each page to canonical to itself. Unblocks Google from indexing service pages. 15-min Replit push.</div>
+        </div>
+        <div class="impact-pill crit-pill">Critical</div>
+      </div>
+      <div class="action-row crit-row">
+        <div class="action-rank">2</div>
+        <div>
+          <h4>Deploy SEO meta titles &amp; descriptions</h4>
+          <div class="ades">The doc is already written from April. Push to production. Immediately lifts CTR on existing 1,070 impressions.</div>
+        </div>
+        <div class="impact-pill crit-pill">Critical</div>
+      </div>
+      <div class="action-row crit-row">
+        <div class="action-rank">3</div>
+        <div>
+          <h4>Correct NAP on Vitals, Healthgrades, WebMD</h4>
+          <div class="ades">Claim each profile and fix the Los Angeles → Huntington Beach error. Free, ~3 hours total.</div>
+        </div>
+        <div class="impact-pill crit-pill">Critical</div>
+      </div>
+      <div class="action-row">
+        <div class="action-rank">4</div>
+        <div>
+          <h4>Resume weekly Google Posts on GBP</h4>
+          <div class="ades">Profile hasn't been updated in 8 weeks. 1 post/week minimum to keep Google's local algorithm engaged.</div>
+        </div>
+        <div class="impact-pill high">High</div>
+      </div>
+      <div class="action-row">
+        <div class="action-rank">5</div>
+        <div>
+          <h4>Launch reactivation campaign to 991-patient list</h4>
+          <div class="ades">Pending HIPAA infrastructure. Conservative estimate: 30–50 reactivated patients in 90 days.</div>
+        </div>
+        <div class="impact-pill high">High</div>
+      </div>
+      <div class="action-row">
+        <div class="action-rank">6</div>
+        <div>
+          <h4>Build "DPC Huntington Beach" content cluster</h4>
+          <div class="ades">Capture open territory before another local practice notices the gap. 3 cornerstone pages + 5 supporting articles.</div>
+        </div>
+        <div class="impact-pill">Medium</div>
+      </div>
+      <div class="action-row">
+        <div class="action-rank">7</div>
+        <div>
+          <h4>Activate post-visit Google review automation</h4>
+          <div class="ades">18 → 50 reviews in 90 days. Volume is the next local-pack unlock.</div>
+        </div>
+        <div class="impact-pill">Medium</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Live audit performed by <span class="brand">VIRALITYX</span> &nbsp;•&nbsp; Coral Med: Primary Care &nbsp;•&nbsp; June 2, 2026<br>
+  Live sources: Google Search Console (Performance, 90-day) &nbsp;•&nbsp; Google Business Profile merchant view &nbsp;•&nbsp; Live HTML inspection of coral-med.com &nbsp;•&nbsp; Real-time Google SERPs &nbsp;•&nbsp; Vitals / Healthgrades / WebMD / Doximity / USNews citation cross-check
+</div>
+
+</body>
+</html>
