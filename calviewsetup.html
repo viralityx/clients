@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calview Films — Quick Start</title>
+<style>
+  :root{
+    --green:#1f6b3b; --green-dark:#16502c; --tan:#f3efe7; --ink:#1c1c1c;
+    --line:#d8d2c4; --gold:#c08a2d;
+  }
+  *{box-sizing:border-box;-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--tan);color:var(--ink);line-height:1.5;font-size:18px}
+  .wrap{max-width:620px;margin:0 auto;padding:0 18px 60px}
+  header{background:var(--green);color:#fff;padding:26px 18px 22px;text-align:center}
+  header .badge{display:inline-block;border:2px solid #fff;border-radius:30px;
+    padding:4px 14px;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;opacity:.95}
+  header h1{margin:0;font-size:26px}
+  header p{margin:8px 0 0;font-size:16px;opacity:.95}
+  .time{background:var(--gold);color:#fff;display:inline-block;border-radius:8px;
+    padding:6px 12px;margin-top:14px;font-weight:700;font-size:15px}
+  .intro{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:20px 0}
+  .intro b{color:var(--green-dark)}
+  .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0}
+  .step h2{margin:0 0 4px;font-size:20px;color:var(--green-dark);display:flex;align-items:center;gap:10px}
+  .num{background:var(--green);color:#fff;width:30px;height:30px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto}
+  .step .why{font-size:14px;color:#5a5a5a;margin:0 0 12px}
+  label{display:block;font-weight:600;margin:12px 0 4px;font-size:16px}
+  input[type=text],input[type=email],input[type=tel],textarea,select{
+    width:100%;padding:13px;font-size:17px;border:1px solid var(--line);border-radius:10px;
+    background:#fdfcfa;font-family:inherit}
+  textarea{min-height:90px;resize:vertical}
+  .help{font-size:13px;color:#777;margin:4px 0 0}
+  .check{display:flex;align-items:flex-start;gap:10px;background:#f7f4ec;border-radius:10px;
+    padding:12px;margin:8px 0}
+  .check input{width:22px;height:22px;margin-top:2px;flex:0 0 auto}
+  .check span{font-size:15px}
+  .send-note{background:#eef5ee;border:1px solid #bcd9bf;border-radius:10px;padding:12px;font-size:14px;margin-top:8px}
+  .pill{display:inline-block;background:#eef5ee;color:var(--green-dark);border-radius:20px;
+    padding:3px 10px;font-size:13px;font-weight:600;margin:2px 4px 2px 0}
+  button{width:100%;background:var(--green);color:#fff;border:0;border-radius:12px;
+    padding:18px;font-size:19px;font-weight:700;margin-top:8px}
+  button:active{background:var(--green-dark)}
+  .done{background:#fff;border:2px dashed var(--green);border-radius:14px;padding:18px;margin-top:18px;text-align:center}
+  .done h2{color:var(--green-dark);margin:0 0 8px}
+  footer{text-align:center;font-size:13px;color:#888;margin-top:26px}
+  #out{white-space:pre-wrap;background:#fafafa;border:1px solid var(--line);border-radius:10px;
+    padding:12px;font-size:14px;margin-top:12px;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">★ Veteran-Owned ★</div>
+  <h1>Welcome to the Team, Jake</h1>
+  <p>Let's get Calview Films set up to win more jobs. Answer what you can right from your phone.</p>
+  <div class="time">⏱ Takes about 20 minutes</div>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    <b>How this works:</b> Fill in the boxes below. Skip anything you don't have handy — we'll grab it later.
+    When you're done, tap the big green button at the bottom. It puts all your answers in one place so you can
+    text or email them back to us. Photos and files you can send separately. That's it.
+  </div>
+
+  <!-- 1 -->
+  <div class="step">
+    <h2><span class="num">1</span> You</h2>
+    <p class="why">So we know we're talking to the right Jake.</p>
+    <label>Your name</label>
+    <input type="text" id="q_name" value="Jake Ramsey">
+    <label>Best cell number</label>
+    <input type="tel" id="q_phone" placeholder="949-344-3560">
+    <label>Best email</label>
+    <input type="email" id="q_email" placeholder="jake@calviewfilms.com">
+  </div>
+
+  <!-- 2 -->
+  <div class="step">
+    <h2><span class="num">2</span> Where you work</h2>
+    <p class="why">We only want to spend your ad money where you actually take jobs. No wasted dollars.</p>
+    <label>What cities or zip codes do you take jobs in?</label>
+    <textarea id="q_area" placeholder="Example: Costa Mesa, Newport Beach, Irvine, Huntington Beach... or zip codes 92626, 92627, 92660"></textarea>
+    <label>Do you ever drive to LA County for the right job?</label>
+    <select id="q_la">
+      <option value="">Pick one</option>
+      <option>Yes, for bigger jobs</option>
+      <option>Only sometimes</option>
+      <option>No, keep me in Orange County</option>
+    </select>
+  </div>
+
+  <!-- 3 -->
+  <div class="step">
+    <h2><span class="num">3</span> Your perfect customer</h2>
+    <p class="why">In your own words. This tells us who to go find more of.</p>
+    <label>Who is the best kind of tint job for you? Describe them.</label>
+    <textarea id="q_ideal" placeholder="Example: Property managers with office buildings that need heat control. Or homeowners near the water who want privacy and UV protection..."></textarea>
+  </div>
+
+  <!-- 4 -->
+  <div class="step">
+    <h2><span class="num">4</span> Your prices</h2>
+    <p class="why">So our ads send you real buyers, not tire-kickers.</p>
+    <p style="margin:0 0 6px">Type a rough price range for each, or just check the box if you'll send a price sheet:</p>
+    <label>Residential film</label>
+    <input type="text" id="q_p_res" placeholder="e.g. $8–$14 per sq ft">
+    <label>Commercial film</label>
+    <input type="text" id="q_p_com" placeholder="e.g. starts at $X">
+    <label>Security film</label>
+    <input type="text" id="q_p_sec" placeholder="e.g. $X per window">
+    <label>Decorative film</label>
+    <input type="text" id="q_p_dec" placeholder="e.g. $X">
+    <label>Turf burn protection</label>
+    <input type="text" id="q_p_turf" placeholder="e.g. $X">
+    <div class="check"><input type="checkbox" id="c_pricing"><span>I'll text/email my price sheets instead</span></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="step">
+    <h2><span class="num">5</span> Your best reviews</h2>
+    <p class="why">Real customer words sell better than anything we could write.</p>
+    <label>Paste 5–10 of your best reviews or testimonials (or your favorite lines from them)</label>
+    <textarea id="q_reviews" placeholder='Example: "Jake did our whole office in one day, no mess, looks perfect." — Mike, property manager'></textarea>
+    <div class="check"><input type="checkbox" id="c_reviews"><span>I'll send screenshots of my reviews instead</span></div>
+  </div>
+
+  <!-- 6 -->
+  <div class="step">
+    <h2><span class="num">6</span> Your biggest accounts</h2>
+    <p class="why">We'll turn these into "look who trusts Calview" stories that win more like them.</p>
+    <label>Your top 5 commercial accounts or property managers (names or companies)</label>
+    <textarea id="q_accounts" placeholder="1.&#10;2.&#10;3.&#10;4.&#10;5."></textarea>
+  </div>
+
+  <!-- 7 -->
+  <div class="step">
+    <h2><span class="num">7</span> Your service story</h2>
+    <p class="why">Being veteran-owned is your edge. The other guys can't copy it. We put it front and center everywhere.</p>
+    <label>Tell us a little about your service — branch, years, anything you're proud to share</label>
+    <textarea id="q_vet" placeholder="Example: U.S. Marine Corps, 2012–2018..."></textarea>
+  </div>
+
+  <!-- 8 -->
+  <div class="step">
+    <h2><span class="num">8</span> Photos of your work</h2>
+    <p class="why">Before/afters are our #1 selling tool. The better the photos, the more jobs we close.</p>
+    <p style="margin:0 0 4px">Send us 3–5 photos for each kind of job you do:</p>
+    <div style="margin:6px 0">
+      <span class="pill">Residential</span><span class="pill">Commercial</span>
+      <span class="pill">Security</span><span class="pill">Decorative</span><span class="pill">Turf burn</span>
+    </div>
+    <div class="check"><input type="checkbox" id="c_photos"><span>I'll text/email my best job photos</span></div>
+  </div>
+
+  <!-- 9 -->
+  <div class="step">
+    <h2><span class="num">9</span> Account access</h2>
+    <p class="why"><b>Don't type any passwords here.</b> Just tell us the email on each account. We'll send you an
+      official invite — you tap "Accept" and you're done. Safe and simple.</p>
+
+    <label>Google Ads — do you already run any?</label>
+    <select id="q_gads">
+      <option value="">Pick one</option>
+      <option>Yes, I have an account</option>
+      <option>No — please set one up for me</option>
+      <option>Not sure</option>
+    </select>
+    <label>If yes, what email is it under?</label>
+    <input type="email" id="q_gads_email" placeholder="email on the account">
+
+    <label>Google Business Profile (your Google map listing) email</label>
+    <input type="email" id="q_gbp_email" placeholder="email on your Google listing">
+
+    <label>TintWiz login email</label>
+    <input type="email" id="q_tw_email" placeholder="email you use for TintWiz">
+
+    <label>Yelp business account email</label>
+    <input type="email" id="q_yelp_email" placeholder="email on your Yelp page">
+
+    <label>Website (Wix) — who controls it?</label>
+    <input type="text" id="q_wix" placeholder="You? A friend? An old web guy? Just tell us who.">
+
+    <div class="send-note">We'll email you the access requests one at a time so it never feels overwhelming.
+      Tap accept on each — that's all we need.</div>
+  </div>
+
+  <!-- 10 -->
+  <div class="step">
+    <h2><span class="num">10</span> Anything else?</h2>
+    <label>What's on your mind? Goals, worries, busy season, anything.</label>
+    <textarea id="q_notes" placeholder="Example: I want to book more commercial jobs and slow down on small residential..."></textarea>
+  </div>
+
+  <button onclick="compile()">✅ Put my answers together to send back</button>
+
+  <div id="out"></div>
+
+  <div class="done" id="doneBox" style="display:none">
+    <h2>You're done, Jake 🎉</h2>
+    <p>Your answers are copied and ready. Paste them into a text or email to us. Then send your photos and price
+      sheets whenever you get a sec. We'll take it from here.</p>
+  </div>
+
+  <footer>
+    Calview Films × ViralityX &nbsp;·&nbsp; We win when you win.
+  </footer>
+</div>
+
+<script>
+function v(id){var el=document.getElementById(id);return el?(el.value||"").trim():"";}
+function chk(id){var el=document.getElementById(id);return el&&el.checked;}
+function compile(){
+  var L=[];
+  L.push("CALVIEW FILMS — JAKE'S QUICK START ANSWERS");
+  L.push("=========================================");
+  L.push("");
+  L.push("YOU");
+  L.push("Name: "+v('q_name'));
+  L.push("Cell: "+v('q_phone'));
+  L.push("Email: "+v('q_email'));
+  L.push("");
+  L.push("SERVICE AREA");
+  L.push("Cities/Zips: "+v('q_area'));
+  L.push("LA County jobs: "+v('q_la'));
+  L.push("");
+  L.push("PERFECT CUSTOMER");
+  L.push(v('q_ideal'));
+  L.push("");
+  L.push("PRICES");
+  L.push("Residential: "+v('q_p_res'));
+  L.push("Commercial: "+v('q_p_com'));
+  L.push("Security: "+v('q_p_sec'));
+  L.push("Decorative: "+v('q_p_dec'));
+  L.push("Turf burn: "+v('q_p_turf'));
+  if(chk('c_pricing')) L.push("(Will send price sheets separately)");
+  L.push("");
+  L.push("BEST REVIEWS");
+  L.push(v('q_reviews'));
+  if(chk('c_reviews')) L.push("(Will send review screenshots separately)");
+  L.push("");
+  L.push("TOP ACCOUNTS");
+  L.push(v('q_accounts'));
+  L.push("");
+  L.push("SERVICE STORY (Veteran-owned)");
+  L.push(v('q_vet'));
+  L.push("");
+  L.push("PHOTOS");
+  L.push(chk('c_photos')?"Will send job photos separately":"(no note)");
+  L.push("");
+  L.push("ACCOUNT ACCESS");
+  L.push("Google Ads: "+v('q_gads')+" / "+v('q_gads_email'));
+  L.push("Google Business Profile email: "+v('q_gbp_email'));
+  L.push("TintWiz email: "+v('q_tw_email'));
+  L.push("Yelp email: "+v('q_yelp_email'));
+  L.push("Website (Wix): "+v('q_wix'));
+  L.push("");
+  L.push("ANYTHING ELSE");
+  L.push(v('q_notes'));
+  var text=L.join("\n");
+  var out=document.getElementById('out');
+  out.style.display='block';
+  out.textContent=text;
+  document.getElementById('doneBox').style.display='block';
+  if(navigator.clipboard){navigator.clipboard.writeText(text).catch(function(){});}
+  out.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
