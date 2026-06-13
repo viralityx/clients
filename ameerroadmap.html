@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med Primary Care — Patient Journey &amp; Automations</title>
+<style>
+  :root { --teal:#0E7C7B; --dark:#1f2937; --gray:#6b7280; --light:#eef7f7; --border:#e5e7eb; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI', Arial, Helvetica, sans-serif; color:var(--dark); background:#f7fafa; line-height:1.55; }
+  .wrap { max-width:880px; margin:0 auto; padding:32px 24px 64px; }
+  header { background:var(--teal); color:#fff; padding:36px 24px; text-align:center; }
+  header h1 { font-size:26px; letter-spacing:.3px; }
+  header p { opacity:.92; margin-top:6px; font-size:14px; }
+  .card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:28px; margin-top:24px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .card h2 { color:var(--teal); font-size:19px; margin-bottom:14px; }
+  .card h3 { font-size:15px; margin:18px 0 8px; }
+  .card svg { width:100%; height:auto; display:block; }
+  .copyblock { background:#f4f7f7; border-left:4px solid var(--teal); border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0 18px; font-size:14px; }
+  .copyblock .lbl { display:inline-block; font-size:11px; font-weight:700; color:var(--teal); text-transform:uppercase; letter-spacing:.6px; margin-bottom:6px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin-top:10px; }
+  th, td { border:1px solid var(--border); padding:9px 11px; text-align:left; vertical-align:top; }
+  th { background:var(--light); }
+  ul, ol { margin:8px 0 0 22px; font-size:14.5px; }
+  li { margin-bottom:7px; }
+  .pill { display:inline-block; background:var(--light); color:var(--teal); border:1px solid var(--teal); border-radius:999px; font-size:11.5px; font-weight:700; padding:2px 11px; margin-left:8px; vertical-align:middle; }
+  .note { font-size:13px; color:var(--gray); margin-top:10px; }
+  footer { text-align:center; color:var(--gray); font-size:12.5px; margin-top:36px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Coral Med Primary Care — Patient Journey &amp; Automations</h1>
+  <p>Prepared by Virality X · June 12, 2026 · For Dr. Moussa's review &amp; approval</p>
+</header>
+<div class="wrap">
+
+  <div class="card">
+    <h2>The Patient Journey Loop</h2>
+    <svg viewBox="0 0 760 510" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" role="img" aria-label="Coral Med patient journey loop">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker></defs>
+      <rect x="565" y="14" width="14" height="14" rx="7" fill="#eef7f7" stroke="#0E7C7B" stroke-width="1.3"/><text x="586" y="26" font-size="11" fill="#0E7C7B">teal chip = automation fires</text>
+      <rect x="40" y="64" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="140" y="92" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">1 · New patient books</text>
+      <text x="140" y="112" font-size="11" fill="#6b7280" text-anchor="middle">Lawrence logs them via form</text>
+      <rect x="55" y="146" width="170" height="26" rx="13" fill="#eef7f7" stroke="#0E7C7B" stroke-width="1.3"/>
+      <text x="140" y="163" font-size="10.5" font-weight="bold" fill="#0E7C7B" text-anchor="middle">Welcome Sequence · 3 msgs</text>
+      <rect x="280" y="64" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="380" y="92" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">2 · First visit</text>
+      <text x="380" y="112" font-size="11" fill="#6b7280" text-anchor="middle">meets Dr. Moussa</text>
+      <rect x="520" y="64" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="620" y="92" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">3 · Checkout</text>
+      <text x="620" y="112" font-size="11" fill="#6b7280" text-anchor="middle">staff taps patient&#8217;s name</text>
+      <rect x="540" y="146" width="160" height="26" rx="13" fill="#eef7f7" stroke="#0E7C7B" stroke-width="1.3"/>
+      <text x="620" y="163" font-size="10.5" font-weight="bold" fill="#0E7C7B" text-anchor="middle">Review Request · 1 text</text>
+      <line x1="240" y1="101" x2="276" y2="101" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="480" y1="101" x2="516" y2="101" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="620" y1="178" x2="620" y2="274" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="630" y="230" font-size="10.5" fill="#6b7280">time passes</text>
+      <rect x="520" y="280" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="620" y="308" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">4 · Ongoing care</text>
+      <text x="620" y="328" font-size="11" fill="#6b7280" text-anchor="middle">stays on the books</text>
+      <rect x="528" y="362" width="184" height="26" rx="13" fill="#eef7f7" stroke="#0E7C7B" stroke-width="1.3"/>
+      <text x="620" y="379" font-size="10.5" font-weight="bold" fill="#0E7C7B" text-anchor="middle">Birthday + Annual reminders</text>
+      <rect x="280" y="280" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="380" y="308" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">5 · Goes quiet</text>
+      <text x="380" y="328" font-size="11" fill="#6b7280" text-anchor="middle">6+ months, no appointment</text>
+      <rect x="292" y="362" width="176" height="26" rx="13" fill="#eef7f7" stroke="#0E7C7B" stroke-width="1.3"/>
+      <text x="380" y="379" font-size="10.5" font-weight="bold" fill="#0E7C7B" text-anchor="middle">Reactivation · 2 versions</text>
+      <rect x="40" y="280" width="200" height="74" rx="10" fill="#fbfdfd" stroke="#c8d4d4" stroke-width="1.5"/>
+      <text x="140" y="308" font-size="13.5" font-weight="bold" fill="#1f2937" text-anchor="middle">6 · Patient returns</text>
+      <text x="140" y="328" font-size="11" fill="#6b7280" text-anchor="middle">books or replies</text>
+      <rect x="62" y="362" width="156" height="26" rx="13" fill="#f3f4f6" stroke="#c8d4d4" stroke-width="1.3"/>
+      <text x="140" y="379" font-size="10.5" font-weight="bold" fill="#6b7280" text-anchor="middle">all sequences stop</text>
+      <line x1="520" y1="317" x2="484" y2="317" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="280" y1="317" x2="244" y2="317" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+      <path d="M140,280 L140,226 L380,226 L380,146" fill="none" stroke="#0E7C7B" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+      <text x="160" y="218" font-size="10.5" font-weight="bold" fill="#0E7C7B">books again — loop restarts</text>
+      <line x1="40" y1="420" x2="720" y2="420" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="40" y="446" font-size="11.5" font-weight="bold" fill="#1f2937">Guardrails on every automation</text>
+      <text x="40" y="466" font-size="11" fill="#6b7280">Max 1 message per patient per 14 days · birthday &amp; annual never stack (300-day rule) · every CTA = call/text (714) 847-6545</text>
+      <text x="40" y="484" font-size="11" fill="#6b7280">Each message is email + SMS · emails launch now, SMS when A2P clears (~48 hrs)</text>
+    </svg>
+  </div>
+
+  <div class="card">
+    <h2>When Each Message Goes Out</h2>
+    <svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" role="img" aria-label="Message cadence per workflow">
+      <circle cx="540" cy="26" r="5.5" fill="#0E7C7B"/><text x="551" y="30" font-size="11" fill="#6b7280">email + SMS</text>
+      <circle cx="632" cy="26" r="5.5" fill="#ffffff" stroke="#0E7C7B" stroke-width="1.6"/><text x="643" y="30" font-size="11" fill="#6b7280">email only</text>
+      <line x1="180" y1="60" x2="700" y2="60" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="180" y="50" font-size="10.5" fill="#6b7280" text-anchor="middle">Day 0 (trigger)</text>
+      <text x="229" y="50" font-size="10.5" fill="#6b7280" text-anchor="middle">2</text>
+      <text x="353" y="50" font-size="10.5" fill="#6b7280" text-anchor="middle">7</text>
+      <text x="700" y="50" font-size="10.5" fill="#6b7280" text-anchor="middle">Day 21</text>
+      <line x1="180" y1="56" x2="180" y2="64" stroke="#c8d4d4" stroke-width="1"/>
+      <line x1="229" y1="56" x2="229" y2="64" stroke="#c8d4d4" stroke-width="1"/>
+      <line x1="353" y1="56" x2="353" y2="64" stroke="#c8d4d4" stroke-width="1"/>
+      <line x1="700" y1="56" x2="700" y2="64" stroke="#c8d4d4" stroke-width="1"/>
+      <text x="40" y="95" font-size="12" font-weight="bold" fill="#1f2937">Welcome</text>
+      <line x1="180" y1="91" x2="229" y2="91" stroke="#c8d4d4" stroke-width="1.2"/>
+      <circle cx="180" cy="91" r="6" fill="#0E7C7B"/>
+      <circle cx="229" cy="91" r="6" fill="#ffffff" stroke="#0E7C7B" stroke-width="1.6"/>
+      <text x="180" y="113" font-size="9.5" fill="#6b7280" text-anchor="middle">welcome</text>
+      <text x="229" y="113" font-size="9.5" fill="#6b7280" text-anchor="middle">what to expect</text>
+      <text x="40" y="145" font-size="12" font-weight="bold" fill="#1f2937">Review request</text>
+      <circle cx="180" cy="141" r="6" fill="#0E7C7B"/>
+      <text x="196" y="145" font-size="9.5" fill="#6b7280">1&#8211;2 hrs after the visit (staff tap)</text>
+      <text x="40" y="195" font-size="12" font-weight="bold" fill="#1f2937">Birthday</text>
+      <circle cx="180" cy="191" r="6" fill="#0E7C7B"/>
+      <text x="196" y="195" font-size="9.5" fill="#6b7280">on their birthday · skips the ask if seen recently</text>
+      <text x="40" y="245" font-size="12" font-weight="bold" fill="#1f2937">Annual reminder</text>
+      <line x1="180" y1="241" x2="700" y2="241" stroke="#c8d4d4" stroke-width="1.2"/>
+      <circle cx="180" cy="241" r="6" fill="#0E7C7B"/>
+      <circle cx="700" cy="241" r="6" fill="#0E7C7B"/>
+      <text x="180" y="263" font-size="9.5" fill="#6b7280" text-anchor="middle">no 2026 visit yet</text>
+      <text x="700" y="263" font-size="9.5" fill="#6b7280" text-anchor="middle">final nudge</text>
+      <text x="40" y="295" font-size="12" font-weight="bold" fill="#1f2937">Reactivation</text>
+      <line x1="180" y1="291" x2="700" y2="291" stroke="#c8d4d4" stroke-width="1.2"/>
+      <circle cx="180" cy="291" r="6" fill="#0E7C7B"/>
+      <circle cx="353" cy="291" r="6" fill="#0E7C7B"/>
+      <circle cx="700" cy="291" r="6" fill="#0E7C7B"/>
+      <text x="180" y="313" font-size="9.5" fill="#6b7280" text-anchor="middle">we miss you</text>
+      <text x="353" y="313" font-size="9.5" fill="#6b7280" text-anchor="middle">openings this week</text>
+      <text x="700" y="313" font-size="9.5" fill="#6b7280" text-anchor="middle">last note</text>
+    </svg>
+    <p class="note">Reactivation has two versions with the same timing: patients seen within ~10 months know Dr. Moussa; patients beyond 10 months get the "meet your new doctor" framing (Dr. Jackson retired).</p>
+  </div>
+
+  <div class="card">
+    <h2>Sample Copy (one per workflow — full set in the doc)</h2>
+    <h3>Welcome — SMS, Day 0</h3>
+    <div class="copyblock"><span class="lbl">SMS</span><br>Hi {{first_name}}, welcome to Coral Med Primary Care! 🎉 We're so glad you chose us. Save this number — you can call or text us anytime at (714) 847-6545 with questions or scheduling. We're looking forward to meeting you! Reply STOP to opt out</div>
+    <h3>Annual Visit Reminder — SMS, Day 0 <span class="pill">HIGH PRIORITY</span></h3>
+    <div class="copyblock"><span class="lbl">SMS</span><br>Hi {{first_name}}, it's Coral Med Primary Care. We're halfway through the year and our records show you haven't had your 2026 annual visit yet. Most insurance plans cover it — call or text (714) 847-6545 and we'll get you booked this week. Reply STOP to opt out</div>
+    <h3>Reactivation, Version B (10+ months) — SMS, Day 0</h3>
+    <div class="copyblock"><span class="lbl">SMS</span><br>Hi {{first_name}}, this is Coral Med Primary Care (formerly Dr. Jackson's practice). Since Dr. Jackson's retirement, Dr. Moussa has taken over your care — and he'd love to meet you. Call or text (714) 847-6545 to book a visit. Reply STOP to opt out</div>
+    <h3>Birthday — SMS</h3>
+    <div class="copyblock"><span class="lbl">SMS</span><br>Happy birthday, {{first_name}}! 🎂 All of us at Coral Med Primary Care hope you have a wonderful day. Birthdays are also a great checkpoint — if you haven't had your annual visit yet this year, call or text us at (714) 847-6545 and we'll get you booked.</div>
+    <h3>Google Review Request — SMS, 1–2 hrs post-visit</h3>
+    <div class="copyblock"><span class="lbl">SMS</span><br>Hi {{first_name}}, thank you for visiting Coral Med Primary Care today — we hope you had a great experience! Would you take 30 seconds to share it? Your review helps neighbors find us: [REVIEW LINK]. And if anything wasn't perfect, just reply here and we'll make it right. Reply STOP to opt out</div>
+  </div>
+
+  <div class="card">
+    <h2>What's Missing — Recommended Next Automations</h2>
+    <table>
+      <tr><th>#</th><th>Automation</th><th>Why it matters</th></tr>
+      <tr><td>1</td><td><b>Appointment confirmation + reminder</b></td><td>48-hr email + 24-hr SMS ("Reply C to confirm"). The single biggest no-show reducer.</td></tr>
+      <tr><td>2</td><td><b>Missed-call text-back</b></td><td>Captures the 3–5% of daytime calls still missed; pairs with the after-hours AI agent.</td></tr>
+      <tr><td>3</td><td><b>No-show / cancellation rebook</b></td><td>Next-morning "let's reschedule" text recovers lost slots.</td></tr>
+      <tr><td>4</td><td><b>Monthly newsletter</b></td><td>Ameer requested it — meet the staff, hours, seasonal health tips.</td></tr>
+      <tr><td>5</td><td><b>Seasonal campaigns</b></td><td>Flu shots (Sep–Oct) + "use your benefits before Dec 31" (Nov–Dec).</td></tr>
+      <tr><td>6</td><td><b>Website speed-to-lead</b></td><td>Text within 5 minutes of any website inquiry — #1 conversion factor.</td></tr>
+      <tr><td>7</td><td><b>Post-visit check-in</b></td><td>Day 3, fully generic: "Any questions after your visit? Just reply."</td></tr>
+      <tr><td>8</td><td><b>AI Google-review reply</b></td><td>Approved on the call — turn it on.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Launch Order</h2>
+    <ol>
+      <li><b>This week (email only):</b> Standalone Annual Visit Reminder + Reactivation — lists already in the CRM.</li>
+      <li><b>When A2P clears (~48 hrs):</b> SMS on for both, plus Birthday.</li>
+      <li><b>After Lawrence's New Patient Form:</b> Welcome Sequence + SOP.</li>
+      <li><b>After the one-tap review page:</b> Google Review Request.</li>
+      <li><b>Next wave:</b> Appointment reminders, missed-call text-back, no-show rebook, newsletter #1.</li>
+    </ol>
+    <p class="note">Open items: submit A2P today · confirm address for email footer (17122 Beach Blvd #102, Huntington Beach, CA 92647 — verify street number) · build Lawrence's form · scrub old "DPC Aesthetics" branding from the CRM profile.</p>
+  </div>
+
+  <footer>Coral Med Primary Care · (714) 847-6545 · Prepared by Virality X</footer>
+</div>
+</body>
+</html>
