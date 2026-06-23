@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Business Update | June 23, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FAFAF7;
+    color: #2C2C2C;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 600; }
+  .sage { color: #5B7F6A; }
+  .coral { color: #D4836A; }
+  .gold { color: #C4993B; }
+  .muted { color: #8A8A80; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 50px 40px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #5B7F6A 0%, #4A6B58 100%);
+    color: white;
+    padding: 70px 40px 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 280px; height: 280px;
+    background: rgba(196,153,59,0.15);
+    border-radius: 50%;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #C4993B;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: 52px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    color: white;
+  }
+  .hero-sub {
+    font-size: 18px;
+    opacity: 0.85;
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    font-size: 13px;
+    opacity: 0.8;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 22px;
+    margin-top: 30px;
+  }
+  .hero-meta div span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; margin-bottom: 4px; }
+  .powered {
+    position: absolute;
+    top: 30px; right: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #C4993B;
+    border: 1px solid rgba(196,153,59,0.5);
+    padding: 6px 16px;
+    border-radius: 3px;
+    z-index: 3;
+  }
+
+  /* GROWTH BAND */
+  .growth-band {
+    background: white;
+    border-bottom: 1px solid #E8E6E1;
+    padding: 50px 40px;
+  }
+  .growth-inner { max-width: 1100px; margin: 0 auto; }
+  .growth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    text-align: center;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+  }
+  .growth-sub {
+    text-align: center;
+    font-size: 14px;
+    color: #8A8A80;
+    margin-bottom: 36px;
+  }
+  .growth-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .gcell {
+    text-align: center;
+    position: relative;
+  }
+  .gcell:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -10px; top: 15%;
+    width: 1px; height: 70%;
+    background: #E8E6E1;
+  }
+  .gcell .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8A8A80;
+    margin-bottom: 12px;
+  }
+  .gcell .compare {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .gcell .old {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #BBB;
+    text-decoration: line-through;
+  }
+  .gcell .arrow { color: #5B7F6A; font-size: 16px; }
+  .gcell .new {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #5B7F6A;
+    line-height: 1;
+  }
+  .gcell .new .star { color: #C4993B; font-size: 28px; }
+  .gcell .delta {
+    display: inline-block;
+    font-size: 11px;
+    background: #5B7F6A;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 50px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #5B7F6A;
+    padding-bottom: 12px;
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #C4993B;
+    letter-spacing: 2px;
+  }
+  .section-title { font-size: 28px; color: #2C2C2C; }
+  .section-sub {
+    font-size: 14px;
+    color: #8A8A80;
+    margin-top: 14px;
+    margin-bottom: 24px;
+    max-width: 720px;
+  }
+
+  /* SHIPPED GRID */
+  .shipped-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .ship {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 22px;
+    border: 1px solid #E8E6E1;
+    border-left: 4px solid #5B7F6A;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .ship-check {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: #5B7F6A;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .ship .stitle { font-weight: 600; font-size: 14px; margin-bottom: 4px; color: #2C2C2C; }
+  .ship .sdesc { font-size: 12px; color: #8A8A80; line-height: 1.5; }
+
+  /* LIVE STATUS */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .status-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #E8E6E1;
+  }
+  .status-card.green { border-top: 4px solid #5B7F6A; }
+  .status-card.amber { border-top: 4px solid #C4993B; }
+  .status-card.red { border-top: 4px solid #D4836A; }
+  .status-card .stag {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  .status-card.green .stag { background: #F0F7F2; color: #5B7F6A; }
+  .status-card.amber .stag { background: #FFFBF0; color: #C4993B; }
+  .status-card.red .stag { background: #FFF5F3; color: #D4836A; }
+  .status-card h3 { font-size: 17px; margin-bottom: 10px; }
+  .status-card ul { list-style: none; }
+  .status-card li {
+    font-size: 13px;
+    padding: 6px 0;
+    color: #555;
+    border-top: 1px solid #F0EDE8;
+  }
+  .status-card li:first-child { border-top: none; }
+  .status-card li::before { content: '◆ '; color: #5B7F6A; font-size: 9px; margin-right: 6px; }
+  .status-card.amber li::before { color: #C4993B; }
+  .status-card.red li::before { color: #D4836A; }
+
+  /* PENDING LIST */
+  .pending {
+    background: white;
+    border-radius: 14px;
+    padding: 8px 0;
+    border: 1px solid #E8E6E1;
+  }
+  .pending-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 120px 120px;
+    gap: 20px;
+    padding: 18px 28px;
+    align-items: center;
+    border-bottom: 1px solid #F0EDE8;
+    font-size: 14px;
+  }
+  .pending-row:last-child { border-bottom: none; }
+  .pending-row.header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8A8A80;
+    font-weight: 700;
+    background: #FAFAF7;
+    border-bottom: 2px solid #5B7F6A;
+  }
+  .pending-rank {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #C4993B;
+    line-height: 1;
+  }
+  .pending-row h4 { font-size: 15px; margin-bottom: 2px; }
+  .pending-row .pdesc { font-size: 12px; color: #8A8A80; }
+  .pill {
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 12px;
+  }
+  .pill.crit { background: #FFF5F3; color: #D4836A; }
+  .pill.high { background: #FFFBF0; color: #C4993B; }
+  .pill.med { background: #F0F7F2; color: #5B7F6A; }
+  .pill.low { background: #F0EDE8; color: #8A8A80; }
+  .owner-tag {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  /* NEXT MOVE */
+  .next-move {
+    background: linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .next-move::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: rgba(196,153,59,0.1);
+    border-radius: 50%;
+  }
+  .next-move-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #C4993B;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .next-move h2 { color: white; font-size: 32px; line-height: 1.2; margin-bottom: 18px; }
+  .next-move .sub { font-size: 16px; opacity: 0.8; max-width: 700px; margin-bottom: 28px; }
+  .next-move-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .nm-step {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .nm-step .nm-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #C4993B;
+    margin-bottom: 6px;
+  }
+  .nm-step h4 { color: white; font-size: 15px; margin-bottom: 8px; }
+  .nm-step p { font-size: 13px; opacity: 0.8; }
+
+  /* FOOTER */
+  .footer {
+    background: #2C2C2C;
+    color: rgba(255,255,255,0.6);
+    padding: 28px 40px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .footer .brand { color: #C4993B; font-weight: 600; letter-spacing: 1px; }
+
+  @media (max-width: 900px) {
+    .growth-grid, .status-grid, .next-move-grid { grid-template-columns: 1fr; }
+    .shipped-grid { grid-template-columns: 1fr; }
+    .gcell::after { display: none; }
+    .hero h1 { font-size: 36px; }
+    .pending-row { grid-template-columns: 50px 1fr; }
+    .pill, .owner-tag { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="powered">ViralityX</div>
+  <div class="hero-inner">
+    <div class="hero-label">Business Update &nbsp;•&nbsp; Coral Med Primary Care</div>
+    <h1>The system is working.<br>Here's what's shipped, what's live, and what's next.</h1>
+    <div class="hero-sub">A full review of where Coral Med stands across SEO, GBP, citations, reviews, and the automation stack we've been building since our last meeting.</div>
+    <div class="hero-meta">
+      <div><span>Practice</span>Coral Med Primary Care, Huntington Beach</div>
+      <div><span>Reporting Period</span>Since June 12 (11 days)</div>
+      <div><span>Prepared</span>June 23, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- GROWTH BAND -->
+<div class="growth-band">
+  <div class="growth-inner">
+    <div class="growth-title">Every core metric is up.</div>
+    <div class="growth-sub">Live data pulled today from Google Search Console + Google Business Profile.</div>
+    <div class="growth-grid">
+      <div class="gcell">
+        <div class="lbl">Google Reviews</div>
+        <div class="compare">
+          <span class="old">15</span><span class="arrow">→</span><span class="new">41<span class="star">★</span></span>
+        </div>
+        <span class="delta">+173% in 6 weeks</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">Search Clicks (90d)</div>
+        <div class="compare">
+          <span class="old">51</span><span class="arrow">→</span><span class="new">118</span>
+        </div>
+        <span class="delta">+131% since May</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">GBP Interactions</div>
+        <div class="compare">
+          <span class="old">348</span><span class="arrow">→</span><span class="new">403</span>
+        </div>
+        <span class="delta">+16% in 3 weeks</span>
+      </div>
+      <div class="gcell">
+        <div class="lbl">Star Rating</div>
+        <div class="compare">
+          <span class="new">5.0<span class="star">★</span></span>
+        </div>
+        <span class="delta">All 5-star, zero negatives</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- WHAT WE SHIPPED -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">What We've Shipped Since June 12</h2>
+    </div>
+    <p class="section-sub">Eleven days of focused work. Foundation locked in across SEO, GBP, infrastructure, and automation copy.</p>
+
+    <div class="shipped-grid">
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Canonical tag bug fixed sitewide</div><div class="sdesc">Every page on coral-med.com was telling Google to ignore it. Fixed across all routes. Service pages can finally rank individually.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Unique SEO meta titles &amp; descriptions deployed</div><div class="sdesc">Homepage, services, contact, FAQ, pricing, Meet Dr. Moussa, aesthetics, and direct primary care all have unique, intent-matched titles now.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Two new landing pages built &amp; live</div><div class="sdesc">/checkup and /wellness are now functional targets for the postcard QR codes that went out this month.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">HIPAA infrastructure activated</div><div class="sdesc">$297/mo CRM add-on paid &amp; live. BAA signed end-to-end. Everything compliant for patient-facing automation.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">3 email automations built in the CRM</div><div class="sdesc">Welcome Sequence, Birthday + Annual Visit Reminder, 6-Month Reactivation Campaign. All live, awaiting copy approval.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Customer Journey + Automation Copy doc</div><div class="sdesc">Full patient journey mapped end-to-end. Every text and email word-for-word documented for your review.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Patient list cleaned &amp; uploaded</div><div class="sdesc">Two Excel exports merged via code. 991 patients now in the CRM as contacts, ready for reactivation.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">GBP primary category audit + recommendation</div><div class="sdesc">Identified "Aesthetic medicine" Maps headline issue. Recommended primary swap to "Internist" + services reorder.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Citation work (your wins)</div><div class="sdesc">NPI registry updated to office address (was Laguna). Apple Maps, ZocDoc, Nextdoor, Healthgrades all claimed.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">26 new 5-star reviews in 6 weeks</div><div class="sdesc">15 → 41 reviews. Acceleration is real. Replies posted to every one with HIPAA-safe language.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Revised automation copy ready (today)</div><div class="sdesc">Every edit you sent yesterday baked into the doc. Reactivation campaign now branches: 6-10 mo vs 10+ mo (intro Dr. Moussa). Ready for your approval.</div></div></div>
+      <div class="ship"><div class="ship-check">✓</div><div><div class="stitle">Missed-call rate dropped (your win)</div><div class="sdesc">Lawrence onboarded as front-desk VA. Missed call rate down to 3-5% from previous 20%+. Phone scripts standardized to "Coral Med Primary Care."</div></div></div>
+    </div>
+  </div>
+
+  <!-- WHAT'S LIVE NOW -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">What's Live Right Now</h2>
+    </div>
+    <p class="section-sub">Current state of every system. Green = active and running. Amber = built but awaiting one trigger. Red = blocked.</p>
+
+    <div class="status-grid">
+      <div class="status-card green">
+        <span class="stag">Live &amp; Active</span>
+        <h3>Working Today</h3>
+        <ul>
+          <li>Website SEO foundation (canonical + meta)</li>
+          <li>New /checkup &amp; /wellness landing pages</li>
+          <li>HIPAA infrastructure (BAA signed)</li>
+          <li>GBP optimized (5.0 ★ · 41 reviews)</li>
+          <li>NPI registry + 4 directory claims</li>
+          <li>Lawrence VA covering front desk</li>
+          <li>Manual review replies (HIPAA-safe)</li>
+        </ul>
+      </div>
+      <div class="status-card amber">
+        <span class="stag">Built · Awaiting Trigger</span>
+        <h3>Ready to Activate</h3>
+        <ul>
+          <li>Welcome Sequence (emails &amp; SMS)</li>
+          <li>Birthday + Annual Visit Reminder</li>
+          <li>6-Month Reactivation (Branch A &amp; B)</li>
+          <li>Post-visit Review Request flow</li>
+          <li>AI Review Responder (Suggestive mode)</li>
+          <li>RingCentral AI after-hours agent</li>
+          <li>Revised copy ready (sent today)</li>
+        </ul>
+      </div>
+      <div class="status-card red">
+        <span class="stag">Blocked / Pending</span>
+        <h3>Waiting On</h3>
+        <ul>
+          <li>Your approval on revised copy</li>
+          <li>A2P carrier registration submission</li>
+          <li>Inbound SMS triage workflow build</li>
+          <li>Lawrence's new patient form</li>
+          <li>Yelp claim (never started)</li>
+          <li>Vitals + WebMD direct claims</li>
+          <li>Google Posts cadence (11 weeks silent)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PENDING ITEMS / WHAT'S NEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Open Items &amp; Action Plan</h2>
+    </div>
+    <p class="section-sub">Ranked by priority. Everything below either unblocks revenue or compounds existing growth. Top 3 are the bottlenecks blocking the email and SMS launches.</p>
+
+    <div class="pending">
+      <div class="pending-row header">
+        <div></div>
+        <div>Item</div>
+        <div style="text-align:center;">Priority</div>
+        <div style="text-align:center;">Owner</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">1</div>
+        <div>
+          <h4>Approve the revised automation copy</h4>
+          <div class="pdesc">All your edits from yesterday baked in. Reply "approved" so we can flip on the email automations same day.</div>
+        </div>
+        <div><span class="pill crit">Critical</span></div>
+        <div class="owner-tag">Ameer</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">2</div>
+        <div>
+          <h4>Submit A2P carrier registration</h4>
+          <div class="pdesc">Nikki confirmed on June 12 it had not been submitted yet. Need to push this through today. ~48 hrs to clear once submitted.</div>
+        </div>
+        <div><span class="pill crit">Critical</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">3</div>
+        <div>
+          <h4>Build inbound SMS triage workflow</h4>
+          <div class="pdesc">Auto-responders for med refills, clinical questions, emergencies, after-hours. Required before SMS goes live (addresses the overwhelm concern).</div>
+        </div>
+        <div><span class="pill crit">Critical</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">4</div>
+        <div>
+          <h4>Build Lawrence's new patient capture form</h4>
+          <div class="pdesc">HIPAA-compliant form in the CRM that Lawrence fills out per new booking. Triggers the Welcome Sequence cleanly.</div>
+        </div>
+        <div><span class="pill high">High</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">5</div>
+        <div>
+          <h4>Swap GBP primary category to "Internist"</h4>
+          <div class="pdesc">Started this. Confirms accuracy with your board cert, opens up referring-physician traffic for "internist near me" searches.</div>
+        </div>
+        <div><span class="pill high">High</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">6</div>
+        <div>
+          <h4>Reorder GBP services list</h4>
+          <div class="pdesc">Push primary care services to top, aesthetic services to bottom. Kills the "Aesthetic medicine" Maps headline.</div>
+        </div>
+        <div><span class="pill high">High</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">7</div>
+        <div>
+          <h4>Resume weekly Google Posts on GBP</h4>
+          <div class="pdesc">Profile hasn't been updated in 11 weeks. Google rewards weekly posts for local ranking. We'll handle posting going forward.</div>
+        </div>
+        <div><span class="pill high">High</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">8</div>
+        <div>
+          <h4>Claim Yelp profile (never done)</h4>
+          <div class="pdesc">Defensive claim. NAP-match to GBP. 30 min task. Apple Maps uses Yelp data, so this also strengthens iOS search visibility.</div>
+        </div>
+        <div><span class="pill high">High</span></div>
+        <div class="owner-tag">Ameer</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">9</div>
+        <div>
+          <h4>Claim Vitals + WebMD directly</h4>
+          <div class="pdesc">NPI update will eventually push correct address through. Direct claims speed it up. ~1 hr each.</div>
+        </div>
+        <div><span class="pill med">Medium</span></div>
+        <div class="owner-tag">Ameer</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">10</div>
+        <div>
+          <h4>Launch reactivation campaign to 991 patient list</h4>
+          <div class="pdesc">Cross-reference pre/post-March 2026 data first (Office Ally migration). Then segment by 6-10 mo vs 10+ mo and fire.</div>
+        </div>
+        <div><span class="pill med">Medium</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">11</div>
+        <div>
+          <h4>Activate post-visit Review Request flow</h4>
+          <div class="pdesc">In-office tap-to-send after each visit. Drive reviews from current 41 toward 75+ by Q4.</div>
+        </div>
+        <div><span class="pill med">Medium</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">12</div>
+        <div>
+          <h4>Decision on /direct-primary-care page</h4>
+          <div class="pdesc">Original copy conflicts with insurance-based model (Regal IPA, Medicare). Either rewrite positioning or skip.</div>
+        </div>
+        <div><span class="pill low">Low</span></div>
+        <div class="owner-tag">Ameer</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">13</div>
+        <div>
+          <h4>Re-send the blog post + split social tiles</h4>
+          <div class="pdesc">Your blog post never came through in chat. Once we have it, we'll deploy to coral-med.com. Also splitting your ChatGPT tiles into Instagram carousel.</div>
+        </div>
+        <div><span class="pill low">Low</span></div>
+        <div class="owner-tag">Both</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">14</div>
+        <div>
+          <h4>Photo refresh on GBP</h4>
+          <div class="pdesc">Profile photo set is good but adding 2-3 new ones every few weeks signals "active business" to Google. Pending headshot still showing as pending approval.</div>
+        </div>
+        <div><span class="pill low">Low</span></div>
+        <div class="owner-tag">Ameer</div>
+      </div>
+      <div class="pending-row">
+        <div class="pending-rank">15</div>
+        <div>
+          <h4>APCM workflow for Medicare patients (Phase 2)</h4>
+          <div class="pdesc">Monthly check-in automation tied to Advanced Primary Care Management billing code. Billable + retention play in one. Build after core reactivation is live.</div>
+        </div>
+        <div><span class="pill low">Low</span></div>
+        <div class="owner-tag">ViralityX</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT MOVE -->
+  <div class="section">
+    <div class="next-move">
+      <div class="next-move-label">The Next 7 Days</div>
+      <h2>Three things flip the switch on the entire automation engine.</h2>
+      <div class="sub">Once these three line up, every email automation we've built fires the same day. SMS goes live 48 hours after that.</div>
+      <div class="next-move-grid">
+        <div class="nm-step">
+          <div class="nm-num">1</div>
+          <h4>You approve the revised copy</h4>
+          <p>Reply "approved" on the revised doc we walk through today. Same-day email launch.</p>
+        </div>
+        <div class="nm-step">
+          <div class="nm-num">2</div>
+          <h4>We submit A2P registration</h4>
+          <p>Filing goes in today. 48-hour carrier review. SMS goes live the moment it clears.</p>
+        </div>
+        <div class="nm-step">
+          <div class="nm-num">3</div>
+          <h4>We build the SMS triage workflow</h4>
+          <p>Med refill, clinical question, and emergency auto-routing. Protects your time when patients start texting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Prepared by <span class="brand">VIRALITYX</span> &nbsp;•&nbsp; Coral Med Primary Care &nbsp;•&nbsp; Business Update June 23, 2026<br>
+  Sources: Live Google Search Console &nbsp;•&nbsp; Live Google Business Profile merchant view &nbsp;•&nbsp; CRM workflow inventory &nbsp;•&nbsp; Citation cross-check
+</div>
+
+</body>
+</html>
