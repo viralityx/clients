@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GEM AI — v1 SaaS Cost Workup & Technical Roadmap</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #0a0a0a;
+    --ink-2: #3a3a3a;
+    --ink-3: #6b6b6b;
+    --ink-4: #9b9b9b;
+    --line: #e5e3dc;
+    --line-2: #d4d0c4;
+    --accent: #1a1a1a;
+    --gold: #b08d2d;
+    --green: #2f7d50;
+    --blue: #2a5cb8;
+    --red: #b13a2f;
+    --teal: #2a7d7a;
+    --layman-bg: #fff8e8;
+    --layman-border: #e0c878;
+    --why-bg: #f0f4fb;
+    --why-border: #b8c8e0;
+    --warning-bg: #fff0ed;
+    --warning-border: #e0b8b0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Layout ─────────────────────────────────── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  header.hero .eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--ink-4);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  header.hero h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  header.hero .subtitle {
+    font-size: 18px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+  }
+  header.hero .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  header.hero .meta strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Table of contents ─────────────────────── */
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+    box-shadow: var(--shadow);
+  }
+  nav.toc .toc-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  nav.toc ol {
+    list-style: none;
+    counter-reset: toc;
+    columns: 2;
+    gap: 24px;
+  }
+  nav.toc li {
+    counter-increment: toc;
+    padding: 4px 0;
+    break-inside: avoid;
+  }
+  nav.toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--ink-4);
+    font-variant-numeric: tabular-nums;
+    margin-right: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  nav.toc a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+  }
+  nav.toc a:hover { border-bottom-color: var(--ink); }
+
+  /* ── Sections ──────────────────────────────── */
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+  section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--line);
+    position: relative;
+  }
+  section h2 .section-num {
+    position: absolute;
+    left: -56px;
+    top: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-4);
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+  }
+  section h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  section h4 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  section p {
+    margin-bottom: 14px;
+    color: var(--ink-2);
+  }
+  section ul, section ol {
+    margin: 8px 0 16px 24px;
+    color: var(--ink-2);
+  }
+  section li { margin-bottom: 6px; }
+
+  /* ── Tables ────────────────────────────────── */
+  .table-wrap {
+    margin: 16px 0 24px;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    background: var(--surface);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: #f5f3ec;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  tr:last-child td { border-bottom: none; }
+  td strong { color: var(--ink); font-weight: 600; }
+  .recommended-row { background: #fffce8; }
+  .recommended-row td:first-child { position: relative; }
+  .recommended-row td:first-child::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  /* ── Callouts ──────────────────────────────── */
+  .callout {
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-left: 4px solid;
+    position: relative;
+  }
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .callout-header .icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+  .callout p { margin-bottom: 8px; color: var(--ink-2); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .callout.layman {
+    background: var(--layman-bg);
+    border-color: var(--gold);
+  }
+  .callout.layman .callout-header { color: #7a5e10; }
+
+  .callout.why {
+    background: var(--why-bg);
+    border-color: var(--blue);
+  }
+  .callout.why .callout-header { color: #1f4690; }
+
+  .callout.warning {
+    background: var(--warning-bg);
+    border-color: var(--red);
+  }
+  .callout.warning .callout-header { color: #8a2519; }
+
+  .callout.note {
+    background: #f0f7f4;
+    border-color: var(--green);
+  }
+  .callout.note .callout-header { color: #1e5a37; }
+
+  /* ── Comparison cards ──────────────────────── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .compare-card.before { border-top: 3px solid var(--red); }
+  .compare-card.after { border-top: 3px solid var(--green); }
+  .compare-card .label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .compare-card.before .label { color: var(--red); }
+  .compare-card.after .label { color: var(--green); }
+  .compare-card .title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .compare-card p {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+
+  /* ── Phase blocks ──────────────────────────── */
+  .phase {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .phase .phase-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .phase.phase-2 .phase-tag { background: var(--blue); }
+  .phase.phase-3 .phase-tag { background: var(--green); }
+  .phase.phase-4 .phase-tag { background: var(--gold); color: var(--ink); }
+  .phase h3 {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+  .phase .when {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .phase .add-on {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #faf7ee;
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  /* ── Pricing pills ─────────────────────────── */
+  .price {
+    font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+  .price-large { font-size: 22px; }
+
+  /* ── Big takeaway ──────────────────────────── */
+  .tldr {
+    background: var(--ink);
+    color: white;
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin: 32px 0 8px;
+  }
+  .tldr .tldr-label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--ink-4);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .tldr h3 {
+    color: white !important;
+    margin-top: 0 !important;
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
+  }
+  .tldr p {
+    color: #d4d4d4 !important;
+    font-size: 15px;
+  }
+  .tldr ul { color: #d4d4d4; margin-left: 20px; }
+  .tldr li { margin-bottom: 10px; }
+  .tldr strong { color: white; }
+
+  /* ── Sources ───────────────────────────────── */
+  .sources {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .sources h2 {
+    font-size: 14px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-bottom: none !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 0 !important;
+  }
+  .sources ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sources li {
+    padding: 4px 0;
+    color: var(--ink-3);
+  }
+  .sources a {
+    color: var(--ink-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line-2);
+    text-underline-offset: 2px;
+  }
+  .sources a:hover { text-decoration-color: var(--ink); }
+
+  /* ── Stamps / badges ───────────────────────── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--gold);
+    color: var(--ink);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge.green { background: var(--green); color: white; }
+  .badge.blue { background: var(--blue); color: white; }
+
+  /* ── Responsive ────────────────────────────── */
+  @media (max-width: 700px) {
+    .page { padding: 32px 20px 64px; }
+    header.hero h1 { font-size: 32px; }
+    nav.toc ol { columns: 1; }
+    section h2 { font-size: 24px; }
+    section h2 .section-num { position: static; display: block; margin-bottom: 4px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    th, td { padding: 10px 12px; font-size: 13px; }
+  }
+
+  /* ── Print ─────────────────────────────────── */
+  @media print {
+    body { background: white; }
+    .page { max-width: 100%; padding: 0 24px; }
+    nav.toc { display: none; }
+    .phase, .callout, .tldr, .table-wrap { box-shadow: none; }
+    section { page-break-inside: avoid; }
+    .tldr { background: white !important; color: var(--ink) !important; border: 2px solid var(--ink); }
+    .tldr h3, .tldr p, .tldr li { color: var(--ink) !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow">Proposal · Prepared for Brandon</div>
+    <h1>GEM AI — v1 SaaS Cost Workup &amp; Technical Roadmap</h1>
+    <p class="subtitle">Build pricing, monthly operational economics, and a phased technical plan from today's demo to a multi-tenant SaaS platform.</p>
+    <div class="meta">
+      <span><strong>From:</strong> Virality X</span>
+      <span><strong>Date:</strong> June 2026</span>
+      <span><strong>Pricing valid:</strong> 30 days</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#scope">What we're pricing</a></li>
+      <li><a href="#current">What you have today (in plain English)</a></li>
+      <li><a href="#build">Build cost — three partnership options</a></li>
+      <li><a href="#ops">Monthly operational costs per kiosk</a></li>
+      <li><a href="#roadmap">Staged technical roadmap (with the why)</a></li>
+      <li><a href="#concepts">Key concepts in layman's terms</a></li>
+      <li><a href="#hosting">Hosting plan</a></li>
+      <li><a href="#vs-heygen">Why GEM beats HeyGen-built-in</a></li>
+      <li><a href="#pricing-clients">SaaS pricing to your clients</a></li>
+      <li><a href="#hardware">Hardware (passthrough)</a></li>
+      <li><a href="#rev-split">Revenue split waterfall</a></li>
+      <li><a href="#recommendation">Recommendation &amp; TL;DR</a></li>
+    </ol>
+  </nav>
+
+  <!-- ════════════════════ 1 ════════════════════ -->
+  <section id="scope">
+    <h2><span class="section-num">01</span> What we're pricing</h2>
+    <p>The real product — a multi-tenant SaaS so your team can onboard new cities, gyms, venues, and real-estate developments without us touching code each time. Not a single demo kiosk.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width: 38%;">Module</th><th>What it covers</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tenant accounts + auth + Stripe billing</strong></td><td>Sign-up, login, per-tenant dashboard, subscription management</td></tr>
+          <tr><td><strong>Avatar configuration dashboard</strong></td><td>Each client picks avatar, voice, languages, branding</td></tr>
+          <tr><td><strong>Tenant knowledge editor</strong></td><td>Built-in Markdown editor per tenant for facts, hours, policies (no engineering needed to update)</td></tr>
+          <tr><td><strong>Kiosk runtime (polished)</strong></td><td>The 4-screen flow we built, per-tenant theming, all 6 languages</td></tr>
+          <tr><td><strong>Configurable user journeys</strong></td><td>The "Pokémon starter" idea — per-vertical templates (city, gym, real-estate, sports)</td></tr>
+          <tr><td><strong>Analytics dashboard</strong></td><td>Top queries, language breakdown, conversion to SMS, query heat map</td></tr>
+          <tr><td><strong>Admin / onboarding flow</strong></td><td>Internal tool to onboard a new client in &lt;30 min</td></tr>
+          <tr><td><strong>Deployment + multi-tenant infra</strong></td><td>Scalable hosting, env management, monitoring</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Estimated effort:</strong> ~250–350 hours over ~6–8 weeks with 1 senior + 1 junior builder.</p>
+
+    <div class="callout why">
+      <div class="callout-header"><span class="icon">⌘</span> Why this scope and not less</div>
+      <p>Brandon's pitch on the call was a <em>platform</em>, not a one-off. Building it as "Colton's kiosk + a copy script for Gym #2" would save ~$8K up front but cost 5–10× that in maintenance the first time a fork diverges. Multi-tenant from day one is the only architecture that actually supports the "100 cities" vision.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 2 ════════════════════ -->
+  <section id="current">
+    <h2><span class="section-num">02</span> What you have today (in plain English)</h2>
+    <p>Before the technical roadmap, here's exactly what's running right now at <code>https://gem-web-production.up.railway.app</code>, in non-technical terms.</p>
+
+    <div class="callout layman">
+      <div class="callout-header"><span class="icon">★</span> Today's setup, explained like you're not an engineer</div>
+      <p>Imagine GEM is a really smart receptionist at a desk. When someone walks up and asks a question, three things happen:</p>
+      <ol style="margin-left: 20px; color: var(--ink-2);">
+        <li><strong>The face and voice (HeyGen):</strong> The receptionist's appearance, voice, and lip-sync. We "rent" this from a company called HeyGen. They handle the avatar streaming so we don't have to.</li>
+        <li><strong>The brain (Anthropic's Claude):</strong> When a visitor asks a question, we send it to Anthropic's Claude — one of the most powerful AI models in the world. Claude reads a one-page "cheat sheet" we wrote about the City of Colton (basic info — address, phone, hours, common services) and writes an answer.</li>
+        <li><strong>The follow-up (Twilio):</strong> If the visitor wants a copy of the answer texted to their phone, we send it via Twilio (the same company that powers Uber's texts).</li>
+      </ol>
+      <p style="margin-top: 12px;"><strong>The problem with the cheat-sheet approach:</strong> the receptionist only knows what's on the one page. If you ask something not on the page, they guess (sometimes well, sometimes not). And every question we send to Claude costs us a small amount of money.</p>
+    </div>
+
+    <p>This is fine for the demo. To turn it into a real product where the City of Colton — or a gym chain, or Randall Lewis's real estate company — can sell GEM to their visitors, we need to upgrade two things specifically: <em>where the knowledge comes from</em> (Section 5, "RAG") and <em>where the brain runs</em> (Section 5, "Own Inference"). Both are explained in layman's terms in Section 6.</p>
+  </section>
+
+  <!-- ════════════════════ 3 ════════════════════ -->
+  <section id="build">
+    <h2><span class="section-num">03</span> Build cost — three partnership options</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Build fee</th>
+            <th>Monthly retainer</th>
+            <th>Equity to Virality&nbsp;X</th>
+            <th>Sales commission</th>
+            <th>Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A — High equity / minimal capital</strong></td>
+            <td><span class="price">$5,000</span></td>
+            <td>Passthrough only</td>
+            <td><strong>30–40%</strong></td>
+            <td>10–15%</td>
+            <td>Preserve cash; treat us like co-founders</td>
+          </tr>
+          <tr class="recommended-row">
+            <td><strong>B — Friend rate + low equity</strong> <span class="badge">Recommended</span></td>
+            <td><span class="price price-large">$22,000</span></td>
+            <td>Passthrough + $750/mo</td>
+            <td><strong>10–15%</strong></td>
+            <td>15–20%</td>
+            <td>Move fast, you stay majority owner</td>
+          </tr>
+          <tr>
+            <td><strong>C — Full pay, no equity</strong></td>
+            <td><span class="price">$42,000</span></td>
+            <td>Passthrough + $1,500/mo</td>
+            <td>0%</td>
+            <td>10% on closed deals</td>
+            <td>You have capital, want full ownership</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout why">
+      <div class="callout-header"><span class="icon">⌘</span> Why three options</div>
+      <p>The call surfaced three real scenarios — Brandon-with-no-cash, Brandon-with-some-cash, Brandon-with-full-cash. Each option matches one. Picking between them isn't about which is "fair," it's about which matches your actual capital position and how much of the upside you want to keep.</p>
+    </div>
+
+    <p>Build fee paid 50% upfront / 25% midpoint / 25% on launch. Reference: v1 demo was $1,000; this v1 MVP is roughly 20× the surface area.</p>
+
+    <h3>Optional v1 add-on</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width: 50%;">Add-on</th><th style="width: 18%;">Cost</th><th>Why you'd add it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lite RAG</strong> (per-tenant Markdown KB injected at request time, ~80K chars / tenant)</td><td><span class="price">+$2,000</span></td><td>If a launch client (Colton, a gym chain) has more than ~5 pages of content out the gate</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 4 ════════════════════ -->
+  <section id="ops">
+    <h2><span class="section-num">04</span> Monthly operational costs — per active kiosk</h2>
+    <p>The big takeaway: the LLM cost drops <strong>~20× when we swap providers in Phase 1</strong>, and another <strong>~3× when we self-host in Phase 3</strong>. The avatar (HeyGen) is and stays the dominant cost.</p>
+
+    <h3>Per-kiosk cost at moderate use (~400 conversations/mo, ~800 talk-minutes/mo)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Phase 1 (Groq + Llama&nbsp;3.3&nbsp;70B)</th>
+            <th>Phase 2 (+ Full RAG)</th>
+            <th>Phase 3 (own inference)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>HeyGen LiveAvatar</strong> (Pro plan, ~800 min)</td><td>$165</td><td>$165</td><td>$165</td></tr>
+          <tr><td><strong>LLM</strong></td><td><strong>$0.50–1.50</strong> (Groq)</td><td>$1–3 (more tokens due to retrieved context)</td><td>$0.20 (own GPU)</td></tr>
+          <tr><td><strong>Twilio SMS</strong> (~200 texts + number)</td><td>$5</td><td>$5</td><td>$5</td></tr>
+          <tr><td><strong>Vector DB</strong> (Neon pgvector or Pinecone)</td><td>—</td><td>$5–15</td><td>$5–15</td></tr>
+          <tr><td><strong>File storage</strong> (Cloudflare R2 for KB uploads)</td><td>—</td><td>$2</td><td>$2</td></tr>
+          <tr><td><strong>Hosting</strong> (shared multi-tenant)</td><td>$5</td><td>$5</td><td>$5</td></tr>
+          <tr style="background: #f5f3ec;"><td><strong>Per-kiosk subtotal</strong></td><td><strong>~$175–185</strong></td><td><strong>~$185–200</strong></td><td><strong>~$185–195</strong></td></tr>
+          <tr><td><strong>+ Shared GPU instance</strong> (Tier 3 only, fleet-wide)</td><td>—</td><td>—</td><td>+$300–500/mo across fleet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Tier 3 break-even</strong> vs Groq APIs: ~10–15 active kiosks.</p>
+
+    <div class="callout why">
+      <div class="callout-header"><span class="icon">⌘</span> Why HeyGen stays the dominant cost</div>
+      <p>The avatar (face + voice + lip sync) is the <em>only</em> part we don't control. Replicating it with open-source tools (MuseTalk, LivePortrait) is technically possible but a $20–35K engineering project on its own, plus ongoing GPU costs that probably wash. Better to pay HeyGen and focus our engineering on the layer above.</p>
+    </div>
+
+    <h3>Locked-in pricing the table is built on (June 2026 verified)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width: 38%;">Component</th><th>Current price</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Sonnet 4.6</td><td>$3.00 input / $15.00 output per 1M tokens (~$0.01–0.02/question) — <em>our previous baseline</em></td></tr>
+          <tr><td>Groq Llama 3.3 70B</td><td>$0.59 input / $0.79 output per 1M tokens (~$0.0005/question) — <em>Phase 1 default</em></td></tr>
+          <tr><td>Groq with batch + caching</td><td>$0.15 / $0.40 per 1M tokens (further 4× discount available)</td></tr>
+          <tr><td>Twilio SMS US</td><td>$0.0079/msg + ~$0.0035 carrier fee = ~$0.012/msg effective</td></tr>
+          <tr><td>Twilio US phone number</td><td>$1.15/mo</td></tr>
+          <tr><td>HeyGen LiveAvatar</td><td>Tiered plans, ~$0.20/min effective at Pro tier</td></tr>
+          <tr><td>Neon Postgres + pgvector</td><td>Free tier covers small scale, ~$20/mo at moderate use</td></tr>
+          <tr><td>Cloudflare R2 storage</td><td>$0.015/GB/mo, no egress fees</td></tr>
+          <tr><td>BentoCloud / Northflank H100</td><td>$2.65–2.74/hr for serverless GPU</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 5 ════════════════════ -->
+  <section id="roadmap">
+    <h2><span class="section-num">05</span> Staged technical roadmap (with the why)</h2>
+    <p>Each phase is independent — we ship Phase 1 as v1, then trigger Phase 2/3/4 based on traction. The phases exist because doing everything at once costs ~$50K up front and most of it would be premature optimization. Staging spreads the spend and forces each upgrade to be triggered by real demand.</p>
+
+    <!-- PHASE 1 -->
+    <div class="phase phase-1">
+      <div class="phase-tag">PHASE 1 · v1 MVP LAUNCH · INCLUDED IN BUILD FEE</div>
+      <h3>Launch the multi-tenant platform with the cheap, fast brain</h3>
+      <div class="when">Ship date: end of build</div>
+
+      <h4>What we ship</h4>
+      <ul>
+        <li>HeyGen avatar + 4-screen kiosk runtime (already built, gets polished)</li>
+        <li><strong>Swap Claude → Groq Llama 3.3 70B</strong> for the brain</li>
+        <li>Multi-tenant dashboard, Stripe billing, basic analytics</li>
+        <li>All 6 languages, voice + text input, SMS handoff</li>
+        <li><strong>Per-tenant Markdown knowledge editor</strong> — paste in hours, policies, FAQs; injected into the system prompt at request time</li>
+      </ul>
+
+      <h4>Why this is the minimum viable launch</h4>
+      <p>The current demo is single-tenant and uses Claude (expensive, slow). Without multi-tenancy, Brandon's sales team has to call us every time they close a deal. Without the Groq swap, every question costs ~$0.01 and takes ~2s instead of ~$0.0005 and ~300ms — at scale that's the difference between 80% and 30% gross margin.</p>
+
+      <h4>Why Groq specifically (not Claude, not OpenAI, not self-hosted)</h4>
+      <ul>
+        <li>Runs Llama on custom LPU chips at 500+ tokens/sec — the avatar starts speaking almost the instant the user finishes</li>
+        <li>Per-question cost is 20× lower than Claude with no quality drop for this use case</li>
+        <li>Still a managed API, so we don't have GPUs to babysit</li>
+        <li>Easy to swap for self-hosted later (Phase 3) without changing app code — same OpenAI-compatible interface</li>
+      </ul>
+
+      <h4>What happens if we skip it</h4>
+      <p>Brandon's per-kiosk margin caps at ~75% instead of 85%, response latency feels laggy on iPad, and every new client needs an engineer to onboard.</p>
+
+      <h4>Result</h4>
+      <p>~$180/kiosk/mo, sub-second responses, clients can update their own content without us.</p>
+
+      <div class="add-on">
+        <strong>Optional v1 add-on — Lite RAG ($2,000):</strong> Upgrades the Markdown editor to handle ~80K chars per tenant with simple chunked retrieval. Worth it only if a launch client has substantial content (a real city policy doc, gym FAQ binder) out the gate.
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase phase-2">
+      <div class="phase-tag">PHASE 2 · FULL RAG INGESTION · $8,000 ADD-ON</div>
+      <h3>Upgrade the "cheat sheet" into a full library card</h3>
+      <div class="when">Trigger: ~Month 4, or first client who wants to upload PDFs</div>
+
+      <h4>What we ship</h4>
+      <ul>
+        <li><strong>Neon Postgres with pgvector</strong> as the per-tenant knowledge store</li>
+        <li>PDF/URL/map ingest pipeline</li>
+        <li>Automatic chunking, semantic retrieval, citation tracking ("according to Section 4.2 of the Municipal Code…")</li>
+        <li>Unlimited per-tenant content; instant updates by re-indexing a single doc</li>
+      </ul>
+
+      <h4>Why this phase exists</h4>
+      <p>The Markdown editor in Phase 1 maxes out around 50–80K characters per tenant. For a small gym or single-purpose kiosk that's plenty. But the moment a real client (City of Colton's full policy library, Randall Lewis's building portfolio with floor plans + lease docs + amenity guides) wants to upload PDFs, that's RAG territory. Without it, GEM caps at small clients only.</p>
+
+      <h4>Why now and not in v1</h4>
+      <p>RAG is engineering work that takes 80+ hours to do right. Doing it before you have a paying client who needs it = $8K of risk on a feature nobody asked for. Doing it after = the first client who needs it pays for it via your Pro+ tier upgrade.</p>
+
+      <h4>What it unlocks commercially</h4>
+      <ul>
+        <li>The "Pro+" tier ($1,750/mo) — same ~85% gross margin, $500 more per client per month</li>
+        <li>Enterprise sales motion (cities, real estate developers) — these clients literally ask "can we upload our docs" in the first meeting</li>
+        <li>Citations — the avatar can say "this answer is from Section 4 of the Municipal Code" which is a <em>huge</em> trust win in government settings</li>
+      </ul>
+
+      <h4>What happens if we skip it</h4>
+      <p>GEM stays a "smart FAQ" product instead of a "knowledge platform." Caps your TAM at small clients with simple content.</p>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase phase-3">
+      <div class="phase-tag">PHASE 3 · OWN THE INFERENCE · $6,000 ADD-ON</div>
+      <h3>Stop renting the AI brain — buy our own</h3>
+      <div class="when">Trigger: ~Month 6, or once you have 10+ paying clients</div>
+
+      <h4>What we ship</h4>
+      <ul>
+        <li>Deploy <strong>vLLM</strong> or <strong>SGLang</strong> on Northflank or RunPod Serverless ($2.65–3/hr H100)</li>
+        <li>Move from per-token API spend to per-second GPU spend</li>
+        <li>Same model interface, just different infrastructure under the hood</li>
+      </ul>
+
+      <h4>Why this phase exists</h4>
+      <p>At ~10+ active kiosks, you're paying Groq enough per month that running your own GPU becomes cheaper. The math: Groq charges ~$0.0005/question. A serverless H100 at $2.74/hr can handle ~50 questions/sec = $0.000015/question. That's <strong>30× cheaper at the unit level</strong>, but you only beat Groq on total cost once your fleet has enough volume to keep the GPU busy.</p>
+
+      <h4>Why we wait for the trigger</h4>
+      <p>A GPU sitting idle still costs $2.74/hr. Under 10 kiosks, the GPU spends most of its time waiting, and you'd actually <em>lose</em> money vs Groq. The break-even (10–15 kiosks) is where serverless utilization crosses the line.</p>
+
+      <h4>What it unlocks commercially</h4>
+      <ul>
+        <li>The business gets <em>more</em> profitable per client as you grow, not less — opposite of most API-dependent SaaS</li>
+        <li>At 30 kiosks, ~$4,500/mo in savings that drops straight to the bottom line</li>
+        <li>You stop being dependent on Groq's pricing decisions — if they raise prices, you don't care</li>
+        <li>Faster custom fine-tunes become possible (you control the inference stack end-to-end)</li>
+      </ul>
+
+      <h4>What happens if we skip it</h4>
+      <p>Per-kiosk LLM cost stays at ~$0.50–1.50/mo instead of ~$0.20. Bearable, but you leave ~$300/kiosk/yr on the table indefinitely.</p>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase phase-4">
+      <div class="phase-tag">PHASE 4 · OPTIONAL ADD-ONS · CASE-BY-CASE</div>
+      <h3>Tactical upgrades, triggered only by specific client demand</h3>
+      <div class="when">Trigger: a real client asks for it</div>
+
+      <div class="table-wrap" style="margin-top: 8px;">
+        <table>
+          <thead><tr><th>Add-on</th><th>Cost</th><th>Why you'd trigger it</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>On-kiosk offline mode</strong> (Mac Mini M4 + MLX-served Llama 3.1 8B)</td>
+              <td><span class="price">$15,000 build + $800/kiosk hardware</span></td>
+              <td>When a marquee client demands fully offline-capable. Cities sometimes lose internet; federal contracts require it; "smart building" pitches sell better with "works without WiFi"</td>
+            </tr>
+            <tr>
+              <td><strong>Persona fine-tuning</strong> (custom voice/tone of avatar)</td>
+              <td><span class="price">$1,000–3,000 per fine-tune</span></td>
+              <td>When a client says "the avatar's tone is wrong" and a system prompt rewrite doesn't fix it. Real but rare</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Why these are deferred to Phase 4</h4>
+      <p>Neither is needed for the product to work. Both solve specific objections from specific clients. Build them when a client is paying for them — never before.</p>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-header"><span class="icon">!</span> Two things to be clear about</div>
+      <p><strong>(1) We are NOT training a foundation model.</strong> Every phase uses an existing open-weight model (Meta's Llama, Alibaba's Qwen, etc.) that someone else already spent $50M+ training and released free. "Build your own LLM" = self-host an existing model + add your knowledge. Training from scratch is a $10M–$1B exercise nobody outside Meta/Anthropic/OpenAI does.</p>
+      <p><strong>(2) Fine-tuning ≠ knowledge.</strong> Fine-tuning changes how the model speaks; RAG controls what it knows. Facts go in the KB. Tone goes in fine-tuning (and only when needed, which is rare).</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 6 ════════════════════ -->
+  <section id="concepts">
+    <h2><span class="section-num">06</span> Key concepts in layman's terms</h2>
+    <p>The two terms Brandon and his stakeholders will hear most often are "RAG" and "own inference." Here's what they actually mean, without the jargon.</p>
+
+    <h3>RAG — the receptionist with a library card</h3>
+    <div class="callout layman">
+      <div class="callout-header"><span class="icon">★</span> What "RAG" actually means</div>
+      <p>RAG stands for <em>Retrieval-Augmented Generation</em>. Forget the name — here's the analogy:</p>
+      <p><strong>Today (no RAG):</strong> Imagine our receptionist memorized a one-page cheat sheet about Colton — address, hours, common services. When someone asks "what's the late fee on a building permit?" and it's not on the cheat sheet, the receptionist guesses (or says "I don't know"). The cheat sheet maxes out at about 80,000 characters because that's all that fits in their head at once.</p>
+      <p><strong>With RAG:</strong> We give the receptionist a library card. They no longer memorize anything. Instead, the moment someone asks a question, they <em>look it up</em> in your full library — every PDF, every webpage, every policy document you've uploaded. They find the relevant pages in under a second, read them, and write an answer based on what they found. They can even cite the source: "According to Section 4.2 of the Municipal Code, late fees on permit applications are…"</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card before">
+        <div class="label">Without RAG (today)</div>
+        <div class="title">Smart guessing</div>
+        <p>Avatar relies on a small "cheat sheet" written into its instructions. Anything beyond that, it guesses or refuses.</p>
+        <p><strong>Good for:</strong> a small gym with one page of FAQs.</p>
+        <p><strong>Bad for:</strong> a city with 200 pages of policy, hours that change weekly, dozens of departments.</p>
+      </div>
+      <div class="compare-card after">
+        <div class="label">With RAG (Phase 2)</div>
+        <div class="title">Looks it up live</div>
+        <p>Avatar searches your full document library at question time. Pulls the most relevant 2–3 paragraphs, reads them, writes a citation-backed answer.</p>
+        <p><strong>Good for:</strong> any client with real content — cities, real estate portfolios, multi-location franchises.</p>
+        <p><strong>Bonus:</strong> clients update their own knowledge by uploading new PDFs — no engineer needed.</p>
+      </div>
+    </div>
+
+    <p><strong>Why "RAG" gets mentioned constantly in 2026:</strong> it's how every serious AI product handles client-specific knowledge. ChatGPT does it with their "Custom GPTs." Notion does it with "Notion AI Q&A." It's the standard way to make a general-purpose AI know about your specific business.</p>
+
+    <h3 style="margin-top: 40px;">Own inference — buying the engine instead of renting</h3>
+    <div class="callout layman">
+      <div class="callout-header"><span class="icon">★</span> What "own inference" actually means</div>
+      <p>"Inference" is the technical word for <em>running an AI to answer a question</em>. Right now we're <em>renting</em> inference from Groq (or Anthropic): they own the powerful servers, we send them a question, they charge us a few cents and send back an answer.</p>
+      <p>"Own inference" means we rent a powerful GPU server ourselves (or eventually buy one), put the AI model on it, and run it for our own clients without going through Groq.</p>
+      <p><strong>The hotel-vs-house analogy:</strong></p>
+      <ul style="margin-left: 20px; color: var(--ink-2);">
+        <li><strong>Renting (today):</strong> Pay-per-night at a hotel. Cheap if you only travel occasionally. Expensive if you're there every day.</li>
+        <li><strong>Owning (Phase 3):</strong> Pay a fixed monthly mortgage for a house. Higher minimum cost. But the more nights you spend there, the cheaper each night becomes.</li>
+      </ul>
+      <p>The math: a GPU server costs about $2,000/month whether we use it 1 hour or 700 hours. Below ~10 kiosks, Groq is cheaper. Above ~10–15 kiosks, owning beats renting by about 3×.</p>
+      <p><strong>Importantly:</strong> we use the <em>same AI model</em> either way. Same Llama. Same quality. Just running on different hardware that we control.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card before">
+        <div class="label">Renting (Phase 1 & 2)</div>
+        <div class="title">Pay-per-question via Groq</div>
+        <p>$0.0005 per question. No fixed cost. Scales automatically. Perfect while you're growing from 1 → 10 kiosks.</p>
+        <p><strong>Downside:</strong> margin gets squeezed as volume grows — every question costs you money.</p>
+      </div>
+      <div class="compare-card after">
+        <div class="label">Owning (Phase 3)</div>
+        <div class="title">Pay-per-second-of-GPU on Northflank</div>
+        <p>~$400/mo fixed for a GPU server that handles 30+ kiosks. ~$0.000015/question at scale — about 30× cheaper per unit.</p>
+        <p><strong>Upside:</strong> the more clients you have, the lower your cost per client becomes.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 40px;">"Training your own LLM" — what people actually mean</h3>
+    <div class="callout warning">
+      <div class="callout-header"><span class="icon">!</span> The "build your own AI" confusion</div>
+      <p>When someone says "we should build our own LLM," they could mean three completely different things at three completely different price points:</p>
+      <div class="table-wrap" style="margin-top: 12px;">
+        <table>
+          <thead><tr><th>What people say</th><th>What it actually means</th><th>Real cost</th></tr></thead>
+          <tbody>
+            <tr><td>"Train our own LLM from scratch"</td><td>Build a Claude or Llama from zero. PhDs, trillions of tokens, months of GPU time</td><td><span class="price">$10M–$1B</span></td></tr>
+            <tr><td>"Fine-tune our own model"</td><td>Take an existing model (Llama) and teach it your style or refusal rules</td><td><span class="price">$200–$10,000</span></td></tr>
+            <tr><td>"Self-host an open model"</td><td>Run Meta's free Llama on your own GPUs and plug in your knowledge (RAG)</td><td><span class="price">$0–$1,000 setup</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 12px;"><strong>What we're doing in Phase 2 + 3 is the third one.</strong> We never train a foundation model. Nobody outside Meta, Anthropic, OpenAI, and a few others does. When Brandon's Colorado engineer friends said "build your own to save on API costs," they meant Tier 3 — self-host Llama, add your knowledge — which is exactly what's in this roadmap.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 7 ════════════════════ -->
+  <section id="hosting">
+    <h2><span class="section-num">07</span> Hosting plan</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th><th>Web app</th><th>Database</th><th>File storage</th><th>LLM compute</th><th>Total infra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Phase 1 (now)</strong></td><td>Railway $10/mo</td><td>—</td><td>—</td><td>Groq API</td><td><strong>~$10/mo</strong></td></tr>
+          <tr><td><strong>Phase 2 (10 tenants, RAG)</strong></td><td><strong>Fly.io</strong> $20/mo</td><td><strong>Neon</strong> $20/mo</td><td><strong>Cloudflare R2</strong> $2/mo</td><td>Groq API</td><td><strong>~$45/mo</strong></td></tr>
+          <tr><td><strong>Phase 3 (30 tenants, own LLM)</strong></td><td>Fly.io $40/mo</td><td>Neon $40/mo</td><td>R2 $10/mo</td><td><strong>Northflank</strong> $400/mo</td><td><strong>~$490/mo</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Why we start on Railway</h4>
+    <p>It works, the URL is live, and Brandon can demo to clients today. Migrating before there's a real reason burns engineering hours on something users never see.</p>
+
+    <h4>Why we migrate to Fly.io at Phase 2</h4>
+    <ul>
+      <li>HeyGen uses WebRTC/LiveKit — Fly's VM model handles persistent connections natively (no weird drops)</li>
+      <li>Multi-region: kiosks in Florida, Texas, California each hit a nearby server (lower latency, snappier avatar)</li>
+      <li>Postgres at scale is ~3× cheaper on Fly than Railway ($34/mo vs $92/mo for comparable specs)</li>
+      <li>Scale-to-zero on per-tenant preview/staging environments saves real money as tenant count grows</li>
+      <li>Migration effort already scoped into the Phase 2 budget (~6–8 hours)</li>
+    </ul>
+
+    <h4>Why Cloudflare R2 for file storage (not S3)</h4>
+    <p>$0 egress fees. When tenants download their own uploaded files (PDFs, branding assets), S3 would charge per gigabyte. R2 is pennies for the same workload.</p>
+  </section>
+
+  <!-- ════════════════════ 8 ════════════════════ -->
+  <section id="vs-heygen">
+    <h2><span class="section-num">08</span> Why GEM beats "just use HeyGen's built-in knowledge base"</h2>
+    <p>Brandon will hear "but HeyGen already lets you upload knowledge to an avatar" from someone. Here's the response:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>HeyGen's built-in KB</th><th>GEM AI platform</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Model choice</strong></td><td>Their pick (GPT-4o-ish)</td><td>Any open-weight, swappable</td></tr>
+          <tr><td><strong>Multi-tenant management</strong></td><td>No — one KB per account</td><td>Yes — per-tenant dashboards</td></tr>
+          <tr><td><strong>Channels</strong></td><td>Avatar only</td><td>Avatar + SMS + analytics + kiosk hardware</td></tr>
+          <tr><td><strong>Per-question LLM cost</strong></td><td>~$0.01–0.02 (HeyGen markup)</td><td>~$0.0005 (Phase 1)</td></tr>
+          <tr><td><strong>Knowledge size</strong></td><td>~100K chars per avatar</td><td>Phase 1: 50K-char Markdown · Phase 2: unlimited</td></tr>
+          <tr><td><strong>Data ownership</strong></td><td>Inside HeyGen's servers</td><td>Your infrastructure</td></tr>
+          <tr><td><strong>White-label / branded</strong></td><td>Limited</td><td>Full</td></tr>
+          <tr><td><strong>Vertical templates</strong> (the "Pokémon journey")</td><td>Not possible</td><td>Core to the product</td></tr>
+          <tr><td><strong>Procurement story</strong> for cities/governments</td><td>"Our data is on HeyGen"</td><td>"Our data is on our own infra"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note">
+      <div class="callout-header"><span class="icon">→</span> The positioning line</div>
+      <p><em>"HeyGen sells you a talking head. GEM is the operating system around it — multi-tenant, multi-channel, multi-vertical, with the brain and data under your control."</em></p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 9 ════════════════════ -->
+  <section id="pricing-clients">
+    <h2><span class="section-num">09</span> Suggested SaaS pricing to your clients</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Sell to client</th><th>Op cost</th><th>Gross margin / kiosk</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Starter</strong> (1 kiosk, light use, Markdown KB)</td><td><span class="price">$499/mo</span></td><td>~$80</td><td><strong>~$420 (84%)</strong></td></tr>
+          <tr><td><strong>Pro</strong> (1 kiosk, moderate use)</td><td><span class="price">$1,250/mo</span></td><td>~$185</td><td><strong>~$1,065 (85%)</strong></td></tr>
+          <tr><td><strong>Pro+</strong> (Phase 2 unlock — full RAG with PDF/URL ingest + citations)</td><td><span class="price">$1,750/mo</span></td><td>~$200</td><td><strong>~$1,550 (89%)</strong></td></tr>
+          <tr><td><strong>Enterprise</strong> (3+ kiosks, heavy use, full RAG)</td><td><span class="price">$2,500–5,000/mo</span></td><td>~$600–1,500</td><td><strong>~$1,900–3,500 (75%)</strong></td></tr>
+          <tr><td><strong>+ Setup fee</strong> (KB ingest, branding)</td><td><span class="price">$1,500–3,000 one-time</span></td><td>—</td><td>margin</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Brandon's $1,500/mo concern from the call: at Pro pricing, op cost is ~$185, leaving <strong>~$1,065/mo gross margin per kiosk</strong>. Healthy 85% gross.</p>
+    <div class="callout why">
+      <div class="callout-header"><span class="icon">⌘</span> Why these tiers and not just one price</div>
+      <p>Different verticals have different willingness-to-pay. A small gym pays $499 happily; a city won't take you seriously under $1,250. Tiering also gives the sales team upsell paths (Starter → Pro → Pro+) instead of single-shot deals.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 10 ════════════════════ -->
+  <section id="hardware">
+    <h2><span class="section-num">10</span> Hardware (passthrough)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bundle</th><th>Cost to you</th><th>Sell for</th><th>Margin</th></tr></thead>
+        <tbody>
+          <tr><td>Kiosk + iPad + stand + setup</td><td><span class="price">~$1,400</span></td><td><span class="price">$2,200–2,800</span></td><td>$800–1,400</td></tr>
+          <tr><td>+ Mac Mini for offline mode (Phase 4 only)</td><td><span class="price">+$800</span></td><td><span class="price">+$1,500</span></td><td>+$700</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 11 ════════════════════ -->
+  <section id="rev-split">
+    <h2><span class="section-num">11</span> Revenue split waterfall (per client deal)</h2>
+    <ol>
+      <li><strong>Operational cost</strong> paid first (off the top, passthrough)</li>
+      <li><strong>Management retainer</strong> (Options B and C only)</li>
+      <li><strong>Remainder split</strong> per agreed equity %</li>
+      <li><strong>Sales commission</strong> out of Brandon's side (10–20% to whoever closed)</li>
+    </ol>
+    <div class="callout why">
+      <div class="callout-header"><span class="icon">⌘</span> Why this order</div>
+      <p>Infrastructure has to be paid no matter what — that comes off the top. The retainer keeps us actively maintaining the system. The remaining profit is what equity holders actually share. Sales commission comes out of the deal-owner's share because commissions are an acquisition cost specific to that deal.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 12 ════════════════════ -->
+  <section id="recommendation">
+    <h2><span class="section-num">12</span> Recommendation &amp; TL;DR for Brandon</h2>
+
+    <div class="tldr">
+      <div class="tldr-label">Final recommendation</div>
+      <h3>Option B · $22K build, $750/mo retainer, 10–15% equity</h3>
+      <p>The economics are clean. The Phase 1 LLM swap to Groq drops per-kiosk op cost to ~$180/mo, which makes Brandon's $1,500/mo price point comfortable with 85% gross margin. We stay invested at meaningful-but-minority equity; he preserves 85%+ for a future raise.</p>
+    </div>
+
+    <h3>Decision he needs to make at v1</h3>
+    <ul>
+      <li>Ship with the built-in Markdown KB editor (free, included) — fine for small launch tenants</li>
+      <li>OR add Lite RAG (+$2,000) — better if Colton or another launch client has real content out the gate</li>
+      <li>Full RAG and own-inference are Phase 2/3, triggered by traction</li>
+    </ul>
+
+    <h3>Three lines to put in the pitch</h3>
+    <div class="callout note">
+      <div class="callout-header"><span class="icon">1</span> "We're not paying OpenAI/Anthropic prices."</div>
+      <p>Phase 1 swaps to Groq Llama 3.3 70B for a 20× cost reduction and 6× speed improvement. Pays for itself day one.</p>
+    </div>
+    <div class="callout note">
+      <div class="callout-header"><span class="icon">2</span> "At ~10 clients, we own the inference."</div>
+      <p>Phase 3 self-hosting kicks in. At fleet scale this is another 3× cost reduction — the business gets <em>more</em> profitable per client as you grow.</p>
+    </div>
+    <div class="callout note">
+      <div class="callout-header"><span class="icon">3</span> "We're not training a model — we're using Meta's free Llama and adding your knowledge."</div>
+      <p>No million-dollar token bills. No engineering science project. Just standard 2026 architecture done well.</p>
+    </div>
+
+    <p style="margin-top: 24px;">Happy to turn this into a formal SOW with milestone payment schedule whenever Brandon picks a lane.</p>
+  </section>
+
+  <!-- ════════════════════ Sources ════════════════════ -->
+  <div class="sources">
+    <h2>Sources &amp; pricing references</h2>
+    <ul>
+      <li>Anthropic Claude pricing — <a href="https://platform.claude.com/docs/en/about-claude/pricing">platform.claude.com</a> · <a href="https://tokencost.app/models/claude-sonnet-4-6">TokenCost</a></li>
+      <li>Groq pricing — <a href="https://www.cloudzero.com/blog/groq-pricing/">CloudZero</a> · <a href="https://groq.com/blog/new-ai-inference-speed-benchmark-for-llama-3-3-70b-powered-by-groq">Groq benchmark</a></li>
+      <li>HeyGen API pricing — <a href="https://help.heygen.com/en/articles/10060327-heygen-api-pricing-explained">HeyGen Help Center</a></li>
+      <li>Twilio SMS US pricing — <a href="https://www.twilio.com/en-us/sms/pricing/us">twilio.com</a></li>
+      <li>Self-hosted LLM landscape 2026 — <a href="https://onyx.app/self-hosted-llm-leaderboard">Onyx Leaderboard</a> · <a href="https://www.digitalapplied.com/blog/self-hosting-open-weight-llms-2026-deployment-decision-guide">Decision Guide</a></li>
+      <li>vLLM vs SGLang benchmarks — <a href="https://www.yottalabs.ai/post/vllm-vs-sglang-which-inference-engine-should-you-use-in-2026">Yotta Labs</a></li>
+      <li>Serverless GPU comparison — <a href="https://www.koyeb.com/blog/best-serverless-gpu-platforms-for-ai-apps-and-inference-in-2026">Koyeb</a> · <a href="https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/">Spheron</a></li>
+      <li>Fly.io vs Railway 2026 — <a href="https://northflank.com/blog/railway-vs-flyio">Northflank</a></li>
+      <li>Local LLM inference 2026 — <a href="https://blog.starmorph.com/blog/local-llm-inference-tools-guide">Starmorph</a></li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
