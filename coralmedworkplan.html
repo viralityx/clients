@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikki — Ameer / Coral Med Work Plan</title>
+<style>
+  :root {
+    --bg:#1A1A2E; --surface:#16213E; --surface-2:#1C2A4A; --border:#2A3A5C;
+    --text:#E0E0E0; --text-dim:#8899AA; --accent:#D4836A; --green:#7A8B6F;
+    --green-light:#A3C090; --code-bg:#0F1629; --red:#C97064; --amber:#D4A76A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:48px;-webkit-font-smoothing:antialiased}
+  .container{max-width:820px;margin:0 auto}
+  .header-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:4px;margin-bottom:16px}
+  h1{font-size:28px;font-weight:700;margin-bottom:8px}
+  .subtitle{font-size:15px;color:var(--text-dim);margin-bottom:36px}
+  h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin:40px 0 6px;font-weight:700}
+  .h2-sub{font-size:13px;color:var(--text-dim);margin-bottom:18px}
+  .task{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:20px 22px;margin-bottom:14px}
+  .task.p1{border-left-color:var(--red)}
+  .task.p2{border-left-color:var(--amber)}
+  .task.ongoing{border-left-color:var(--green)}
+  .task-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:8px}
+  .task h3{font-size:16px;font-weight:700;color:#fff}
+  .tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:20px;white-space:nowrap;background:var(--surface-2);color:var(--text-dim)}
+  .tag.now{background:#3A2028;color:#E89A8A}
+  .tag.week{background:#3A3020;color:var(--amber)}
+  .tag.rec{background:#20301F;color:var(--green-light)}
+  .task p{font-size:14px;color:var(--text-dim);margin-bottom:8px}
+  .task p:last-child{margin-bottom:0}
+  .task strong{color:var(--text)}
+  .done{font-size:13px;color:var(--green-light);background:var(--code-bg);border-radius:6px;padding:9px 12px;margin-top:10px}
+  .done b{color:var(--green-light)}
+  .file{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--code-bg);color:var(--accent);padding:2px 7px;border-radius:4px}
+  .callout{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin:26px 0;font-size:14px;color:var(--text-dim)}
+  .callout strong{color:#fff}
+  ul{margin:8px 0 0 18px}
+  li{font-size:14px;color:var(--text-dim);margin-bottom:5px}
+  li b{color:var(--text)}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--text-dim);text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header-badge">ViralityX · Internal</div>
+  <h1>Nikki — Ameer / Coral Med Work Plan</h1>
+  <p class="subtitle">Handoff as of July 14, 2026 &nbsp;·&nbsp; Scope: execution across the account. Danny keeps client relationship, strategy, ads budget &amp; data/segmentation.</p>
+
+  <div class="callout">
+    <strong>Context in one line:</strong> Organic is compounding (search clicks +38%, reviews 49 → 54), the email reactivation engine is live and nearly worked through, and we just found a real gap — Coral Med <strong>already ranks for weight-loss/GLP-1 searches but had no page to send them to</strong>. The page + blog are built. The priority now is <strong>shipping them and fixing indexing</strong> so they can actually rank.
+  </div>
+
+  <!-- ================= P1 ================= -->
+  <h2>Priority 1 — This Week</h2>
+  <p class="h2-sub">These unlock revenue that's already knocking on the door.</p>
+
+  <div class="task p1">
+    <div class="task-head"><h3>1. Fix the sitemap + indexing</h3><span class="tag now">Do first</span></div>
+    <p>Search Console shows <strong>only 3 of 12 pages indexed</strong> (9 not indexed) and the <strong>sitemap is returning an error</strong>. Nothing new we publish will rank until this is healthy.</p>
+    <p>In Google Search Console (coral-med.com): resubmit <span class="file">sitemap.xml</span>, work the "Why pages aren't indexed" list (2 soft 404s, 2 redirects, 1 404, 1 alt-canonical, 3 crawled-not-indexed), then request indexing on the good pages.</p>
+    <div class="done"><b>Done =</b> sitemap status "Success" with pages discovered, and indexed count climbing above 3.</div>
+  </div>
+
+  <div class="task p1">
+    <div class="task-head"><h3>2. Publish the medical weight-loss / GLP-1 page</h3><span class="tag now">Do first</span></div>
+    <p>Page is built and on-brand: <span class="file">Coral-Med-Weight-Loss-Page.html</span>. Full SEO landing page — hero, how GLP-1s work, the 4 branded meds, differentiator, eligibility, process, FAQ, schema markup.</p>
+    <p>Publish at <span class="file">coral-med.com/medical-weight-loss</span>, then <strong>request indexing in Search Console</strong>. Before publishing, confirm with Danny: <strong>GLP-1 pricing</strong> (currently "discuss at consultation") and the <strong>real booking link</strong> (CTAs point to the homepage as a placeholder).</p>
+    <div class="done"><b>Done =</b> page live, indexed, CTAs pointing to the real scheduler.</div>
+  </div>
+
+  <div class="task p1">
+    <div class="task-head"><h3>3. Publish the SEO blog post</h3><span class="tag now">Do first</span></div>
+    <p><span class="file">Coral-Med-Blog-GLP1-Weight-Loss.md</span> — ~900 words targeting "medical weight loss Huntington Beach." Title tag, meta description and target keywords are listed at the top of the file. Internal-link it to the new weight-loss page.</p>
+    <div class="done"><b>Done =</b> published, linked to the service page, submitted for indexing.</div>
+  </div>
+
+  <div class="task p1">
+    <div class="task-head"><h3>4. Chase Ameer for outstanding assets</h3><span class="tag now">Do first</span></div>
+    <p>Danny already messaged him today for the first two. Follow up Thursday if nothing lands — his review is <strong>Friday</strong>.</p>
+    <ul>
+      <li><b>Lawrence's bio + photo</b> (newsletter "Meet the Team")</li>
+      <li><b>Dr. Moussa's write-up</b> on why primary care matters (newsletter)</li>
+      <li><b>GLP-1 pricing</b> — show a price or keep "ask at consultation"?</li>
+      <li><b>Booking/scheduler URL</b> — for all CTAs</li>
+    </ul>
+    <div class="done"><b>Done =</b> all four in hand before Friday.</div>
+  </div>
+
+  <!-- ================= P2 ================= -->
+  <h2>Priority 2 — Next Week</h2>
+  <p class="h2-sub">Queued and ready; needs Ameer's content first.</p>
+
+  <div class="task p2">
+    <div class="task-head"><h3>5. Ship the monthly newsletter (A/B send-day test)</h3><span class="tag week">Next week</span></div>
+    <p>Everything's built. <span class="file">Coral-Med-Newsletter-EMAIL-READY.html</span> is table-based, inline-styled, email-client safe, on the real brand, with the live logo.</p>
+    <ul>
+      <li>GHL → Marketing → Emails → Templates → New → <b>"Code Your Own"</b> → paste the HTML → save as "Monthly Newsletter — July 2026"</li>
+      <li>Swap the <b>two placeholders</b> (Lawrence bio, Dr. Moussa write-up) once they arrive</li>
+      <li>Import <span class="file">Coral-Med-Newsletter-Group-A.csv</span> and <span class="file">-Group-B.csv</span> (198 each, already randomized, no overlap)</li>
+      <li><b>Tuesday → Group A. Thursday → Group B.</b> Same content, same time of day — the only variable is the day</li>
+    </ul>
+    <div class="done"><b>Done =</b> both sends out, then compare open rates — that's our real Tuesday-vs-Thursday answer on a 200-person sample each.</div>
+  </div>
+
+  <div class="task p2">
+    <div class="task-head"><h3>6. Take over the weekly KPI data pull</h3><span class="tag week">Every Monday</span></div>
+    <p>This is the recurring one that eats Danny's Mondays. Each Monday, grab and drop in the folder:</p>
+    <ul>
+      <li><b>GBP → Performance:</b> calls, directions, website clicks, total interactions, profile views, top search terms, review count</li>
+      <li><b>Search Console:</b> last 28 days — clicks, impressions, CTR, avg position + top/trending queries</li>
+      <li><b>GHL → Marketing → Emails → Statistics:</b> latest sends</li>
+    </ul>
+    <div class="done"><b>Done =</b> screenshots in the folder Monday AM so the report can be built same-day. Last week's report is the template: <span class="file">Coral-Med-Weekly-KPI-Report-July-14-2026.html</span></div>
+  </div>
+
+  <!-- ================= ONGOING ================= -->
+  <h2>Ongoing Cadence</h2>
+  <p class="h2-sub">Low effort, compounding. These are what's actually been driving the numbers.</p>
+
+  <div class="task ongoing">
+    <div class="task-head"><h3>7. Reactivation drip</h3><span class="tag rec">Weekly · Wed</span></div>
+    <p>The pool is nearly worked through — only <strong>~10–15 newly-lapsed patients per week</strong> now. Keep it small; that protects the sending reputation. SOP: pull the fresh ~3-month lapse window → exclude anyone with an upcoming appointment → <strong>exclude anyone already emailed (zero overlap — non-negotiable, no patient ever gets emailed twice)</strong> → import with a batch tag → clone the reactivation campaign → send to that tag Wednesday.</p>
+    <div class="done"><b>Done =</b> ~10–15 sent each Wednesday, zero overlap, zero spam complaints. Ask Danny to regenerate the list — the segmentation runs off the master patient file.</div>
+  </div>
+
+  <div class="task ongoing">
+    <div class="task-head"><h3>8. Google Business Profile cadence</h3><span class="tag rec">Every 2–3 weeks</span></div>
+    <p>GBP is the highest-performing channel on this account (91 direction requests in 30 days). Keep feeding it:</p>
+    <ul>
+      <li><b>2–3 new photos</b> every few weeks — signals "active business" to the local algorithm</li>
+      <li><b>Weekly GBP post</b> — now accepting new patients, the new weight-loss service, etc.</li>
+      <li><b>Enable GBP Chat/Messaging</b> — currently OFF. Free intake channel from people already on the profile. One-time setup.</li>
+    </ul>
+    <div class="done"><b>Done =</b> Chat enabled; photo + post cadence running without reminders.</div>
+  </div>
+
+  <div class="task ongoing">
+    <div class="task-head"><h3>9. Keep the review engine running</h3><span class="tag rec">Ongoing</span></div>
+    <p>Your review redirect setup is working — <strong>41 → 49 → 54 reviews, all 5.0★</strong>. This is the single biggest trust asset on the account. Keep the requests flowing and watch for any non-5-star so we can respond fast.</p>
+    <div class="done"><b>Done =</b> steady review growth, 5.0★ maintained, every review responded to.</div>
+  </div>
+
+  <!-- ================= LATER ================= -->
+  <h2>Start Now, Lands Later</h2>
+  <p class="h2-sub">Long lead time — worth kicking off early.</p>
+
+  <div class="task">
+    <div class="task-head"><h3>10. A2P registration for SMS</h3><span class="tag">Kick off now</span></div>
+    <p><strong>~500 patients have a phone but no email</strong> — that's half the patient base we currently cannot reach at all. Ameer greenlit SMS for next month, but A2P registration takes time to clear, so start the paperwork now rather than waiting.</p>
+    <div class="done"><b>Done =</b> A2P submitted, so SMS reactivation + reminders can launch the moment it's approved.</div>
+  </div>
+
+  <div class="callout">
+    <strong>Staying with Danny (+ Claude):</strong> the client relationship and meetings with Ameer, Google Ads strategy and budget, patient data segmentation and list-building, medical copy sign-off, and the reporting narrative. If something is client-facing or involves the patient data file, route it to Danny.
+  </div>
+
+  <footer>ViralityX · Ameer / Coral Med Primary Care · Work plan issued July 14, 2026</footer>
+
+</div>
+</body>
+</html>
