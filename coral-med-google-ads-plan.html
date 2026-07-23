@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Google Ads Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12333d;
+    --blue:#12333d;
+    --blue-mid:#41616b;
+    --ink:#12333d;
+    --ink-soft:#41616b;
+    --coral:#e4573d;
+    --coral-soft:#f2917d;
+    --coral-pale:#f8c4b8;
+    --coral-light:#e7f2ef;
+    --blue-light:#e7f2ef;
+    --blue-line:#c9ded9;
+    --paper:#f6faf9;
+    --white:#ffffff;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}}
+  body{
+    font-family:'IBM Plex Sans',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:16.5px;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px;}
+
+  /* Masthead */
+  header{background:var(--navy);color:var(--white);padding:64px 0 0;}
+  .kicker{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:#8fb5ad;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:14px;margin-bottom:36px;
+  }
+  h1{
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(38px,6vw,58px);
+    line-height:1.02;letter-spacing:-.015em;margin-bottom:16px;
+  }
+  h1 .accent{color:#ff8a70;}
+  .lede{max-width:560px;color:#c4d6d2;font-size:17px;margin-bottom:44px;}
+  .statbar{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid rgba(255,255,255,.15);
+  }
+  .stat{padding:20px 18px 26px;border-right:1px solid rgba(255,255,255,.15);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:var(--mono);font-size:19px;font-weight:600;color:#ff8a70;}
+  .stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8fb5ad;margin-top:4px;}
+  @media(max-width:680px){
+    .statbar{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .stat{border-bottom:1px solid rgba(255,255,255,.15);}
+    .stat:nth-child(3),.stat:nth-child(4){border-bottom:none;}
+  }
+
+  /* Sections */
+  section{padding:56px 0 8px;}
+  .sec-label{
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--coral);margin-bottom:10px;
+  }
+  h2{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:29px;letter-spacing:-.01em;
+    margin-bottom:18px;color:var(--navy);
+  }
+  h3{
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;margin:26px 0 8px;color:var(--blue);
+  }
+  p{margin-bottom:14px;max-width:70ch;}
+  p.note{color:var(--ink-soft);font-size:15px;}
+  strong{font-weight:600;}
+
+  /* Campaign structure diagram */
+  .structure{background:var(--white);border:1px solid var(--blue-line);border-radius:10px;padding:30px 28px 34px;margin:26px 0 10px;}
+  .campaign-node{
+    display:inline-block;background:var(--blue);color:var(--white);
+    font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;
+    padding:9px 18px;border-radius:6px;margin-bottom:6px;
+  }
+  .trunk{width:2px;height:22px;background:var(--blue-line);margin-left:32px;}
+  .branches{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:2px;}
+  .adgroup{border:1px solid var(--blue-line);border-top:4px solid var(--coral);border-radius:8px;padding:16px 16px 18px;background:var(--paper);}
+  .adgroup h4{font-family:'Archivo',sans-serif;font-weight:600;font-size:15.5px;margin-bottom:2px;color:var(--navy);}
+  .adgroup .share{font-family:var(--mono);font-size:12px;color:var(--coral);font-weight:600;margin-bottom:10px;}
+  .adgroup ul{list-style:none;}
+  .adgroup li{font-size:13.5px;color:var(--ink-soft);padding:4px 0;border-top:1px dashed var(--blue-line);}
+  .adgroup li:first-child{border-top:none;}
+  .parked{margin-top:14px;border:1px dashed var(--blue-line);border-radius:8px;padding:12px 16px;font-size:13.5px;color:var(--ink-soft);background:var(--white);}
+  .parked b{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);display:block;margin-bottom:2px;}
+  .spendbar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:24px 0 8px;}
+  .spendbar div{height:100%;}
+  .sb1{background:var(--coral);width:75%;}
+  .sb2{background:var(--coral-pale);width:25%;}
+  .spendkey{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);display:flex;gap:18px;flex-wrap:wrap;}
+  .spendkey i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;}
+  @media(max-width:680px){.branches{grid-template-columns:1fr;}}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse;margin:18px 0 24px;background:var(--white);border:1px solid var(--blue-line);border-radius:10px;overflow:hidden;font-size:14.5px;}
+  th{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;text-align:left;color:var(--blue);background:var(--blue-light);padding:11px 16px;}
+  td{padding:12px 16px;border-top:1px solid var(--blue-line);vertical-align:top;}
+  td.num{font-family:var(--mono);font-size:13.5px;white-space:nowrap;}
+
+  /* Ad mock */
+  .admock{background:var(--white);border:1px solid var(--blue-line);border-radius:10px;padding:20px 22px;max-width:560px;margin:18px 0 8px;font-family:Arial,Helvetica,sans-serif;}
+  .admock .tag{display:inline-block;font-size:11px;font-weight:700;border:1px solid #9aa0a6;color:#5f6368;border-radius:3px;padding:0 5px;margin-bottom:6px;}
+  .admock .url{font-size:13px;color:#202124;margin-bottom:2px;}
+  .admock .head{font-size:19px;color:#1a0dab;margin-bottom:4px;line-height:1.3;}
+  .admock .desc{font-size:13.5px;color:#4d5156;line-height:1.5;}
+
+  /* Callout */
+  .callout{border-left:4px solid var(--coral);background:var(--coral-light);border-radius:0 10px 10px 0;padding:20px 24px;margin:22px 0;}
+  .callout .t{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;}
+  .callout p{font-size:15px;margin-bottom:10px;}
+  .callout p:last-child{margin-bottom:0;}
+
+  /* Pills */
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px;}
+  .pill{font-family:var(--mono);font-size:12.5px;background:var(--white);border:1px solid var(--blue-line);border-radius:999px;padding:5px 13px;color:var(--ink-soft);}
+  .pill.neg{text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:1.5px;}
+
+  /* Timeline */
+  .timeline{margin:20px 0 26px;}
+  .trow{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--blue-line);}
+  .trow:last-child{border-bottom:1px solid var(--blue-line);}
+  .trow .when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--coral);letter-spacing:.05em;text-transform:uppercase;padding-top:2px;}
+  .trow p{margin:0;font-size:15px;}
+  @media(max-width:560px){.trow{grid-template-columns:1fr;gap:4px;}}
+
+  footer{margin-top:64px;background:var(--navy);color:#8fb5ad;padding:28px 0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">
+      <span>viralityX &middot; Media Plan</span>
+      <span>Prepared July 2026</span>
+    </div>
+    <h1>Google Ads Plan<br><span class="accent">Coral Med</span> Primary Care</h1>
+    <p class="lede">A single, tightly-scoped Search campaign built to bring new adult patients to Dr. Ameer Moussa's Huntington Beach practice — sized for a $500/month budget, with every lead landing inside the existing viralityX/GHL system.</p>
+    <div class="statbar">
+      <div class="stat"><div class="n">$500</div><div class="l">Monthly budget</div></div>
+      <div class="stat"><div class="n">~5–6 mi radius</div><div class="l">Huntington Beach</div></div>
+      <div class="stat"><div class="n">$7–15</div><div class="l">Expected CPC</div></div>
+      <div class="stat"><div class="n">$100–250</div><div class="l">Target cost / new-patient inquiry</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="goal">
+  <div class="sec-label">01 · Goal &amp; structure</div>
+  <h2>One campaign. Two ad groups. Nothing else.</h2>
+  <p>The single goal is <strong>new patient acquisition</strong>. We launch one Search campaign — no Display, no Performance Max. PMax leaks budget into low-intent placements, and Google's Local Services Ads don't cover medical practices, so Search is where the real intent lives.</p>
+  <p>At $500/month (~$16/day), spend has to be concentrated, not spread. Three ad groups would starve each other of data, so we run two and park the third. One campaign also keeps reporting simple: one line item, one cost, one count of new patients.</p>
+
+  <div class="structure">
+    <div class="campaign-node">SEARCH CAMPAIGN — CORAL MED · NEW PATIENTS</div>
+    <div class="trunk"></div>
+    <div class="branches">
+      <div class="adgroup">
+        <h4>Primary Care / Doctor Near Me</h4>
+        <div class="share">~75% of spend</div>
+        <ul>
+          <li>primary care doctor huntington beach</li>
+          <li>family doctor near me</li>
+          <li>internal medicine huntington beach</li>
+          <li>doctor accepting new patients</li>
+        </ul>
+      </div>
+      <div class="adgroup">
+        <h4>Physicals &amp; Annual Exams</h4>
+        <div class="share">~25% of spend</div>
+        <ul>
+          <li>annual physical near me</li>
+          <li>physical exam huntington beach</li>
+          <li>wellness checkup doctor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="parked"><b>Parked for phase 2</b>Same-Day / Sick Visits ad group — reintroduce if budget grows past ~$1,000/month or once the Nat message-taker is live to capture after-hours calls.</div>
+    <div class="spendbar"><div class="sb1"></div><div class="sb2"></div></div>
+    <div class="spendkey">
+      <span><i style="background:var(--coral)"></i>Primary care — 75%</span>
+      <span><i style="background:var(--coral-pale)"></i>Physicals — 25%</span>
+    </div>
+  </div>
+  <p class="note">Match type: phrase match at launch — broad match on a small local budget bleeds into junk queries. Exact-match versions of the top 3–4 converting terms get added once data comes in.</p>
+</section>
+
+<section id="geo">
+  <div class="sec-label">02 · Geography, schedule &amp; budget</div>
+  <h2>Where, when, and how much</h2>
+  <p><strong>Geo:</strong> a tight 5–6 mile radius around the office — Huntington Beach core, Fountain Valley, and Westminster. At this budget, closer is better: nearer patients convert at higher rates and cost the same per click. The radius widens in phase 2, not now.</p>
+  <p><strong>Schedule:</strong> office hours only — roughly 8am–5pm weekdays. The primary conversion is a phone call, and after-hours calls currently have no capture path while Nat is offline. Every dollar runs while someone can actually answer the phone. Once the message-taker rebuild of Nat is live, the schedule opens up and after-hours ad calls become captured leads instead of lost ones.</p>
+  <table>
+    <tr><th>Item</th><th>Assumption</th><th>Monthly outcome</th></tr>
+    <tr><td>Budget</td><td class="num">$500 (~$16/day, weekdays weighted)</td><td class="num">—</td></tr>
+    <tr><td>Clicks</td><td class="num">CPC $7–15</td><td class="num">&asymp; 35–70 clicks</td></tr>
+    <tr><td>Inquiries</td><td class="num">5–8% call / booking rate</td><td class="num">&asymp; 2–6 new-patient inquiries</td></tr>
+    <tr><td>Cost per inquiry</td><td class="num">blended</td><td class="num">&asymp; $100–250</td></tr>
+  </table>
+  <p class="note">Set honest expectations with Dr. Moussa: at $500/month this is a steady drip of 2–6 inquiries, not a flood. The value case is lifetime patient value — one retained primary care patient typically covers months of ad spend. If results warrant it, scaling the budget scales the inquiries roughly linearly.</p>
+</section>
+
+<section id="ads">
+  <div class="sec-label">03 · Ads &amp; assets</div>
+  <h2>What the ads say</h2>
+  <p>Headlines rotate around availability, locality, and the doctor himself. Descriptions hit comprehensive adult care, same-day availability, easy booking, and accepted insurance — in this vertical, the insurance line is often the deciding factor.</p>
+
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › new-patients</div>
+    <div class="head">Primary Care in Huntington Beach | Same-Day Appointments</div>
+    <div class="desc">Personalized adult primary care from Dr. Ameer Moussa, MD. Now accepting new patients — book online or call (714) 847-6545 today.</div>
+  </div>
+
+  <h3>Asset checklist</h3>
+  <div class="pills">
+    <span class="pill">Call extension → (714) 847-6545</span>
+    <span class="pill">Location extension via Google Business Profile</span>
+    <span class="pill">Sitelinks: New Patients · Services · About Dr. Moussa · Contact</span>
+    <span class="pill">Callouts: Same-Day Visits · Accepting New Patients · Cigna · Blue Cross · United Healthcare</span>
+  </div>
+
+  <h3>Negative keywords, day one</h3>
+  <div class="pills">
+    <span class="pill neg">jobs / hiring / salary</span>
+    <span class="pill neg">free clinic</span>
+    <span class="pill neg">pediatric / kids</span>
+    <span class="pill neg">dentist</span>
+    <span class="pill neg">dermatologist</span>
+    <span class="pill neg">urgent care</span>
+    <span class="pill neg">veterinary</span>
+    <span class="pill neg">medi-cal (confirm w/ office)</span>
+    <span class="pill neg">hoag / memorialcare</span>
+  </div>
+  <p class="note">At this budget "urgent care" goes straight into the negatives — those clicks are expensive and rarely convert to a primary care relationship. Revisit if the same-day ad group returns in phase 2.</p>
+</section>
+
+<section id="tracking">
+  <div class="sec-label">04 · Conversion tracking &amp; compliance</div>
+  <h2>Measure without touching PHI</h2>
+  <p><strong>Calls:</strong> track via Google's call-extension conversions with a 60-second threshold — no third-party call tracker that touches PHI. If ad calls route through RingCentral, the existing BAA question applies here as well.</p>
+  <p><strong>Forms &amp; bookings:</strong> the landing page CTA points at a GHL form or booking widget, covered by the active HIPAA add-on. The Google Ads conversion fires on the thank-you page view. No condition or health details in URLs, and nothing health-related passed back to Google.</p>
+  <p><strong>Pipeline:</strong> ad leads enter GHL as genuinely new contacts, so the Welcome SMS automation fires on them automatically once LC Phone is live. Every ad lead gets a "Google Ads" source tag so reporting shows cost per new patient — not just cost per click.</p>
+  <div class="callout">
+    <div class="t">Hard compliance line</div>
+    <p>No remarketing. No customer-list audiences. No site-visitor retargeting of any kind. Under current HHS guidance on tracking technologies, retargeting visitors of a medical practice website is a genuine liability — this stays off permanently, not just at launch.</p>
+  </div>
+</section>
+
+<section id="landing">
+  <div class="sec-label">05 · Landing page</div>
+  <h2>Don't send traffic to the homepage</h2>
+  <p>One dedicated new-patient page, in this order: same-day availability above the fold, a click-to-call button, the accepted-insurance list, Dr. Moussa's photo with a one-line bio, the GHL booking form, then address and map. At a small budget the landing page matters even more — with only 35–70 clicks a month, each one has to count. A focused page like this can double conversion rate versus the generic homepage.</p>
+</section>
+
+<section id="timeline">
+  <div class="sec-label">06 · First 60 days</div>
+  <h2>Launch, prune, shift</h2>
+  <div class="timeline">
+    <div class="trow"><div class="when">Weeks 1–2</div><p>Launch. Review the search-terms report every 2–3 days and prune junk queries aggressively into the negative list — at $16/day, one bad query type can eat a week of budget.</p></div>
+    <div class="trow"><div class="when">Weeks 3–6</div><p>Data accrues slower at this spend, so give keywords 6 weeks, not 4. Pause anything with 20+ clicks and zero conversions. Promote proven winners to exact match.</p></div>
+    <div class="trow"><div class="when">Month 2</div><p>Shift budget toward the winning ad group. If cost per inquiry lands under ~$150, present the case to Dr. Moussa for scaling toward $1,000/month and reintroducing the same-day ad group.</p></div>
+  </div>
+  <div class="callout">
+    <div class="t">Insurance in the ads</div>
+    <p>Accepted plans — Cigna, Blue Cross, United Healthcare — get named directly in callouts and rotated into headlines ("Accepting Cigna, Blue Cross &amp; UHC"). Insurance is the top deciding factor in this vertical, and naming plans in the ad pre-qualifies clicks so out-of-network searchers don't spend the budget. The same list goes above the fold on the landing page.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>viralityX × Coral Med Primary Care</span>
+    <span>coral-med.com · (714) 847-6545</span>
+  </div>
+</footer>
+
+</body>
+</html>
