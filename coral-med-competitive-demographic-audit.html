@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Competitive &amp; Demographic Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12333d; --blue:#12333d; --blue-mid:#41616b; --ink:#12333d; --ink-soft:#41616b;
+    --coral:#e4573d; --coral-soft:#f2917d; --coral-pale:#f8c4b8; --coral-light:#e7f2ef;
+    --blue-light:#e7f2ef; --blue-line:#c9ded9; --paper:#f6faf9; --white:#ffffff;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'IBM Plex Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:16.5px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px;}
+
+  header{background:var(--navy);color:var(--white);padding:64px 0 0;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8fb5ad;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:14px;margin-bottom:36px;}
+  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(34px,5.6vw,52px);line-height:1.05;letter-spacing:-.015em;margin-bottom:16px;}
+  h1 .accent{color:#ff8a70;}
+  .lede{max-width:600px;color:#c4d6d2;font-size:17px;margin-bottom:44px;}
+  .statbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.15);}
+  .stat{padding:20px 18px 26px;border-right:1px solid rgba(255,255,255,.15);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:var(--mono);font-size:18px;font-weight:600;color:#ff8a70;}
+  .stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8fb5ad;margin-top:4px;}
+  @media(max-width:680px){.statbar{grid-template-columns:repeat(2,1fr);}.stat:nth-child(2){border-right:none;}.stat{border-bottom:1px solid rgba(255,255,255,.15);}.stat:nth-child(3),.stat:nth-child(4){border-bottom:none;}}
+
+  .campaign-banner{background:var(--blue);color:var(--white);padding:24px 0;margin-top:56px;}
+  .campaign-banner.alt{background:var(--coral);}
+  .campaign-banner .wrap{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;}
+  .campaign-banner .name{font-family:'Archivo',sans-serif;font-weight:700;font-size:21px;}
+  .campaign-banner .sub{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;opacity:.9;}
+
+  section{padding:44px 0 8px;}
+  .sec-label{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;}
+  h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.01em;margin-bottom:8px;color:var(--navy);}
+  h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;margin:22px 0 8px;color:var(--blue);}
+  p{margin-bottom:14px;max-width:70ch;}
+  p.note{color:var(--ink-soft);font-size:14.5px;}
+
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--blue-line);border-radius:10px;overflow:hidden;font-size:14.5px;margin-bottom:18px;}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--blue);background:var(--blue-light);padding:9px 13px;}
+  td{padding:10px 13px;border-top:1px solid var(--blue-line);vertical-align:top;}
+  td.num{font-family:var(--mono);font-size:13px;white-space:nowrap;}
+  tr.highlight td{background:var(--coral-light);}
+
+  .threat{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:999px;}
+  .threat.high{background:#f8c4b8;color:#8a2e1c;}
+  .threat.med{background:#f2d9a8;color:#7a5713;}
+  .threat.low{background:var(--blue-light);color:var(--blue-mid);}
+
+  .demo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 24px;}
+  .demo-card{background:var(--white);border:1px solid var(--blue-line);border-top:4px solid var(--coral);border-radius:8px;padding:16px 14px;text-align:center;}
+  .demo-card .val{font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;color:var(--navy);}
+  .demo-card .lbl{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+  @media(max-width:680px){.demo-grid{grid-template-columns:repeat(2,1fr);}}
+
+  .agebar-wrap{background:var(--white);border:1px solid var(--blue-line);border-radius:10px;padding:20px 22px;margin:16px 0 22px;}
+  .agebar-row{display:grid;grid-template-columns:110px 1fr 50px;align-items:center;gap:10px;margin-bottom:10px;font-size:13px;}
+  .agebar-row:last-child{margin-bottom:0;}
+  .agebar-track{background:var(--blue-light);border-radius:5px;height:16px;overflow:hidden;}
+  .agebar-fill{background:var(--coral);height:100%;border-radius:5px;}
+  .agebar-row .pct{font-family:var(--mono);color:var(--ink-soft);text-align:right;}
+
+  .callout{border-left:4px solid var(--coral);background:var(--coral-light);border-radius:0 10px 10px 0;padding:18px 22px;margin:20px 0;}
+  .callout .t{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:6px;}
+  .callout p{font-size:14.5px;margin-bottom:8px;}
+  .callout p:last-child{margin-bottom:0;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px;}
+  .pill{font-family:var(--mono);font-size:12px;background:var(--white);border:1px solid var(--blue-line);border-radius:999px;padding:5px 12px;color:var(--ink-soft);}
+
+  footer{margin-top:56px;background:var(--navy);color:#8fb5ad;padding:24px 0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker"><span>viralityX &middot; Competitive &amp; Demographic Audit</span><span>Coral Med · July 2026</span></div>
+    <h1>Who We're<br><span class="accent">Competing Against</span></h1>
+    <p class="lede">A look at the competitive landscape for both campaigns and the demographic profile of Huntington Beach — used to sanity-check keywords, budgets, and targeting before launch.</p>
+    <div class="statbar">
+      <div class="stat"><div class="n">9+</div><div class="l">Med spas in HB alone</div></div>
+      <div class="stat"><div class="n">1,015</div><div class="l">Primary care providers listed in HB</div></div>
+      <div class="stat"><div class="n">44</div><div class="l">Median age, Huntington Beach</div></div>
+      <div class="stat"><div class="n">$120,919</div><div class="l">Median household income</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="campaign-banner">
+  <div class="wrap"><span class="name">Part 1 · Primary Care Competitors</span><span class="sub">Search: "primary care doctor near me" · "family doctor huntington beach"</span></div>
+</div>
+
+<section id="pc-competitors">
+  <div class="sec-label">Landscape</div>
+  <h2>Fragmented, but with one well-funded outlier</h2>
+  <p>Primary care in Huntington Beach is mostly independent and hospital-affiliated practices — the kind of field a local, physician-led practice like Coral Med competes in well. The one name that changes the picture is <strong>One Medical</strong> (Amazon-owned), which has two Huntington Beach locations and markets aggressively on a membership model.</p>
+  <table>
+    <tr><th>Competitor</th><th>Type</th><th>Notable angle</th><th>Ad threat</th></tr>
+    <tr class="highlight">
+      <td>One Medical</td><td>National, VC/Amazon-backed</td>
+      <td>Membership-based, heavy digital marketing budget, targets exactly "primary care near me" intent, two HB locations (Pacific City, Bella Terra)</td>
+      <td><span class="threat high">High</span></td>
+    </tr>
+    <tr>
+      <td>Hoag Health Centers / HMG</td><td>Hospital-affiliated network</td>
+      <td>Strong brand trust (Hoag name), multiple HB/Costa Mesa locations, less aggressive on paid search — relies on referrals and hospital brand</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+    <tr>
+      <td>Edinger Medical Group</td><td>Local multi-location group</td>
+      <td>Appointment-only, personalized-care positioning — closest tonal match to Coral Med's messaging</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+    <tr>
+      <td>Elevated Health Direct Primary Care</td><td>Independent, direct primary care</td>
+      <td>Membership/DPC model (cash-pay, no insurance billing) — different economics, unlikely to compete on insurance-driven keywords</td>
+      <td><span class="threat low">Low</span></td>
+    </tr>
+    <tr>
+      <td>Zocdoc / Healthline FindCare</td><td>Aggregator</td>
+      <td>Doesn't provide care but bids on the same "primary care doctor huntington beach" terms to sell leads/bookings — a click competitor even though not a clinic</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+  </table>
+  <div class="callout">
+    <div class="t">What this means for the campaign</div>
+    <p>Coral Med's edge against One Medical isn't going to be outbidding a well-funded national brand on generic terms — it's <strong>insurance-first messaging</strong>. One Medical is membership-based; Coral Med accepts Cigna, Blue Cross, and UHC directly. Leading ad copy with insurance acceptance is a real differentiator, not just filler.</p>
+    <p>Zocdoc showing up in the auction is normal and not something to fight directly — it mainly affects CPC, not conversion, since someone who clicks Zocdoc is still choosing a doctor from a list afterward.</p>
+  </div>
+</section>
+
+<div class="campaign-banner alt">
+  <div class="wrap"><span class="name">Part 2 · Aesthetics Competitors</span><span class="sub">Search: "botox huntington beach" · "body contouring near me"</span></div>
+</div>
+
+<section id="ae-competitors">
+  <div class="sec-label">Landscape</div>
+  <h2>Saturated — this is the real competitive fight</h2>
+  <p>Huntington Beach has at least <strong>9 verified med spas</strong> with strong review counts (4.6–4.9★ average), several running visible promotions and per-unit Botox pricing publicly. This is a much more crowded, price-transparent market than primary care.</p>
+  <table>
+    <tr><th>Competitor</th><th>Reviews</th><th>Notable pricing / angle</th><th>Ad threat</th></tr>
+    <tr class="highlight">
+      <td>House of Aesthetics Med Spa</td><td>Strong, NP-led (Revance Faculty Trainer)</td>
+      <td>Offers all 3 major neurotoxins (Botox/Dysport/Daxxify), $14/unit Botox, membership tiers, heavy SEO presence</td>
+      <td><span class="threat high">High</span></td>
+    </tr>
+    <tr class="highlight">
+      <td>LaserAway / HavenMD Medical Spa</td><td>4.6★ (111)</td>
+      <td>$10/unit Botox intro pricing, 75% off laser hair removal — aggressive promotional positioning, national LaserAway brand</td>
+      <td><span class="threat high">High</span></td>
+    </tr>
+    <tr>
+      <td>Reddy Aesthetics (Dr. Reddy, MD)</td><td>Strong, physician-led</td>
+      <td>Physician-led like Coral Med — closest direct positioning match, frequent promotions</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+    <tr>
+      <td>Allure Anti-Aging &amp; Aesthetics</td><td>Positive, smaller volume</td>
+      <td>Combines aesthetics with ENT services, physician-led (Dr. Vakalanka)</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+    <tr>
+      <td>SoCal Medi-Spa &amp; other independents</td><td>5.0★ (317), several others</td>
+      <td>Long tail of smaller, high-rated independent spas — collectively a lot of competition even if individually small</td>
+      <td><span class="threat med">Medium</span></td>
+    </tr>
+  </table>
+  <div class="callout">
+    <div class="t">What this means for the campaign</div>
+    <p>Pricing is public and competitive across this market ($10–15/unit Botox is the going rate) — Coral Med's ad copy shouldn't compete on price without knowing where Dr. Moussa's pricing lands relative to that range. <strong>Physician-led</strong> is the strongest differentiator available: several top competitors are NP-led or med-spa-branded rather than physician-led, and "Dr. Ameer Moussa, MD" in headlines is doing real work here, not just branding.</p>
+    <p>Expect meaningfully higher CPCs than primary care — this segment has more players actively bidding, which supports keeping this campaign's budget separate rather than folding it into the $500 primary care number.</p>
+  </div>
+</section>
+
+<div class="campaign-banner">
+  <div class="wrap"><span class="name">Part 3 · Demographic Profile</span><span class="sub">Huntington Beach, CA · U.S. Census / ACS data</span></div>
+</div>
+
+<section id="demo">
+  <div class="sec-label">Who lives here</div>
+  <h2>An older, affluent, homeowning population</h2>
+  <div class="demo-grid">
+    <div class="demo-card"><div class="val">~194,000</div><div class="lbl">Population</div></div>
+    <div class="demo-card"><div class="val">44</div><div class="lbl">Median age</div></div>
+    <div class="demo-card"><div class="val">$120,919</div><div class="lbl">Median household income</div></div>
+    <div class="demo-card"><div class="val">37%</div><div class="lbl">Households earning $150K+</div></div>
+  </div>
+
+  <h3>Age distribution</h3>
+  <div class="agebar-wrap">
+    <div class="agebar-row"><span>Under 15</span><div class="agebar-track"><div class="agebar-fill" style="width:14.3%"></div></div><span class="pct">14.3%</span></div>
+    <div class="agebar-row"><span>15–24</span><div class="agebar-track"><div class="agebar-fill" style="width:11%"></div></div><span class="pct">11.0%</span></div>
+    <div class="agebar-row"><span>25–44</span><div class="agebar-track"><div class="agebar-fill" style="width:26.4%"></div></div><span class="pct">26.4%</span></div>
+    <div class="agebar-row"><span>45–64</span><div class="agebar-track"><div class="agebar-fill" style="width:29%"></div></div><span class="pct">29.0%</span></div>
+    <div class="agebar-row"><span>65+</span><div class="agebar-track"><div class="agebar-fill" style="width:19.4%"></div></div><span class="pct">19.4%</span></div>
+  </div>
+
+  <h3>Income by age of household head</h3>
+  <table>
+    <tr><th>Age group</th><th>Median household income</th></tr>
+    <tr><td>25–44</td><td class="num">$129,361</td></tr>
+    <tr><td>45–64</td><td class="num">$132,637 – $136,064</td></tr>
+    <tr><td>65+</td><td class="num">$92,657 – $94,213</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="t">What this means for targeting</div>
+    <p><strong>Primary Care:</strong> the 45–64 group is both the largest income bracket and squarely the "establishing ongoing care / annual physical" mindset — this supports prioritizing the Physicals &amp; Annual Exams ad group alongside general Primary Care rather than skewing everything toward urgent/same-day intent. The 19.4% 65+ population also means Medicare-eligible search volume is real and worth the office's explicit yes/no on the setup form.</p>
+    <p><strong>Aesthetics:</strong> 55% of the population sits in the 25–64 range with strong household income ($120K–$136K), which is the classic Botox/body-contouring/skin-rejuvenation buyer. Combined with 37% of households earning $150K+, price sensitivity is lower here than the median-income figure alone would suggest — ad copy doesn't need to lead with discounting to compete.</p>
+    <p>No major ethnic or language-targeting adjustments stand out — the population is majority English-speaking (69.7% White, 12.9% Asian, 19.1% Hispanic/Latino, with overlap) and doesn't suggest a need for Spanish-language ad variants at this budget, though it's worth revisiting if the Aesthetics campaign scales.</p>
+  </div>
+</section>
+
+<section id="summary">
+  <div class="sec-label">Summary</div>
+  <h2>Net takeaways for both campaigns</h2>
+  <div class="pills">
+    <span class="pill">Primary Care: differentiate on insurance, not price</span>
+    <span class="pill">Aesthetics: differentiate on "physician-led," expect higher CPCs</span>
+    <span class="pill">45–64 age group is the highest-value target for both campaigns</span>
+    <span class="pill">Confirm Medicare stance given 19.4% senior population</span>
+    <span class="pill">No language-targeting changes needed at current budget</span>
+  </div>
+  <p class="note">Competitive data pulled from public listings (Yelp, Google reviews, practice websites) rather than live Google Ads Auction Insights, since that requires access to a running campaign in the account. Once the Primary Care campaign has a few weeks of data, Auction Insights will show actual impression share against these competitors directly — worth re-running this audit with real numbers at that point.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>viralityX × Coral Med</span>
+    <span>coral-med.com · (714) 847-6545</span>
+  </div>
+</footer>
+
+</body>
+</html>
