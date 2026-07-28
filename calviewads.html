@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calview-Search-OC — Account Deep Dive</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10141a; --panel:#171d26; --panel-2:#1d2530; --line:#2a3341;
+    --tint-1:#cfe8ec; --tint-2:#6fb8c4; --tint-3:#2c7a89; --tint-4:#123b45;
+    --amber:#e6a13d; --amber-dim:#4a3a20; --green:#6fbf8b; --green-dim:#223a2c;
+    --text:#e9edf1; --muted:#8b95a3; --muted-2:#5c6674;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.5;padding:0 0 80px;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+
+  .hero{
+    position:relative; padding:64px 28px 40px;
+    background:linear-gradient(180deg, rgba(18,59,69,0.35), transparent 70%), var(--bg);
+    border-bottom:1px solid var(--line); overflow:hidden;
+  }
+  .hero::before{
+    content:""; position:absolute; top:0; right:-10%; width:60%; height:100%;
+    background:linear-gradient(100deg, transparent 0%, transparent 30%,
+      var(--tint-4) 30%, var(--tint-4) 42%, var(--tint-3) 42%, var(--tint-3) 54%,
+      var(--tint-2) 54%, var(--tint-2) 66%, var(--tint-1) 66%, var(--tint-1) 78%, transparent 78%, transparent 100%);
+    opacity:0.18; pointer-events:none;
+  }
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--tint-2); margin-bottom:14px; position:relative;}
+  h1{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,5vw,42px); letter-spacing:-.01em; max-width:680px; position:relative;}
+  .hero-sub{color:var(--muted); margin-top:12px; max-width:600px; font-size:15px; position:relative;}
+
+  .stats{max-width:1000px; margin:-1px auto 0; padding:0 28px; display:grid; grid-template-columns:repeat(4,1fr); border-left:1px solid var(--line); border-top:1px solid var(--line);}
+  .stat{border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:22px 20px; background:var(--panel);}
+  .stat .label{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); margin-bottom:8px;}
+  .stat .value{font-family:'IBM Plex Mono',monospace; font-size:23px; font-weight:600;}
+  .stat .value.accent{color:var(--tint-2);}
+  @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  section{padding:52px 0 0;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:20px; flex-wrap:wrap;}
+  .section-head .dot{width:9px;height:9px;border-radius:50%; flex-shrink:0;}
+  .dot.green{background:var(--green); box-shadow:0 0 0 4px var(--green-dim);}
+  .dot.amber{background:var(--amber); box-shadow:0 0 0 4px var(--amber-dim);}
+  .dot.neutral{background:var(--tint-2); box-shadow:0 0 0 4px var(--tint-4);}
+  .section-head h2{font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600;}
+  .section-head .sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted-2); margin-left:auto; text-transform:uppercase; letter-spacing:.06em;}
+  .note{color:var(--muted); font-size:13.5px; margin-bottom:16px; max-width:640px;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:20px 22px; margin-bottom:14px;}
+  .card h3{font-family:'Space Grotesk',sans-serif; font-size:15.5px; font-weight:600; margin-bottom:6px;}
+  .card p{color:var(--muted); font-size:14px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-2); text-align:left; padding:10px 12px; border-bottom:1px solid var(--line);}
+  td{padding:10px 12px; border-bottom:1px solid var(--line); color:var(--text);}
+  td.num, th.num{text-align:right; font-family:'IBM Plex Mono',monospace;}
+  tr:last-child td{border-bottom:none;}
+  .table-wrap{background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:14px;}
+  .muted{color:var(--muted);}
+  .zero-row td{color:var(--muted-2);}
+
+  /* bar rows */
+  .barlist{display:flex; flex-direction:column; gap:10px;}
+  .barrow{display:grid; grid-template-columns:90px 1fr 60px; gap:12px; align-items:center; font-size:13px;}
+  .barrow .lbl{font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:12px;}
+  .bartrack{height:10px; background:var(--panel-2); border-radius:5px; overflow:hidden;}
+  .barfill{height:100%; background:linear-gradient(90deg, var(--tint-4), var(--tint-3), var(--tint-2)); border-radius:5px;}
+  .barrow .val{font-family:'IBM Plex Mono',monospace; text-align:right; color:var(--text); font-size:12.5px;}
+
+  .split-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:700px){.split-grid{grid-template-columns:1fr;}}
+
+  .tag{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.05em; padding:3px 9px; border-radius:20px; margin-bottom:10px;}
+  .tag.good{background:var(--green-dim); color:var(--green);}
+  .tag.warn{background:var(--amber-dim); color:var(--amber);}
+
+  .callout{margin-top:52px; background:linear-gradient(120deg, var(--tint-4), var(--panel) 60%); border:1px solid var(--tint-3); border-radius:12px; padding:24px 26px;}
+  .callout p{color:var(--tint-1); font-size:14.5px; max-width:660px;}
+  .callout ul{margin-top:10px; padding-left:18px; color:var(--tint-1); font-size:14px;}
+  .callout li{margin-bottom:5px;}
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Google Ads — Full Account Export</div>
+      <h1>Calview-Search-OC: Account Deep Dive</h1>
+      <p class="hero-sub">Built from the raw Overview export — time series, devices, day &amp; hour, demographics, locations, keywords, and search terms. Data window: Jun 10, 2025 – Jul 27, 2026 (campaign has only been live since late June 2026, so all activity sits in the final month).</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="label">Clicks</div><div class="value">90</div></div>
+    <div class="stat"><div class="label">Impressions</div><div class="value">1,637</div></div>
+    <div class="stat"><div class="label">CTR</div><div class="value accent">5.50%</div></div>
+    <div class="stat"><div class="label">Avg. CPC</div><div class="value">$2.87</div></div>
+    <div class="stat"><div class="label">Total Spend</div><div class="value">$258.31</div></div>
+    <div class="stat"><div class="label">Live Since</div><div class="value" style="font-size:15px">Jul 2026</div></div>
+  </div>
+
+  <div class="wrap">
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>Where the budget actually went</h2></div>
+      <div class="split-grid">
+        <div class="card">
+          <span class="tag good">Carrying the campaign</span>
+          <h3>calview-home</h3>
+          <p><b style="color:var(--text)">$258.31 spend · 90 clicks · 5.51% CTR</b><br>Every dollar spent and every click recorded this month came from this ad group.</p>
+        </div>
+        <div class="card">
+          <span class="tag warn">Zero activity</span>
+          <h3>calview-commercial</h3>
+          <p><b style="color:var(--text)">$0.00 spend · 0 clicks · 0.00% CTR</b><br>Confirms the earlier finding — this ad group hasn't spent a cent or earned a single click.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>Device split</h2><span class="sub">where clicks and spend land</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Device</th><th class="num">Impressions</th><th class="num">Clicks</th><th class="num">Cost</th></tr>
+          <tr><td>Mobile phones</td><td class="num">1,369</td><td class="num">78</td><td class="num">$223.33</td></tr>
+          <tr><td>Computers</td><td class="num">232</td><td class="num">10</td><td class="num">$29.44</td></tr>
+          <tr><td>Tablets</td><td class="num">36</td><td class="num">2</td><td class="num">$5.54</td></tr>
+          <tr class="zero-row"><td>TV screens</td><td class="num">0</td><td class="num">0</td><td class="num">$0.00</td></tr>
+        </table>
+      </div>
+      <p class="note">Mobile carries <b style="color:var(--text)">86%</b> of spend and <b style="color:var(--text)">87%</b> of clicks — worth keeping in mind for landing page load speed and tap-target sizing on /estimate-home.</p>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>When people are searching</h2><span class="sub">impressions by day &amp; hour</span></div>
+      <div class="split-grid">
+        <div class="card">
+          <h3>By day of week</h3>
+          <div class="barlist" style="margin-top:14px">
+            <div class="barrow"><span class="lbl">Sat</span><div class="bartrack"><div class="barfill" style="width:100%"></div></div><span class="val">310</span></div>
+            <div class="barrow"><span class="lbl">Fri</span><div class="bartrack"><div class="barfill" style="width:87%"></div></div><span class="val">270</span></div>
+            <div class="barrow"><span class="lbl">Thu</span><div class="bartrack"><div class="barfill" style="width:86%"></div></div><span class="val">268</span></div>
+            <div class="barrow"><span class="lbl">Sun</span><div class="bartrack"><div class="barfill" style="width:80%"></div></div><span class="val">248</span></div>
+            <div class="barrow"><span class="lbl">Wed</span><div class="bartrack"><div class="barfill" style="width:66%"></div></div><span class="val">204</span></div>
+            <div class="barrow"><span class="lbl">Mon</span><div class="bartrack"><div class="barfill" style="width:66%"></div></div><span class="val">206</span></div>
+            <div class="barrow"><span class="lbl">Tue</span><div class="bartrack"><div class="barfill" style="width:42%"></div></div><span class="val">131</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Peak hours (top 6)</h3>
+          <div class="barlist" style="margin-top:14px">
+            <div class="barrow"><span class="lbl">6 PM</span><div class="bartrack"><div class="barfill" style="width:100%"></div></div><span class="val">157</span></div>
+            <div class="barrow"><span class="lbl">5 PM</span><div class="bartrack"><div class="barfill" style="width:86%"></div></div><span class="val">135</span></div>
+            <div class="barrow"><span class="lbl">7 PM</span><div class="bartrack"><div class="barfill" style="width:78%"></div></div><span class="val">123</span></div>
+            <div class="barrow"><span class="lbl">8 PM</span><div class="bartrack"><div class="barfill" style="width:77%"></div></div><span class="val">121</span></div>
+            <div class="barrow"><span class="lbl">9 PM</span><div class="bartrack"><div class="barfill" style="width:67%"></div></div><span class="val">105</span></div>
+            <div class="barrow"><span class="lbl">3 PM</span><div class="bartrack"><div class="barfill" style="width:57%"></div></div><span class="val">90</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Weekend and weekday-evening (5–9 PM) searches dominate — consistent with homeowners researching after work or on days off. Worth keeping the "same-day" callback promise deliverable during these windows if ad scheduling or staffing ever gets adjusted.</p>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>Who's seeing the ads</h2><span class="sub">demographics, by impression share</span></div>
+      <div class="split-grid">
+        <div class="card">
+          <h3>Age</h3>
+          <div class="barlist" style="margin-top:14px">
+            <div class="barrow"><span class="lbl">65+</span><div class="bartrack"><div class="barfill" style="width:100%"></div></div><span class="val">21.3%</span></div>
+            <div class="barrow"><span class="lbl">35–44</span><div class="bartrack"><div class="barfill" style="width:99%"></div></div><span class="val">21.1%</span></div>
+            <div class="barrow"><span class="lbl">45–54</span><div class="bartrack"><div class="barfill" style="width:97%"></div></div><span class="val">20.6%</span></div>
+            <div class="barrow"><span class="lbl">55–64</span><div class="bartrack"><div class="barfill" style="width:82%"></div></div><span class="val">17.6%</span></div>
+            <div class="barrow"><span class="lbl">25–34</span><div class="bartrack"><div class="barfill" style="width:71%"></div></div><span class="val">15.2%</span></div>
+            <div class="barrow"><span class="lbl">18–24</span><div class="bartrack"><div class="barfill" style="width:24%"></div></div><span class="val">5.0%</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Gender</h3>
+          <div class="barlist" style="margin-top:14px">
+            <div class="barrow"><span class="lbl">Male</span><div class="bartrack"><div class="barfill" style="width:100%"></div></div><span class="val">54.4%</span></div>
+            <div class="barrow"><span class="lbl">Female</span><div class="bartrack"><div class="barfill" style="width:85%"></div></div><span class="val">46.4%</span></div>
+          </div>
+          <p class="note" style="margin-top:16px">Fairly even split, slight male lean. Age skews notably older and flatter than a typical "young homeowner" assumption — 35+ makes up roughly 80% of impressions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>Geography</h2><span class="sub">top 10 zip codes by impressions</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Zip Code</th><th class="num">Impressions</th></tr>
+          <tr><td>92805 <span class="muted">— Anaheim</span></td><td class="num">48</td></tr>
+          <tr><td>92780 <span class="muted">— Tustin</span></td><td class="num">43</td></tr>
+          <tr><td>92692 <span class="muted">— Rancho Santa Margarita</span></td><td class="num">33</td></tr>
+          <tr><td>92647 <span class="muted">— Huntington Beach</span></td><td class="num">33</td></tr>
+          <tr><td>92840 <span class="muted">— Garden Grove</span></td><td class="num">30</td></tr>
+          <tr><td>92618 <span class="muted">— Irvine</span></td><td class="num">30</td></tr>
+          <tr><td>92683 <span class="muted">— Westminster</span></td><td class="num">29</td></tr>
+          <tr><td>92833 <span class="muted">— Fullerton</span></td><td class="num">28</td></tr>
+          <tr><td>92630 <span class="muted">— Lake Forest</span></td><td class="num">28</td></tr>
+          <tr><td>92802 <span class="muted">— Anaheim</span></td><td class="num">27</td></tr>
+        </table>
+      </div>
+      <p class="note">Impressions are spread across 100+ zip codes with no single one dominating — reinforces that "Orange County" as a single targeting unit is working as intended. This list is the starting point for city-level bid adjustments once click/conversion volume is high enough per zip to act on.</p>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot amber"></span><h2>Keyword performance</h2><span class="sub">where the budget concentrated</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Keyword</th><th>Match</th><th class="num">Cost</th><th class="num">Clicks</th><th class="num">CTR</th></tr>
+          <tr><td>residential window film</td><td class="muted">Phrase</td><td class="num">$81.31</td><td class="num">28</td><td class="num">5.35%</td></tr>
+          <tr><td>heat blocking window film</td><td class="muted">Phrase</td><td class="num">$48.39</td><td class="num">17</td><td class="num">4.89%</td></tr>
+          <tr><td>home window film</td><td class="muted">Phrase</td><td class="num">$37.34</td><td class="num">13</td><td class="num">5.53%</td></tr>
+          <tr><td>uv blocking window film</td><td class="muted">Phrase</td><td class="num">$20.13</td><td class="num">7</td><td class="num">6.67%</td></tr>
+          <tr><td>home window tinting orange county</td><td class="muted">Phrase</td><td class="num">$16.51</td><td class="num">6</td><td class="num">66.67%</td></tr>
+          <tr><td>privacy window film home</td><td class="muted">Phrase</td><td class="num">$14.52</td><td class="num">5</td><td class="num">3.36%</td></tr>
+          <tr><td>home window tinting</td><td class="muted">Phrase</td><td class="num">$11.68</td><td class="num">4</td><td class="num">4.17%</td></tr>
+          <tr><td>house window tinting</td><td class="muted">Phrase</td><td class="num">$8.58</td><td class="num">3</td><td class="num">4.48%</td></tr>
+          <tr><td>home window tinting</td><td class="muted">Exact</td><td class="num">$8.57</td><td class="num">3</td><td class="num">17.65%</td></tr>
+          <tr><td>window tinting for house</td><td class="muted">Phrase</td><td class="num">$5.51</td><td class="num">2</td><td class="num">25.00%</td></tr>
+        </table>
+      </div>
+      <p class="note"><b style="color:var(--text)">"home window tinting orange county"</b> and <b style="color:var(--text)">"window tinting for house"</b> post standout CTRs (66.7% and 25%) on low volume — small sample, but worth watching as they scale.</p>
+
+      <div class="card" style="margin-top:4px">
+        <span class="tag warn">The commercial gap, in keyword form</span>
+        <h3>16 commercial-intent keywords, zero impressions, zero clicks</h3>
+        <p>office window film, office window tinting (phrase &amp; exact), commercial window tinting (phrase &amp; exact), commercial window film, building window tinting/film, storefront window tinting/film, plus city-specific commercial terms (Irvine, Santa Ana, Newport Beach, Orange County) and use-case terms (security film, solar control, energy saving, glare reduction) — every one of them sits at $0.00 cost and 0 clicks. This is the keyword-level fingerprint of the calview-commercial ad group being dead weight: it's not that these terms are converting poorly, they're not showing at all.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><span class="dot neutral"></span><h2>Search terms</h2><span class="sub">what people actually typed</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Search term</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">Cost</th></tr>
+          <tr><td>window film</td><td class="num">23</td><td class="num">2</td><td class="num">$5.94</td></tr>
+          <tr><td>reflective window film</td><td class="num">17</td><td class="num">1</td><td class="num">$2.67</td></tr>
+          <tr class="zero-row"><td>stained glass window film</td><td class="num">17</td><td class="num">0</td><td class="num">$0.00</td></tr>
+          <tr class="zero-row"><td>privacy window film</td><td class="num">16</td><td class="num">0</td><td class="num">$0.00</td></tr>
+          <tr><td>home window tinting</td><td class="num">13</td><td class="num">3</td><td class="num">$8.57</td></tr>
+          <tr class="zero-row"><td>privacy film for windows</td><td class="num">12</td><td class="num">0</td><td class="num">$0.00</td></tr>
+          <tr class="zero-row"><td>house window tint</td><td class="num">11</td><td class="num">0</td><td class="num">$0.00</td></tr>
+          <tr class="zero-row"><td>window film for privacy</td><td class="num">11</td><td class="num">0</td><td class="num">$0.00</td></tr>
+          <tr class="zero-row"><td>window tint for house windows</td><td class="num">11</td><td class="num">0</td><td class="num">$0.00</td></tr>
+        </table>
+      </div>
+      <p class="note">A few high-impression terms — <b style="color:var(--text)">"stained glass window film," "privacy window film," "privacy film for windows"</b> — are showing but not getting clicked. These read as decorative/DIY-leaning searches rather than professional-install intent; not urgent, but worth a glance if negative keywords come up later to keep spend focused on installer-intent traffic.</p>
+    </section>
+
+    <div class="callout">
+      <div class="eyebrow" style="margin-bottom:8px">Ties back to the priority list</div>
+      <p>Nothing here changes the priority order already in motion — this export mostly reinforces it with harder numbers:</p>
+      <ul>
+        <li><b>calview-commercial:</b> 16 commercial keywords sitting at zero confirms it needs a rebuild or a pause, not a wait-and-see.</li>
+        <li><b>Mobile-first:</b> 86% of spend is mobile — reinforces the priority on getting Wix call-tracking working reliably, since mobile searchers are the ones most likely to tap-to-call.</li>
+        <li><b>Geography:</b> spread thin across 100+ zips — still too early for city-level bid adjustments, consistent with the earlier "wait for more data" guidance.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
