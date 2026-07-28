@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Med — Google Ads Master Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12333d; --blue:#12333d; --blue-mid:#41616b; --ink:#12333d; --ink-soft:#41616b;
+    --coral:#e4573d; --coral-soft:#f2917d; --coral-pale:#f8c4b8; --coral-light:#e7f2ef;
+    --blue-light:#e7f2ef; --blue-line:#c9ded9; --paper:#f6faf9; --white:#ffffff;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'IBM Plex Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:16.5px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px;}
+
+  header{background:var(--navy);color:var(--white);padding:64px 0 0;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8fb5ad;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:14px;margin-bottom:36px;}
+  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(36px,5.6vw,54px);line-height:1.03;letter-spacing:-.015em;margin-bottom:16px;}
+  h1 .accent{color:#ff8a70;}
+  .lede{max-width:600px;color:#c4d6d2;font-size:17px;margin-bottom:44px;}
+  .statbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.15);}
+  .stat{padding:20px 18px 26px;border-right:1px solid rgba(255,255,255,.15);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:var(--mono);font-size:18px;font-weight:600;color:#ff8a70;}
+  .stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8fb5ad;margin-top:4px;}
+  @media(max-width:680px){.statbar{grid-template-columns:repeat(2,1fr);}.stat:nth-child(2){border-right:none;}.stat{border-bottom:1px solid rgba(255,255,255,.15);}.stat:nth-child(3),.stat:nth-child(4){border-bottom:none;}}
+
+  /* Campaign divider banner */
+  .campaign-banner{background:var(--blue);color:var(--white);padding:26px 0;margin-top:60px;}
+  .campaign-banner.alt{background:var(--coral);}
+  .campaign-banner .wrap{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;}
+  .campaign-banner .name{font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;}
+  .campaign-banner .budget{font-family:var(--mono);font-size:13px;letter-spacing:.05em;opacity:.9;}
+
+  section{padding:44px 0 8px;}
+  .sec-label{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;}
+  h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.01em;margin-bottom:8px;color:var(--navy);}
+  .sub{color:var(--ink-soft);font-size:15px;margin-bottom:18px;}
+  h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:16.5px;margin:20px 0 6px;color:var(--blue);}
+  p{margin-bottom:14px;max-width:70ch;}
+  p.note{color:var(--ink-soft);font-size:14.5px;}
+
+  .structure{background:var(--white);border:1px solid var(--blue-line);border-radius:10px;padding:26px 24px 28px;margin:18px 0 10px;}
+  .campaign-node{display:inline-block;background:var(--blue);color:var(--white);font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;padding:8px 16px;border-radius:6px;margin-bottom:6px;}
+  .trunk{width:2px;height:20px;background:var(--blue-line);margin-left:28px;}
+  .branches{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:2px;}
+  .branches.three{grid-template-columns:repeat(3,1fr);}
+  .adgroup{border:1px solid var(--blue-line);border-top:4px solid var(--coral);border-radius:8px;padding:14px 14px 16px;background:var(--paper);}
+  .adgroup h4{font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;margin-bottom:2px;color:var(--navy);}
+  .adgroup .share{font-family:var(--mono);font-size:11px;color:var(--coral);font-weight:600;margin-bottom:8px;}
+  .adgroup ul{list-style:none;}
+  .adgroup li{font-size:12px;color:var(--ink-soft);padding:3px 0;border-top:1px dashed var(--blue-line);}
+  .adgroup li:first-child{border-top:none;}
+  @media(max-width:680px){.branches,.branches.three{grid-template-columns:1fr;}}
+
+  .colhead{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 8px;}
+  .colhead h3{margin:0;}
+  .colhead span{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;}
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--blue-line);border-radius:10px;overflow:hidden;font-size:14px;margin-bottom:6px;}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--blue);background:var(--blue-light);padding:8px 13px;}
+  td{padding:9px 13px;border-top:1px solid var(--blue-line);vertical-align:top;}
+  td.chars{font-family:var(--mono);font-size:12px;color:var(--coral);white-space:nowrap;width:55px;}
+  td.num{font-family:var(--mono);font-size:13px;white-space:nowrap;}
+
+  .admock{background:var(--white);border:1px solid var(--blue-line);border-radius:10px;padding:17px 19px;max-width:560px;margin:14px 0 6px;font-family:Arial,Helvetica,sans-serif;}
+  .admock .tag{display:inline-block;font-size:11px;font-weight:700;border:1px solid #9aa0a6;color:#5f6368;border-radius:3px;padding:0 5px;margin-bottom:6px;}
+  .admock .url{font-size:13px;color:#202124;margin-bottom:2px;}
+  .admock .head{font-size:18px;color:#1a0dab;margin-bottom:4px;line-height:1.3;}
+  .admock .desc{font-size:13px;color:#4d5156;line-height:1.5;}
+
+  .callout{border-left:4px solid var(--coral);background:var(--coral-light);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0;}
+  .callout .t{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:6px;}
+  .callout p{font-size:14px;margin-bottom:8px;}
+  .callout p:last-child{margin-bottom:0;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px;}
+  .pill{font-family:var(--mono);font-size:12px;background:var(--white);border:1px solid var(--blue-line);border-radius:999px;padding:5px 12px;color:var(--ink-soft);}
+  .pill.neg{text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:1.5px;}
+
+  footer{margin-top:56px;background:var(--navy);color:#8fb5ad;padding:24px 0;font-family:var(--mono);font-size:12px;letter-spacing:.08em;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker"><span>viralityX &middot; Google Ads Master Plan</span><span>Coral Med · July 2026</span></div>
+    <h1>Two Campaigns,<br><span class="accent">One Google Ads Account</span></h1>
+    <p class="lede">Coral Med runs on <strong>two separate Search campaigns</strong> — Primary Care and Aesthetics — each with its own budget, ad groups, and landing page, because the two service lines attract different searchers at different costs.</p>
+    <div class="statbar">
+      <div class="stat"><div class="n">$500</div><div class="l">Primary Care budget</div></div>
+      <div class="stat"><div class="n">$300–500</div><div class="l">Aesthetics budget (proposed)</div></div>
+      <div class="stat"><div class="n">2 + 3</div><div class="l">Ad groups (5 total)</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Dedicated landing pages</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="why">
+  <div class="sec-label">Why two campaigns, not one</div>
+  <h2>Different searchers, different economics</h2>
+  <p>"Primary care doctor near me" and "Botox Huntington Beach" are different buyer journeys with different keywords and different competitors — primary care competes with other family/internal medicine practices, while aesthetics competes with dedicated med spas like Reef Aesthetics and House of Aesthetics. Aesthetics keywords also tend to run at <strong>higher CPCs</strong>, but the services are cash-pay with meaningfully higher revenue per patient than a primary care visit, so a higher cost-per-click can still pencil out well on its own.</p>
+  <p>Mixing both into a single campaign would dilute Google's relevance signals on both sides and make it impossible to tell whether a dollar spent is producing a new primary care patient or a Botox booking. Two campaigns means two clean, independently reportable numbers: <strong>cost per new patient</strong> and <strong>cost per aesthetics inquiry</strong>.</p>
+  <table>
+    <tr><th>Campaign</th><th>Budget</th><th>Ad groups</th><th>Landing page</th></tr>
+    <tr><td>Primary Care</td><td class="num">$500/mo</td><td>Primary Care · Physicals &amp; Annual Exams</td><td>/new-patients</td></tr>
+    <tr><td>Aesthetics</td><td class="num">$300–500/mo (proposed)</td><td>Botox &amp; Injectables · Body Contouring · Microneedling &amp; PRP</td><td>/aesthetics-weight-loss</td></tr>
+  </table>
+  <p class="note">Same-day availability, insurance acceptance, and the physician-led, HIPAA-covered pipeline stay consistent across both — only the keywords, competitors, and ad copy change.</p>
+</section>
+
+<div class="campaign-banner">
+  <div class="wrap"><span class="name">Campaign 1 · Primary Care</span><span class="budget">$500/month · office-hours schedule · 5–6 mi radius</span></div>
+</div>
+
+<section id="pc-structure">
+  <div class="sec-label">Structure</div>
+  <h2>Two ad groups</h2>
+  <div class="structure">
+    <div class="campaign-node">SEARCH CAMPAIGN — CORAL MED · NEW PATIENTS</div>
+    <div class="trunk"></div>
+    <div class="branches">
+      <div class="adgroup">
+        <h4>Primary Care / Doctor Near Me</h4>
+        <div class="share">~75% of spend</div>
+        <ul>
+          <li>primary care doctor huntington beach</li>
+          <li>family doctor near me</li>
+          <li>internal medicine huntington beach</li>
+          <li>doctor accepting new patients</li>
+        </ul>
+      </div>
+      <div class="adgroup">
+        <h4>Physicals &amp; Annual Exams</h4>
+        <div class="share">~25% of spend</div>
+        <ul>
+          <li>annual physical near me</li>
+          <li>physical exam huntington beach</li>
+          <li>wellness checkup doctor</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="note">Same-Day/Sick Visits ad group is parked for phase 2, pending a larger budget.</p>
+</section>
+
+<section id="pc-copy">
+  <div class="sec-label">Ad copy</div>
+  <h2>Primary Care</h2>
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › new-patients</div>
+    <div class="head">Primary Care Doctor Near You | Accepting New Patients</div>
+    <div class="desc">Personalized primary care for adults in Huntington Beach. Same-day visits available.</div>
+  </div>
+  <div class="colhead"><h3>Headlines — Primary Care ad group</h3><span>30-char max · all 15</span></div>
+  <table>
+    <tr><th>Headline</th><th>Chars</th></tr>
+    <tr><td>Primary Care Doctor Near You</td><td class="chars">28</td></tr>
+    <tr><td>Huntington Beach Primary Care</td><td class="chars">29</td></tr>
+    <tr><td>Accepting New Patients Now</td><td class="chars">26</td></tr>
+    <tr><td>Same-Day Appts Available</td><td class="chars">24</td></tr>
+    <tr><td>Personalized Adult Care</td><td class="chars">23</td></tr>
+    <tr><td>Dr. Ameer Moussa, MD</td><td class="chars">20</td></tr>
+    <tr><td>Book Online or Call Today</td><td class="chars">25</td></tr>
+    <tr><td>Cigna, BC &amp; UHC Accepted</td><td class="chars">24</td></tr>
+    <tr><td>Compassionate Primary Care</td><td class="chars">26</td></tr>
+    <tr><td>Family Doctor Near You</td><td class="chars">22</td></tr>
+    <tr><td>Internal Medicine Specialist</td><td class="chars">28</td></tr>
+    <tr><td>Care Built Around You</td><td class="chars">21</td></tr>
+    <tr><td>New Patients Welcome</td><td class="chars">20</td></tr>
+    <tr><td>Trusted HB Primary Care</td><td class="chars">23</td></tr>
+    <tr><td>Call (714) 847-6545</td><td class="chars">19</td></tr>
+  </table>
+  <div class="colhead"><h3>Descriptions — Primary Care ad group</h3><span>90-char max · all 4</span></div>
+  <table>
+    <tr><th>Description</th><th>Chars</th></tr>
+    <tr><td>Personalized primary care for adults in Huntington Beach. Same-day visits available.</td><td class="chars">84</td></tr>
+    <tr><td>Dr. Ameer Moussa offers compassionate, comprehensive adult care. Book online today.</td><td class="chars">83</td></tr>
+    <tr><td>Now accepting new patients. Cigna, Blue Cross &amp; United Healthcare accepted. Call now.</td><td class="chars">85</td></tr>
+    <tr><td>Easy scheduling, same-day availability, and a doctor who takes time with you.</td><td class="chars">77</td></tr>
+  </table>
+
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › new-patients</div>
+    <div class="head">Annual Physical Exams | Book Your Yearly Checkup</div>
+    <div class="desc">Schedule your annual physical with Dr. Moussa. Same-day appointments available.</div>
+  </div>
+  <div class="colhead"><h3>Headlines — Physicals &amp; Annual Exams ad group</h3><span>30-char max · all 12</span></div>
+  <table>
+    <tr><th>Headline</th><th>Chars</th></tr>
+    <tr><td>Annual Physical Exams</td><td class="chars">21</td></tr>
+    <tr><td>Book Your Yearly Checkup</td><td class="chars">24</td></tr>
+    <tr><td>Wellness Exams in HB</td><td class="chars">20</td></tr>
+    <tr><td>Same-Day Physicals</td><td class="chars">18</td></tr>
+    <tr><td>Stay Ahead of Your Health</td><td class="chars">25</td></tr>
+    <tr><td>Comprehensive Health Exams</td><td class="chars">26</td></tr>
+    <tr><td>Annual Checkup Near You</td><td class="chars">23</td></tr>
+    <tr><td>Physicals Accepted by Cigna</td><td class="chars">27</td></tr>
+    <tr><td>Preventive Care in HB</td><td class="chars">21</td></tr>
+    <tr><td>Book Your Physical Today</td><td class="chars">24</td></tr>
+    <tr><td>Dr. Ameer Moussa, MD</td><td class="chars">20</td></tr>
+    <tr><td>Easy Online Booking</td><td class="chars">19</td></tr>
+  </table>
+  <div class="colhead"><h3>Descriptions — Physicals &amp; Annual Exams ad group</h3><span>90-char max · all 4</span></div>
+  <table>
+    <tr><th>Description</th><th>Chars</th></tr>
+    <tr><td>Schedule your annual physical with Dr. Moussa. Same-day appointments available.</td><td class="chars">79</td></tr>
+    <tr><td>Comprehensive wellness exams for adults. Cigna, Blue Cross &amp; UHC accepted.</td><td class="chars">74</td></tr>
+    <tr><td>Stay on top of your health with a yearly checkup. Book online or call today.</td><td class="chars">76</td></tr>
+    <tr><td>Friendly, thorough physicals in Huntington Beach. New patients welcome.</td><td class="chars">71</td></tr>
+  </table>
+</section>
+
+<div class="campaign-banner alt">
+  <div class="wrap"><span class="name">Campaign 2 · Aesthetics</span><span class="budget">$300–500/month (proposed) · 5–10 mi radius</span></div>
+</div>
+
+<section id="ae-structure">
+  <div class="sec-label">Structure</div>
+  <h2>Three ad groups</h2>
+  <div class="structure">
+    <div class="campaign-node">SEARCH CAMPAIGN — CORAL MED · AESTHETICS</div>
+    <div class="trunk"></div>
+    <div class="branches three">
+      <div class="adgroup">
+        <h4>Botox &amp; Injectables</h4>
+        <div class="share">~45% of spend</div>
+        <ul>
+          <li>botox huntington beach</li>
+          <li>xeomin injections near me</li>
+          <li>wrinkle treatment huntington beach</li>
+        </ul>
+      </div>
+      <div class="adgroup">
+        <h4>Body Contouring</h4>
+        <div class="share">~35% of spend</div>
+        <ul>
+          <li>body contouring huntington beach</li>
+          <li>non invasive fat reduction near me</li>
+          <li>cellulite treatment huntington beach</li>
+        </ul>
+      </div>
+      <div class="adgroup">
+        <h4>Microneedling &amp; PRP</h4>
+        <div class="share">~20% of spend</div>
+        <ul>
+          <li>microneedling huntington beach</li>
+          <li>prp facial near me</li>
+          <li>skin rejuvenation treatment</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ae-copy">
+  <div class="sec-label">Ad copy</div>
+  <h2>Aesthetics</h2>
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › aesthetics-weight-loss</div>
+    <div class="head">Botox by Xeomin in HB | FDA-Approved Injectables</div>
+    <div class="desc">FDA-approved Xeomin injectables for wrinkle reduction and facial contouring.</div>
+  </div>
+  <div class="colhead"><h3>Headlines — Botox &amp; Injectables ad group</h3><span>30-char max · all 12</span></div>
+  <table>
+    <tr><th>Headline</th><th>Chars</th></tr>
+    <tr><td>Botox by Xeomin in HB</td><td class="chars">21</td></tr>
+    <tr><td>FDA-Approved Injectables</td><td class="chars">24</td></tr>
+    <tr><td>Natural-Looking Results</td><td class="chars">23</td></tr>
+    <tr><td>Minimal Downtime Botox</td><td class="chars">22</td></tr>
+    <tr><td>Wrinkle Reduction HB</td><td class="chars">20</td></tr>
+    <tr><td>Facial Contouring Experts</td><td class="chars">25</td></tr>
+    <tr><td>Book Your Consultation</td><td class="chars">22</td></tr>
+    <tr><td>Physician-Led Aesthetics</td><td class="chars">24</td></tr>
+    <tr><td>Huntington Beach Botox</td><td class="chars">22</td></tr>
+    <tr><td>Same-Day Consults</td><td class="chars">17</td></tr>
+    <tr><td>Cigna, BC &amp; UHC Accepted</td><td class="chars">24</td></tr>
+    <tr><td>Dr. Ameer Moussa, MD</td><td class="chars">20</td></tr>
+  </table>
+  <div class="colhead"><h3>Descriptions — Botox &amp; Injectables ad group</h3><span>90-char max · all 4</span></div>
+  <table>
+    <tr><th>Description</th><th>Chars</th></tr>
+    <tr><td>FDA-approved Xeomin injectables for wrinkle reduction and facial contouring.</td><td class="chars">76</td></tr>
+    <tr><td>Natural-looking results with minimal downtime. Book your consultation today.</td><td class="chars">76</td></tr>
+    <tr><td>Physician-led Botox treatments in Huntington Beach. Same-day consults available.</td><td class="chars">80</td></tr>
+    <tr><td>Experienced medical team, personalized treatment plans. Call to schedule.</td><td class="chars">73</td></tr>
+  </table>
+
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › aesthetics-weight-loss</div>
+    <div class="head">Body Contouring in HB | Non-Invasive Fat Reduction</div>
+    <div class="desc">Non-invasive body contouring for fat reduction and skin tightening.</div>
+  </div>
+  <div class="colhead"><h3>Headlines — Body Contouring ad group</h3><span>30-char max · all 12</span></div>
+  <table>
+    <tr><th>Headline</th><th>Chars</th></tr>
+    <tr><td>Body Contouring in HB</td><td class="chars">21</td></tr>
+    <tr><td>Non-Invasive Fat Reduction</td><td class="chars">26</td></tr>
+    <tr><td>Skin Tightening Treatments</td><td class="chars">26</td></tr>
+    <tr><td>Cellulite Treatment Near You</td><td class="chars">28</td></tr>
+    <tr><td>Body Sculpting in HB</td><td class="chars">20</td></tr>
+    <tr><td>Achieve Your Desired Shape</td><td class="chars">26</td></tr>
+    <tr><td>Minimally Invasive Procedures</td><td class="chars">29</td></tr>
+    <tr><td>Physician-Led Body Contouring</td><td class="chars">29</td></tr>
+    <tr><td>Book a Consultation Today</td><td class="chars">25</td></tr>
+    <tr><td>Same-Day Consults Available</td><td class="chars">27</td></tr>
+    <tr><td>Dr. Ameer Moussa, MD</td><td class="chars">20</td></tr>
+    <tr><td>Call (714) 847-6545</td><td class="chars">19</td></tr>
+  </table>
+  <div class="colhead"><h3>Descriptions — Body Contouring ad group</h3><span>90-char max · all 4</span></div>
+  <table>
+    <tr><th>Description</th><th>Chars</th></tr>
+    <tr><td>Non-invasive body contouring for fat reduction and skin tightening.</td><td class="chars">67</td></tr>
+    <tr><td>Achieve your desired shape with physician-led treatments. Book today.</td><td class="chars">69</td></tr>
+    <tr><td>Fat reduction, cellulite treatment, and body sculpting in Huntington Beach.</td><td class="chars">75</td></tr>
+    <tr><td>Personalized body contouring plans. Same-day consultations available.</td><td class="chars">69</td></tr>
+  </table>
+
+  <div class="admock">
+    <span class="tag">Sponsored</span>
+    <div class="url">coral-med.com › aesthetics-weight-loss</div>
+    <div class="head">Microneedling &amp; PRP in HB | Skin Rejuvenation</div>
+    <div class="desc">Advanced microneedling and PRP treatments for smoother, radiant skin.</div>
+  </div>
+  <div class="colhead"><h3>Headlines — Microneedling &amp; PRP ad group</h3><span>30-char max · all 12</span></div>
+  <table>
+    <tr><th>Headline</th><th>Chars</th></tr>
+    <tr><td>Microneedling &amp; PRP in HB</td><td class="chars">25</td></tr>
+    <tr><td>Skin Rejuvenation Treatments</td><td class="chars">28</td></tr>
+    <tr><td>Improve Skin Texture &amp; Tone</td><td class="chars">27</td></tr>
+    <tr><td>PRP Therapy Near You</td><td class="chars">20</td></tr>
+    <tr><td>Collagen-Boosting Treatments</td><td class="chars">28</td></tr>
+    <tr><td>Radiant, Youthful Glow</td><td class="chars">22</td></tr>
+    <tr><td>Advanced Skin Treatments</td><td class="chars">24</td></tr>
+    <tr><td>Physician-Led Skin Care</td><td class="chars">23</td></tr>
+    <tr><td>Book Your Consultation</td><td class="chars">22</td></tr>
+    <tr><td>Same-Day Consults</td><td class="chars">17</td></tr>
+    <tr><td>Dr. Ameer Moussa, MD</td><td class="chars">20</td></tr>
+    <tr><td>Call (714) 847-6545</td><td class="chars">19</td></tr>
+  </table>
+  <div class="colhead"><h3>Descriptions — Microneedling &amp; PRP ad group</h3><span>90-char max · all 4</span></div>
+  <table>
+    <tr><th>Description</th><th>Chars</th></tr>
+    <tr><td>Advanced microneedling and PRP treatments for smoother, radiant skin.</td><td class="chars">69</td></tr>
+    <tr><td>Improve texture, tone, and collagen production. Book a consultation today.</td><td class="chars">74</td></tr>
+    <tr><td>Physician-led skin rejuvenation in Huntington Beach. Same-day consults.</td><td class="chars">71</td></tr>
+    <tr><td>Personalized treatment plans for a youthful, healthy glow. Call today.</td><td class="chars">70</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="t">Aesthetics-specific compliance</div>
+    <p>No before/after imagery, no outcome guarantees (no "guaranteed results" or specific measurements), and Xeomin referred to as physician-administered rather than self-administered — Google's Healthcare &amp; Medicines policy scrutinizes cosmetic ads more heavily than standard local-service ads.</p>
+  </div>
+</section>
+
+<section id="open">
+  <div class="sec-label">Open items</div>
+  <h2>Before both campaigns go live</h2>
+  <div class="callout">
+    <div class="t">To confirm with the office</div>
+    <p>Whether there's a separate weight-loss program on the aesthetics page beyond body contouring — the page title suggests there may be more content below the treatments section already reviewed.</p>
+    <p>Starting budget approval for the Aesthetics campaign, kept separate from the $500 Primary Care budget.</p>
+    <p>Google Ads conversion tracking will report the two campaigns fully separate, so cost-per-patient and cost-per-aesthetics-inquiry never blend together.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>viralityX × Coral Med</span>
+    <span>coral-med.com · (714) 847-6545</span>
+  </div>
+</footer>
+
+</body>
+</html>
